@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "type": "module",
   "main": "index.js",
   "files": [
@@ -25,5 +25,11 @@
   "devDependencies": {
     "classnames": "^2.5.1",
     "sass": "^1.97.2"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "date-fns": "^4.1.0",
+    "react-intersection-observer": "^10.0.0",
+    "swr": "^2.3.8"
   }
 }

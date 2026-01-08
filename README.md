@@ -1,6 +1,6 @@
 # Articles Dev Box
 
-Shared code, functions, and components for different Articles Media projects.
+Shared code, functions, and components that are commonly used across Articles Media projects. None of this is meant to work outside the Articles Media frontend React ecosystem.
 
 ## Getting Started
 
@@ -15,6 +15,21 @@ Then go to the consuming project directory and run this command.
 ```bash
 npm link articles-dev-box
 ```
+
+For production use add the organization scooped package to your package.json.
+
+```bash
+npm i @articles-media/articles-dev-box
+```
+
+## Package Exports
+
+- ReturnToLauncherButton
+    - For bringing users back to their state in the games showcase/launcher
+- GameScoreboard
+    - Scoreboard for registered games that links with a user's Articles Media account.
+- Ad
+    - Articles Ad component that connects with user data.
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance  
