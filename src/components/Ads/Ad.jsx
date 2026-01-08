@@ -13,8 +13,8 @@ import axios from 'axios'
 import { useInView } from 'react-intersection-observer';
 
 // import ROUTES from 'components/constants/routes';
-import useAd from '../hooks/Ads/useAd';
-import useAds from '../hooks/Ads/useAds';
+import useAd from '#root/src/hooks/Ads/useAd';
+import useAds from '#root/src/hooks/Ads/useAds';
 
 // import SavePromoModal from 'components/Ads/SavePromoModal';
 // const SavePromoModal = dynamic(
@@ -30,11 +30,11 @@ import useAds from '../hooks/Ads/useAds';
 // import generateRandomInteger from 'util/generateRandomInteger'
 // import { setViewedAds } from '@/redux/actions/adsActions';
 import { differenceInMinutes, parse, parseISO } from 'date-fns';
-import ArticlesButton from '../Button';
+import ArticlesButton from '#root/src/components/UI/Button';
 // import useAds from 'hooks/Ads/useAds';
 
 // import "../../styles/components/Ads/Ad.scss";
-import "../../styles/components/Ad.scss";
+import "#root/src/styles/components/Ad.scss";
 
 function generateRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -1,50 +1,3 @@
-// import React from 'react';
-// import '../styles/components/GameScoreboard.scss';
-// import classNames from 'classnames';
-
-// const GameScoreboard = ({
-//     game,
-//     darkMode
-// }) => {
-//     return (
-//         <div
-//             className={
-//                 classNames(
-//                     `articles-game-scoreboard card`,
-//                     { 'dark-mode': darkMode }
-//                 )
-//             }
-//         >
-
-//             <div
-//                 className='card-header'
-//             >
-//                 <div className='fw-bold mb-0'>
-//                     <i className='fad fa-gamepad'></i>
-//                     {game} Scoreboard
-//                 </div>
-//             </div>
-
-//             <div className='card-body p-2'>
-//                 <p>This is a test scoreboard component.</p>
-//                 <ul>
-//                     <li>Player 1: 100</li>
-//                     <li>Player 2: 200</li>
-//                 </ul>
-//             </div>
-
-//             <div
-//                 className='card-footer'
-//             >
-
-//             </div>
-
-//         </div>
-//     );
-// };
-
-// export default GameScoreboard;
-
 import { useEffect, useState } from 'react'
 
 // import axios from 'axios'
@@ -55,11 +8,12 @@ import { useEffect, useState } from 'react'
 
 // import ViewUserModal from '@/components/user/ViewUserModal/ViewUserModal';
 // import ArticlesSwitch from '../Articles/ArticlesSwitch';
-import ArticlesButton from './Button';
+import ArticlesButton from '#root/src/components/UI/Button';
 
-import useGameScoreboard from './hooks/useGameScoreboard';
+// import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
+import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
 
-import "../styles/components/GameScoreboard.scss";
+import "#root/src/styles/components/GameScoreboard.scss";
 
 function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
 

@@ -1,4 +1,4 @@
-import ArticlesButton from "./Button";
+import ArticlesButton from "#root/src/components/UI/Button";
 
 export default function ReturnToLauncherButton() {
 
@@ -10,6 +10,8 @@ export default function ReturnToLauncherButton() {
     launcher_mode = launcher_mode === '1' ? true : false
 
     // const router = useRouter()
+
+    if (typeof window === "undefined") return
 
     if (!launcher_mode) {
         return (

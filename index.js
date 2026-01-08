@@ -1,7 +1,7 @@
-import ReturnToLauncherButton from './src/ReturnToLauncherButton.jsx';
-import ArticlesAd from './src/components/ArticlesAd.jsx';
-import Ad from './src/components/Ad.jsx';
-import GameScoreboard from './src/GameScoreboard.jsx';
+import ReturnToLauncherButton from '#root/src/components/Games/ReturnToLauncherButton.jsx';
+import ArticlesAd from '#root/src/components/Ads/ArticlesAd.jsx';
+import Ad from '#root/src/components/Ads/Ad.jsx';
+import GameScoreboard from '#root/src/components/Games/GameScoreboard.jsx';
 
 function helloWorld() {
   return "Hello, world!";
