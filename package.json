@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "0.0.2",
+  "version": "1.0.1",
   "type": "module",
   "main": "index.js",
   "files": [
