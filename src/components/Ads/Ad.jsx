@@ -29,7 +29,11 @@ import useAds from '#root/src/hooks/Ads/useAds';
 
 // import generateRandomInteger from 'util/generateRandomInteger'
 // import { setViewedAds } from '@/redux/actions/adsActions';
-import { differenceInMinutes, parse, parseISO } from 'date-fns';
+import {
+    differenceInMinutes,
+    parse,
+    parseISO
+} from 'date-fns';
 import ArticlesButton from '#root/src/components/UI/Button';
 // import useAds from 'hooks/Ads/useAds';
 
@@ -614,7 +618,7 @@ function Ad(props) {
                     </Link> */}
                     <div
                         className='small d-block w-100 text-center'
-                        // href={ROUTES.ADVERTISING}
+                    // href={ROUTES.ADVERTISING}
                     >
                         <i className="fas fa-share me-1"></i>
                         Advertise with Articles Media!

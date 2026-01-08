@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("./ReturnToLauncherButton.cjs"),r=require("./ArticlesAd.cjs"),o=require("./Ad.cjs"),t=require("./GameScoreboard.cjs");function n(){return"Hello, world!"}exports.ReturnToLauncherButton=e;exports.ArticlesAd=r;exports.Ad=o;exports.GameScoreboard=t;exports.helloWorld=n;

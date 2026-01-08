@@ -35,3 +35,8 @@ npm link @articles-media/articles-dev-box
 ⏹️ Remove Bootstrap reliance  
 ⏹️ Look into npm package yalc  
 ⏹️ Automatic GitHub Action for NPM
+
+
+# TODO
+- Bundle SCSS on a component level instead of a project level.
+- Verify I am exporting components the most efficient way.

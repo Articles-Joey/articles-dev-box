@@ -11,9 +11,15 @@ export default defineConfig({
   // },
   build: {
     lib: {
-      entry: resolve(__dirname, 'index.js'),
-      name: 'ArticlesDevBox',
-      fileName: 'articles-dev-box',
+      entry: {
+        index: resolve(__dirname, 'index.js'),
+        Ad: resolve(__dirname, 'src/components/Ads/Ad.jsx'),
+        ArticlesAd: resolve(__dirname, 'src/components/Ads/ArticlesAd.jsx'),
+        GameScoreboard: resolve(__dirname, 'src/components/Games/GameScoreboard.jsx'),
+        ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
+      },
+      formats: ['es', 'cjs'],
+      fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

@@ -1,13 +1,13 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
   },
-  "main": "./dist/articles-dev-box.umd.cjs",
-  "module": "./dist/articles-dev-box.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "files": [
     "dist"
   ],
@@ -17,8 +17,24 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/articles-dev-box.js",
-      "require": "./dist/articles-dev-box.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./Ad": {
+      "import": "./dist/Ad.js",
+      "require": "./dist/Ad.cjs"
+    },
+    "./ArticlesAd": {
+      "import": "./dist/ArticlesAd.js",
+      "require": "./dist/ArticlesAd.cjs"
+    },
+    "./GameScoreboard": {
+      "import": "./dist/GameScoreboard.js",
+      "require": "./dist/GameScoreboard.cjs"
+    },
+    "./ReturnToLauncherButton": {
+      "import": "./dist/ReturnToLauncherButton.js",
+      "require": "./dist/ReturnToLauncherButton.cjs"
     },
     "./dist/style.css": "./dist/articles-dev-box.css"
   },
