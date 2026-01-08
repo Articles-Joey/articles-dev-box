@@ -1,26 +1,22 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
   },
-  "main": "./dist/articles-dev-box.umd.cjs",
-  "module": "./dist/articles-dev-box.js",
+  "main": "index.js",
   "files": [
-    "dist"
+    "index.js",
+    "src"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Articles-Joey/articles-dev-box"
   },
   "exports": {
-    ".": {
-      "import": "./dist/articles-dev-box.js",
-      "require": "./dist/articles-dev-box.umd.cjs"
-    },
-    "./dist/style.css": "./dist/articles-dev-box.css"
+    ".": "./index.js"
   },
   "scripts": {
     "dev": "vite",

@@ -1,6 +1,20 @@
+"use client";
 import ArticlesButton from "#root/src/components/UI/Button";
+import { useEffect, useState } from "react";
 
 export default function ReturnToLauncherButton() {
+
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
+
+    // if (typeof window === "undefined") return null
 
     const urlParams = new URLSearchParams(window.location.search);
     const paramsObject = Object.fromEntries(urlParams)
@@ -10,8 +24,6 @@ export default function ReturnToLauncherButton() {
     launcher_mode = launcher_mode === '1' ? true : false
 
     // const router = useRouter()
-
-    if (typeof window === "undefined") return
 
     if (!launcher_mode) {
         return (

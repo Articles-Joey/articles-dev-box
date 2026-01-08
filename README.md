@@ -4,6 +4,12 @@ Shared code, functions, and components that are commonly used across Articles Me
 
 ## Getting Started
 
+For production use add the organization scooped package to your package.json.
+
+```bash
+npm i @articles-media/articles-dev-box
+```
+
 For local development, navigate to this project and run this command.
 
 ```bash
@@ -13,13 +19,7 @@ npm link
 Then go to the consuming project directory and run this command.
 
 ```bash
-npm link articles-dev-box
-```
-
-For production use add the organization scooped package to your package.json.
-
-```bash
-npm i @articles-media/articles-dev-box
+npm link @articles-media/articles-dev-box
 ```
 
 ## Package Exports
