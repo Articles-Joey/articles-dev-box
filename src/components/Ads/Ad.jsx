@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, lazy } from 'react';
 
 // import { useSelector, useDispatch } from 'react-redux'
 
@@ -26,6 +26,7 @@ import useAds from '#root/src/hooks/Ads/useAds';
 //     () => import('@/components/Ads/AdDetailsModal'),
 //     { ssr: false }
 // )
+const AdDetailsModal = lazy(() => import('#root/src/components/Ads/AdDetailsModal'));
 
 // import generateRandomInteger from 'util/generateRandomInteger'
 // import { setViewedAds } from '@/redux/actions/adsActions';
@@ -321,7 +322,7 @@ function Ad(props) {
                     promo={promo}
                     ad={ad}
                 />
-            }
+            } */}
 
             {adDetailsExpanded &&
                 <AdDetailsModal
@@ -329,7 +330,7 @@ function Ad(props) {
                     ad={ad}
                     previewData={previewData}
                 />
-            } */}
+            }
 
             <div
                 className='ad'

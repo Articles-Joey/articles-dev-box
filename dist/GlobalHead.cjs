@@ -1,0 +1,1 @@
+"use strict";const s=require("./jsx-runtime-nZSsnGb7.cjs");function e(){return s.jsxRuntimeExports.jsx("div",{children:s.jsxRuntimeExports.jsx("link",{rel:"stylesheet",href:"https://cdn.articles.media/fonts/fontawsome/css/all.min.css"})})}module.exports=e;

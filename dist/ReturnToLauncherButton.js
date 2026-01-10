@@ -1,5 +1,5 @@
 import { j as e } from "./jsx-runtime-tc70JA_2.js";
-import { A as s } from "./Button-g7fiSVpz.js";
+import { A as s } from "./Button-B5nVYPMZ.js";
 import { useState as i, useEffect as l } from "react";
 function f() {
   const [a, r] = i(!1);

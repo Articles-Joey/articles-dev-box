@@ -1,45 +1,45 @@
 import { j as s } from "./jsx-runtime-tc70JA_2.js";
 import * as w from "react";
-import { memo as z, useState as p, useEffect as M } from "react";
-import { u as W, a as I } from "./index-CsgQIn35.js";
-import { A as K } from "./Button-g7fiSVpz.js";
-var $ = /* @__PURE__ */ new Map(), k = /* @__PURE__ */ new WeakMap(), P = 0, G;
-function H(e) {
+import { lazy as q, memo as K, useState as p, useEffect as R } from "react";
+import { u as W, a as M } from "./index-CsgQIn35.js";
+import { A as G } from "./Button-B5nVYPMZ.js";
+var $ = /* @__PURE__ */ new Map(), k = /* @__PURE__ */ new WeakMap(), P = 0, H;
+function J(e) {
   return e ? (k.has(e) || (P += 1, k.set(e, P.toString())), k.get(e)) : "0";
 }
-function J(e) {
+function Q(e) {
   return Object.keys(e).sort().filter(
     (t) => e[t] !== void 0
-  ).map((t) => `${t}_${t === "root" ? H(e.root) : e[t]}`).toString();
+  ).map((t) => `${t}_${t === "root" ? J(e.root) : e[t]}`).toString();
 }
-function Q(e) {
-  const t = J(e);
+function Y(e) {
+  const t = Q(e);
   let a = $.get(t);
   if (!a) {
-    const n = /* @__PURE__ */ new Map();
+    const o = /* @__PURE__ */ new Map();
     let l;
-    const o = new IntersectionObserver((c) => {
+    const n = new IntersectionObserver((c) => {
       c.forEach((i) => {
         var u;
         const N = i.isIntersecting && l.some((v) => i.intersectionRatio >= v);
-        e.trackVisibility && typeof i.isVisible > "u" && (i.isVisible = N), (u = n.get(i.target)) == null || u.forEach((v) => {
+        e.trackVisibility && typeof i.isVisible > "u" && (i.isVisible = N), (u = o.get(i.target)) == null || u.forEach((v) => {
           v(N, i);
         });
       });
     }, e);
-    l = o.thresholds || (Array.isArray(e.threshold) ? e.threshold : [e.threshold || 0]), a = {
+    l = n.thresholds || (Array.isArray(e.threshold) ? e.threshold : [e.threshold || 0]), a = {
       id: t,
-      observer: o,
-      elements: n
+      observer: n,
+      elements: o
     }, $.set(t, a);
   }
   return a;
 }
-function Y(e, t, a = {}, n = G) {
-  if (typeof window.IntersectionObserver > "u" && n !== void 0) {
+function Z(e, t, a = {}, o = H) {
+  if (typeof window.IntersectionObserver > "u" && o !== void 0) {
     const u = e.getBoundingClientRect();
-    return t(n, {
-      isIntersecting: n,
+    return t(o, {
+      isIntersecting: o,
       target: e,
       intersectionRatio: typeof a.threshold == "number" ? a.threshold : 0,
       time: 0,
@@ -49,18 +49,18 @@ function Y(e, t, a = {}, n = G) {
     }), () => {
     };
   }
-  const { id: l, observer: o, elements: c } = Q(a), i = c.get(e) || [];
-  return c.has(e) || c.set(e, i), i.push(t), o.observe(e), function() {
-    i.splice(i.indexOf(t), 1), i.length === 0 && (c.delete(e), o.unobserve(e)), c.size === 0 && (o.disconnect(), $.delete(l));
+  const { id: l, observer: n, elements: c } = Y(a), i = c.get(e) || [];
+  return c.has(e) || c.set(e, i), i.push(t), n.observe(e), function() {
+    i.splice(i.indexOf(t), 1), i.length === 0 && (c.delete(e), n.unobserve(e)), c.size === 0 && (n.disconnect(), $.delete(l));
   };
 }
-function Z({
+function ee({
   threshold: e,
   delay: t,
   trackVisibility: a,
-  rootMargin: n,
+  rootMargin: o,
   root: l,
-  triggerOnce: o,
+  triggerOnce: n,
   skip: c,
   initialInView: i,
   fallbackInView: u,
@@ -75,18 +75,18 @@ function Z({
     () => {
       if (d.current === void 0 && (d.current = i), c || !_) return;
       let j;
-      return j = Y(
+      return j = Z(
         _,
-        (A, b) => {
+        (I, b) => {
           const C = d.current;
-          d.current = A, !(C === void 0 && !A) && (E({
-            inView: A,
+          d.current = I, !(C === void 0 && !I) && (E({
+            inView: I,
             entry: b
-          }), y.current && y.current(A, b), b.isIntersecting && o && j && (j(), j = void 0));
+          }), y.current && y.current(I, b), b.isIntersecting && n && j && (j(), j = void 0));
         },
         {
           root: l,
-          rootMargin: n,
+          rootMargin: o,
           threshold: e,
           // @ts-expect-error
           trackVisibility: a,
@@ -104,134 +104,134 @@ function Z({
       Array.isArray(e) ? e.toString() : e,
       _,
       l,
-      n,
       o,
+      n,
       c,
       a,
       u,
       t
     ]
   );
-  const D = (v = g.entry) == null ? void 0 : v.target, R = w.useRef(void 0);
-  !_ && D && !o && !c && R.current !== D && (R.current = D, E({
+  const D = (v = g.entry) == null ? void 0 : v.target, A = w.useRef(void 0);
+  !_ && D && !n && !c && A.current !== D && (A.current = D, E({
     inView: !!i,
     entry: void 0
   }), d.current = i);
   const h = [x, g.inView, g.entry];
   return h.ref = h[0], h.inView = h[1], h.entry = h[2], h;
 }
-const ee = async (e) => {
+const se = async (e) => {
   if (process.env.NODE_ENV === "development")
     try {
-      return (await I.get(`http://localhost:3001/api/ads/${e.ad_id}`, {
+      return (await M.get(`http://localhost:3001/api/ads/${e.ad_id}`, {
         params: {
           ad_id: e.ad_id
         }
       })).data.result;
     } catch {
     }
-  return I.get(e.url, {
+  return M.get(e.url, {
     params: {
       ad_id: e.ad_id
     }
   }).then((t) => t.data.result);
-}, se = 60, te = {
-  dedupingInterval: 1e3 * 60 * se
+}, te = 60, re = {
+  dedupingInterval: 1e3 * 60 * te
   // keepPreviousData: true,
   // fallbackData: []
-}, re = (e) => {
-  const { data: t, error: a, isLoading: n, mutate: l } = W(
+}, ne = (e) => {
+  const { data: t, error: a, isLoading: o, mutate: l } = W(
     e ? {
       url: `https://articles.media/api/ads/${e}`,
       ad_id: e
     } : null,
-    ee,
-    te
+    se,
+    re
   );
   return {
     data: t,
     error: a,
-    isLoading: n,
+    isLoading: o,
     mutate: l
   };
 }, X = 6e4, T = /* @__PURE__ */ Symbol.for("constructDateFrom");
-function ne(e, t) {
+function oe(e, t) {
   return typeof e == "function" ? e(t) : e && typeof e == "object" && T in e ? e[T](t) : e instanceof Date ? new e.constructor(t) : new Date(t);
 }
 function L(e, t) {
-  return ne(e, e);
+  return oe(e, e);
 }
-function oe(e) {
+function ae(e) {
   return (t) => {
-    const n = (e ? Math[e] : Math.trunc)(t);
-    return n === 0 ? 0 : n;
+    const o = (e ? Math[e] : Math.trunc)(t);
+    return o === 0 ? 0 : o;
   };
 }
-function ae(e, t) {
+function ie(e, t) {
   return +L(e) - +L(t);
 }
 function O(e, t, a) {
-  const n = ae(e, t) / X;
-  return oe(a?.roundingMethod)(n);
+  const o = ie(e, t) / X;
+  return ae(a?.roundingMethod)(o);
 }
 function B(e) {
   return Math.trunc(e * X);
 }
-const ie = async (e) => {
+const ce = async (e) => {
   if (process.env.NODE_ENV === "development")
     try {
-      return (await I.get("http://localhost:3001/api/ads", {
+      return (await M.get("http://localhost:3001/api/ads", {
         params: {
           // ad_id: data.ad_id
         }
       })).data;
     } catch {
     }
-  return I.get(e.url, {
+  return M.get(e.url, {
     params: {
       // ad_id: data.ad_id
     }
   }).then((t) => t.data);
-}, U = 60, ce = {
+}, U = 60, le = {
   dedupingInterval: B(U),
   focusThrottleInterval: B(U)
   // keepPreviousData: true,
   // fallbackData: []
-}, le = (e) => {
-  const { data: t, error: a, isLoading: n, mutate: l } = W(
+}, de = (e) => {
+  const { data: t, error: a, isLoading: o, mutate: l } = W(
     {
       url: "https://articles.media/api/ads"
       // ad_id
     },
-    ie,
-    ce
+    ce,
+    le
   );
   return {
     data: t,
     error: a,
-    isLoading: n,
+    isLoading: o,
     mutate: l
   };
-};
-function de(e, t) {
+}, ue = q(() => import("./AdDetailsModal-BOLzA3ZL.js"));
+function fe(e, t) {
   return Math.floor(Math.random() * (t - e + 1)) + e;
 }
-function ue(e) {
+function me(e) {
   const a = [], {
-    data: n
-  } = le();
-  let { previewMode: l } = e, o = e.previewData || {};
-  const [c, i] = p(null), [u, N] = p(null), [v, _] = p(null), [x, y] = p(null), [d, g] = p(0), [E, D] = p(!1), [R, h] = p(!1), [j, A] = p(/* @__PURE__ */ new Date()), [b, C] = p([]), { data: r } = re(c);
-  M(() => {
-    n && n?.length > 0 && !c && (console.log("Ad Mounted or reduxAds changed"), i(e.ad_id || n[de(0, n?.length - 1)]?._id));
-  }, [n]), M(() => {
-  }, [r]), M(() => {
+    data: o
+  } = de();
+  let { previewMode: l } = e, n = e.previewData || {};
+  const [c, i] = p(null), [u, N] = p(null), [v, _] = p(null), [x, y] = p(null), [d, g] = p(0), [E, D] = p(!1), [A, h] = p(!1), [j, I] = p(/* @__PURE__ */ new Date()), [b, C] = p([]), { data: r } = ne(c);
+  R(() => {
+    o && o?.length > 0 && !c && (console.log("Ad Mounted or reduxAds changed"), i(e.ad_id || o[fe(0, o?.length - 1)]?._id));
+  }, [o]), R(() => {
+  }, [r]), R(() => {
     r?.populated_promos && d >= 0 && y(r?.populated_promos[d]);
   }, [d, r]);
   function F() {
-    h(!R);
+    h(!A);
   }
-  const { ref: q, inView: S } = Z({
+  const { ref: z, inView: S } = ee({
     /* Optional options */
     threshold: 0,
     triggerOnce: !0
@@ -241,7 +241,7 @@ function ue(e) {
       console.log("Already logged this event");
       return;
     }
-    I.get("/api/ads/event", {
+    M.get("/api/ads/event", {
       params: {
         ad_id: r?._id,
         event: f
@@ -252,7 +252,7 @@ function ue(e) {
       console.log(m);
     });
   }
-  return M(() => {
+  return R(() => {
     if (!l && (console.log("inView", S), S && c)) {
       let f = [
         {
@@ -274,14 +274,22 @@ function ue(e) {
   }, [S, c]), /* @__PURE__ */ s.jsxs(
     "div",
     {
-      ref: q,
+      ref: z,
       className: "ad-wrap",
       style: {
-        "--articles-ad-background-color": o.background_color || r?.background_color,
-        "--articles-ad-font-color": o.font_color || r?.font_color,
-        "--articles-ad-border-color": o.border_color || r?.border_color
+        "--articles-ad-background-color": n.background_color || r?.background_color,
+        "--articles-ad-font-color": n.font_color || r?.font_color,
+        "--articles-ad-border-color": n.border_color || r?.border_color
       },
       children: [
+        A && /* @__PURE__ */ s.jsx(
+          ue,
+          {
+            setModalShow: h,
+            ad: r,
+            previewData: n
+          }
+        ),
         /* @__PURE__ */ s.jsx(
           "div",
           {
@@ -297,10 +305,10 @@ function ue(e) {
                   ] }) }),
                   /* @__PURE__ */ s.jsxs("div", { className: "content-wrap", children: [
                     /* @__PURE__ */ s.jsxs("div", { className: "photo-banner", children: [
-                      /* @__PURE__ */ s.jsx("div", { className: "logo", children: (o.logo?.location || r?.logo?.location) && /* @__PURE__ */ s.jsx(
+                      /* @__PURE__ */ s.jsx("div", { className: "logo", children: (n.logo?.location || r?.logo?.location) && /* @__PURE__ */ s.jsx(
                         "img",
                         {
-                          src: o?.logo?.key ? `${process.env.NEXT_PUBLIC_CDN}${o?.logo?.key}` : `${process.env.NEXT_PUBLIC_CDN}${r?.logo?.key}`,
+                          src: n?.logo?.key ? `${process.env.NEXT_PUBLIC_CDN}${n?.logo?.key}` : `${process.env.NEXT_PUBLIC_CDN}${r?.logo?.key}`,
                           alt: ""
                         }
                       ) }),
@@ -309,14 +317,14 @@ function ue(e) {
                         "img",
                         {
                           className: "photo",
-                          src: o?.background?.key ? `${process.env.NEXT_PUBLIC_CDN}${o.background?.key}` : `${process.env.NEXT_PUBLIC_CDN}${r?.background?.key}`,
+                          src: n?.background?.key ? `${process.env.NEXT_PUBLIC_CDN}${n.background?.key}` : `${process.env.NEXT_PUBLIC_CDN}${r?.background?.key}`,
                           alt: ""
                         }
                       )
                     ] }),
                     /* @__PURE__ */ s.jsxs("div", { className: "details-wrap", children: [
                       /* @__PURE__ */ s.jsxs("div", { className: "detail-title", children: [
-                        /* @__PURE__ */ s.jsx("div", { className: "detail", children: /* @__PURE__ */ s.jsx("span", { className: "h4", children: o?.business || r?.business }) }),
+                        /* @__PURE__ */ s.jsx("div", { className: "detail", children: /* @__PURE__ */ s.jsx("span", { className: "h4", children: n?.business || r?.business }) }),
                         /* @__PURE__ */ s.jsxs("div", { className: "flex flex-column d-none", children: [
                           /* @__PURE__ */ s.jsxs("div", { className: "detail", children: [
                             /* @__PURE__ */ s.jsx("span", { className: "icon", children: /* @__PURE__ */ s.jsx("i", { className: "fas fa-search-location" }) }),
@@ -333,7 +341,7 @@ function ue(e) {
                         ] })
                       ] }),
                       r?.city && /* @__PURE__ */ s.jsx("div", { className: "details mb-3 d-none" }),
-                      /* @__PURE__ */ s.jsx("div", { className: "short-description", children: o?.description || r?.description })
+                      /* @__PURE__ */ s.jsx("div", { className: "short-description", children: n?.description || r?.description })
                     ] })
                   ] }),
                   (!1)?.roles?.isDev && r?.populated_promos?.length > 0 && /* @__PURE__ */ s.jsxs("div", { children: [
@@ -347,7 +355,7 @@ function ue(e) {
                             /* @__PURE__ */ s.jsx("div", { className: "small", children: /* @__PURE__ */ s.jsx("div", { className: "small", children: x.details }) })
                           ] }),
                           /* @__PURE__ */ s.jsx(
-                            K,
+                            G,
                             {
                               className: "px-3",
                               small: !0,
@@ -435,9 +443,9 @@ function ue(e) {
             className: "advertise-with-us p-1",
             style: {
               // ...(props.previewData ? props.previewData.background_color : ad?.background_color),
-              backgroundColor: o.background_color || r?.background_color,
-              color: o.font_color || r?.font_color,
-              borderColor: o.border_color || r?.border_color
+              backgroundColor: n.background_color || r?.background_color,
+              color: n.font_color || r?.font_color,
+              borderColor: n.border_color || r?.border_color
             },
             children: /* @__PURE__ */ s.jsxs(
               "div",
@@ -455,7 +463,7 @@ function ue(e) {
     }
   );
 }
-const ge = z(ue);
+const xe = K(me);
 export {
-  ge as default
+  xe as default
 };

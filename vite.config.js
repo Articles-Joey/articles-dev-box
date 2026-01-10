@@ -17,6 +17,8 @@ export default defineConfig({
         ArticlesAd: resolve(__dirname, 'src/components/Ads/ArticlesAd.jsx'),
         GameScoreboard: resolve(__dirname, 'src/components/Games/GameScoreboard.jsx'),
         ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
+        GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
+        GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,

@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 
 // import axios from 'axios'
 
-// import Modal from 'react-bootstrap/Modal';
+import Modal from 'react-bootstrap/Modal';
 
 // import { useHotkeys } from 'react-hotkeys-hook';
 
 // import ViewUserModal from '@/components/user/ViewUserModal/ViewUserModal';
-// import ArticlesSwitch from '../Articles/ArticlesSwitch';
+import ArticlesSwitch from '#root/src/components/UI/ArticlesSwitch';
 import ArticlesButton from '#root/src/components/UI/Button';
 
 // import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
@@ -67,7 +67,7 @@ function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
     return (
         <div className="scoreboard">
 
-            {/* <Modal show={showSettings} size={'md'} className="articles-modal" centered onHide={() => setShowSettings(false)}>
+            <Modal show={showSettings} size={'md'} className="articles-modal" centered onHide={() => setShowSettings(false)}>
 
                 <Modal.Header>
                     <Modal.Title>
@@ -108,7 +108,7 @@ function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
 
                 </Modal.Footer>
 
-            </Modal> */}
+            </Modal>
 
             <div className="card card-articles card-sm mb-3 mb-lg-0">
 
