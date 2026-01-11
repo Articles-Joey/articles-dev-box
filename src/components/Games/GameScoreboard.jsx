@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 
 // import { useHotkeys } from 'react-hotkeys-hook';
 
-// import ViewUserModal from '@/components/user/ViewUserModal/ViewUserModal';
+import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal';
 import ArticlesSwitch from '#root/src/components/UI/ArticlesSwitch';
 import ArticlesButton from '#root/src/components/UI/Button';
 
@@ -144,10 +144,10 @@ function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
 
                                     <div className='lh-sm'>
 
-                                        {/* <ViewUserModal
+                                        <ViewUserModal
                                             populated_user={doc.populated_user}
                                             user_id={doc.user_id}
-                                        /> */}
+                                        />
 
                                     </div>
 

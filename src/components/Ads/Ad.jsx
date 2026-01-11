@@ -2,7 +2,7 @@ import { useState, useEffect, memo, lazy } from 'react';
 
 // import { useSelector, useDispatch } from 'react-redux'
 
-// import Link from 'next/link'
+import Link from '#root/src/components/UI/Link';
 // import dynamic from 'next/dynamic'
 
 import axios from 'axios'
@@ -27,6 +27,7 @@ import useAds from '#root/src/hooks/Ads/useAds';
 //     { ssr: false }
 // )
 const AdDetailsModal = lazy(() => import('#root/src/components/Ads/AdDetailsModal'));
+const AdConfirmExitModal = lazy(() => import('#root/src/components/Ads/AdConfirmExitModal'));
 
 // import generateRandomInteger from 'util/generateRandomInteger'
 // import { setViewedAds } from '@/redux/actions/adsActions';
@@ -85,6 +86,8 @@ function Ad(props) {
     // const [modalLoading, setModalLoading] = useState(false);
 
     const [adDetailsExpanded, setAdDetailsExpanded] = useState(false);
+
+    const [confirmAdExitModal, setConfirmAdExitModal] = useState(false);
 
     const [selectedDate, handleDateChange] = useState(new Date());
 
@@ -327,6 +330,14 @@ function Ad(props) {
             {adDetailsExpanded &&
                 <AdDetailsModal
                     setModalShow={setAdDetailsExpanded}
+                    ad={ad}
+                    previewData={previewData}
+                />
+            }
+
+            {confirmAdExitModal &&
+                <AdConfirmExitModal
+                    setModalShow={setConfirmAdExitModal}
                     ad={ad}
                     previewData={previewData}
                 />
@@ -578,7 +589,12 @@ function Ad(props) {
                             href={ad?.website}
                             target="_blank"
                             rel="noreferrer"
-                            onClick={() => logEvent('Website')}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setConfirmAdExitModal(true);
+                                logEvent('Confirm Exit Modal Opened')
+                                // logEvent('Website')
+                            }}
                         >
                             <div>
                                 Website
@@ -610,20 +626,14 @@ function Ad(props) {
                         }
                     }
                 >
-                    {/* <Link
+                    <Link
                         className='small d-block w-100 text-center'
-                        href={ROUTES.ADVERTISING}
+                        href={"https://articles.media/advertising"}
+                        newPage
                     >
                         <i className="fas fa-share me-1"></i>
                         Advertise with Articles Media!
-                    </Link> */}
-                    <div
-                        className='small d-block w-100 text-center'
-                    // href={ROUTES.ADVERTISING}
-                    >
-                        <i className="fas fa-share me-1"></i>
-                        Advertise with Articles Media!
-                    </div>
+                    </Link>
                 </div>
             }
 

@@ -30,6 +30,8 @@ npm link @articles-media/articles-dev-box
     - Scoreboard for registered games that links with a user's Articles Media account.
 - Ad
     - Articles Ad component that connects with user data.
+- GlobalBody
+    - Easy way to add future logic and components to all projects with ease. For now handling the font awesome script.
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance  
