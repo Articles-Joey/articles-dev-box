@@ -15,7 +15,7 @@ const usePoliticalParties = (params) => {
 
     const { data, error, isLoading, mutate } = useSWR(
         process.env.NODE_ENV === 'development' ?
-            "http://localhost:3000/api/news/resources/political-parties"
+            "http://localhost:3001/api/news/resources/political-parties"
             :
             "https://articles.media/api/news/resources/political-parties",
         fetcher,

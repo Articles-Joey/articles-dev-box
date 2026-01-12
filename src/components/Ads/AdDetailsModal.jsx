@@ -53,7 +53,7 @@ export default function AdDetailsModal(props) {
                     className=''
                 >
 
-                    <p className="mb-1">Advertiser: <b>{ad.business}</b></p>
+                    <p className="mb-1">Advertiser: <b>{ad?.business}</b></p>
                     <p className="mb-0">Ad ID: <b>{previewData?._id || ad._id}</b></p>
 
                     <hr />
@@ -70,16 +70,16 @@ export default function AdDetailsModal(props) {
                             </div>
 
                             <div>Is advertising to all zip codes within a</div>
-                            <span><div className="badge bg-light shadow-articles">15 Mile Radius</div></span>
+                            <span><div className="badge bg-black shadow-articles">15 Mile Radius</div></span>
                             <div>of it&apos;s business</div>
 
                             <hr className="border w-50 border-white" />
 
                             <div className="d-flex align-items-center">
                                 <div>Your Zip code</div>
-                                <div className="badge bg-light shadow-articles ms-2">12524</div>
+                                <div className="badge bg-black shadow-articles ms-2">00000</div>
                                 <div className="ms-2">is</div>
-                                <div className="badge bg-light shadow-articles ms-2">1.7 miles away</div>
+                                <div className="badge bg-black shadow-articles ms-2">4.2 miles away</div>
                             </div>
                         </div>
                         :

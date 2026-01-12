@@ -7,7 +7,8 @@ const fetcher = async (data) => {
         try {
             const res = await axios.get(`http://localhost:3001/api/ads/${data.ad_id}`, {
                 params: {
-                    ad_id: data.ad_id
+                    ad_id: data.ad_id,
+                    user_ad_token: data.user_ad_token
                 }
             });
             return res.data.result;
@@ -30,13 +31,14 @@ const options = {
     // fallbackData: []
 }
 
-const useAd = (ad_id) => {
+const useAd = (ad_id, user_ad_token) => {
 
     const { data, error, isLoading, mutate } = useSWR(
         ad_id ?
         {
             url: `https://articles.media/api/ads/${ad_id}`, 
-            ad_id
+            ad_id,
+            user_ad_token
         }
         :
         null,

@@ -69,7 +69,13 @@ function Ad(props) {
 
     // props.setLocation(props.tabLocation);
 
-    let { previewMode } = props;
+    let {
+        previewMode,
+        darkMode,
+        user_ad_token,
+        userDetails
+    } = props;
+
     let previewData = props.previewData || {}
 
     const [adId, setAdId] = useState(null)
@@ -93,7 +99,7 @@ function Ad(props) {
 
     const [loggedEvents, setLoggedEvents] = useState([]);
 
-    const { data: ad, isLoading: adIsLoading } = useAd(adId)
+    const { data: ad, isLoading: adIsLoading } = useAd(adId, user_ad_token)
 
     useEffect(() => {
 
@@ -347,16 +353,17 @@ function Ad(props) {
                 className='ad'
             >
 
-                <div
-                    className="main-panel"
-                >
+                {userDetails?.articles_membership?.status !== 'Active' && 
+                    <div
+                        className="main-panel"
+                    >
 
-                    <div className="ad-warning flex-header">
+                        <div className="ad-warning flex-header">
 
-                        <div className=''>{ad?.city && 'Local'} Advertisement</div>
+                            <div className=''>{ad?.city && 'Local'} Advertisement</div>
 
-                        {/* TODO - Quick link to manage for devs */}
-                        {/* {userReduxState?.roles?.isDev &&
+                            {/* TODO - Quick link to manage for devs */}
+                            {/* {userReduxState?.roles?.isDev &&
                             <div className=''>
                                 <Link
                                     href={`${ROUTES.ADVERTISING}/${ad?._id}`}
@@ -375,203 +382,203 @@ function Ad(props) {
                             </div>
                         } */}
 
-                    </div>
-
-                    <div className="content-wrap">
-                        <div className="photo-banner">
-
-                            <div className="logo">
-                                {(previewData.logo?.location || ad?.logo?.location) &&
-                                    <img
-                                        src={previewData?.logo?.key ?
-                                            `${process.env.NEXT_PUBLIC_CDN}${previewData?.logo?.key}`
-                                            :
-                                            `${process.env.NEXT_PUBLIC_CDN}${ad?.logo?.key}`
-                                        }
-                                        alt=""
-                                    />
-                                }
-                            </div>
-
-                            <div className="icon d-none">
-                                <i className="fas fa-mug-hot"></i>
-                            </div>
-
-                            <img
-                                className="photo" src={
-                                    previewData?.background?.key ?
-                                        `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
-                                        :
-                                        `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
-                                }
-                                alt=""
-                            />
-
                         </div>
 
-                        <div className="details-wrap">
+                        <div className="content-wrap">
+                            <div className="photo-banner">
 
-                            <div className="detail-title">
-
-                                <div className="detail">
-                                    {/* <span className="icon"><i className="fas fa-store-alt"></i></span> */}
-                                    <span className='h4'>{previewData?.business || ad?.business}</span>
+                                <div className="logo">
+                                    {(previewData.logo?.location || ad?.logo?.location) &&
+                                        <img
+                                            src={previewData?.logo?.key ?
+                                                `${process.env.NEXT_PUBLIC_CDN}${previewData?.logo?.key}`
+                                                :
+                                                `${process.env.NEXT_PUBLIC_CDN}${ad?.logo?.key}`
+                                            }
+                                            alt=""
+                                        />
+                                    }
                                 </div>
 
-                                <div className='flex flex-column d-none'>
-                                    <div className="detail">
-                                        <span className="icon"><i className="fas fa-search-location"></i></span>
-                                        <span>{ad?.city}, {ad?.state}</span>
-                                    </div>
-
-                                    <div className="detail">
-
-                                        <span className="icon"><i className="fas fa-clock me-2"></i></span>
-
-                                        <span>
-                                            6:30AM–8PM
-                                            {/* <i className="fas fa-caret-square-down me-0 ms-1"></i> */}
-                                            {/* <OverlayTrigger rootClose trigger="click" placement="bottom" overlay={popover}>
-                                                <i style={{ cursor: 'pointer' }} className="fas fa-caret-square-down me-0 ms-1"></i>
-                                            </OverlayTrigger> */}
-                                        </span>
-
-                                    </div>
+                                <div className="icon d-none">
+                                    <i className="fas fa-mug-hot"></i>
                                 </div>
+
+                                <img
+                                    className="photo" src={
+                                        previewData?.background?.key ?
+                                            `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
+                                            :
+                                            `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
+                                    }
+                                    alt=""
+                                />
 
                             </div>
 
-                            {ad?.city && <div className="details mb-3 d-none">
-                                {/* 
+                            <div className="details-wrap">
+
+                                <div className="detail-title">
+
+                                    <div className="detail">
+                                        {/* <span className="icon"><i className="fas fa-store-alt"></i></span> */}
+                                        <span className='h4'>{previewData?.business || ad?.business}</span>
+                                    </div>
+
+                                    <div className='flex flex-column d-none'>
+                                        <div className="detail">
+                                            <span className="icon"><i className="fas fa-search-location"></i></span>
+                                            <span>{ad?.city}, {ad?.state}</span>
+                                        </div>
+
+                                        <div className="detail">
+
+                                            <span className="icon"><i className="fas fa-clock me-2"></i></span>
+
+                                            <span>
+                                                6:30AM–8PM
+                                                {/* <i className="fas fa-caret-square-down me-0 ms-1"></i> */}
+                                                {/* <OverlayTrigger rootClose trigger="click" placement="bottom" overlay={popover}>
+                                                <i style={{ cursor: 'pointer' }} className="fas fa-caret-square-down me-0 ms-1"></i>
+                                            </OverlayTrigger> */}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                {ad?.city && <div className="details mb-3 d-none">
+                                    {/* 
                                 <div className="detail">
                                     <span className="icon"><i className="fas fa-search-location"></i></span>
                                     <span>{ad?.city}, {ad?.state}</span>
                                 </div> */}
 
-                                {/* <div className="detail">
+                                    {/* <div className="detail">
                                     <span className="icon"><i className="fas fa-user-friends"></i></span>
                                     <span>5-10 Employees</span>
                                 </div> */}
 
-                                {/* <div className="detail">
+                                    {/* <div className="detail">
                                     <span className="icon"><i className="fas fa-user-friends"></i></span>
                                     <span>Outdoor Seating</span>
                                 </div>                           */}
 
-                            </div>}
+                                </div>}
 
-                            <div className="short-description">{previewData?.description || ad?.description}</div>
+                                <div className="short-description">{previewData?.description || ad?.description}</div>
 
-                            {/* <p>{JSON.stringify(previewData)}</p> */}
+                                {/* <p>{JSON.stringify(previewData)}</p> */}
 
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Make dynamic */}
-                    {(userReduxState?.roles?.isDev && ad?.populated_promos?.length > 0) &&
-                        <div>
+                        {/* Make dynamic */}
+                        {(userReduxState?.roles?.isDev && ad?.populated_promos?.length > 0) &&
+                            <div>
 
-                            {/* {ad?.populated_promos && <pre>
+                                {/* {ad?.populated_promos && <pre>
                                 {
                                     JSON.stringify(ad?.populated_promos[Math.floor(Math.random() * ad?.populated_promos?.length)])
                                 }
                             </pre>} */}
 
-                            {/* Active Promo */}
-                            {promo && <div className="promos-wrap">
-                                {
-                                    promo &&
-                                    <div
-                                        key={promo._id}
-                                        className="promo-wrap d-flex justify-content-between align-items-center mx-2 p-1 px-2 border border-2 border-light mb-0"
-                                    >
+                                {/* Active Promo */}
+                                {promo && <div className="promos-wrap">
+                                    {
+                                        promo &&
+                                        <div
+                                            key={promo._id}
+                                            className="promo-wrap d-flex justify-content-between align-items-center mx-2 p-1 px-2 border border-2 border-light mb-0"
+                                        >
 
-                                        <div className=''>
-                                            <div>
-                                                {promo.title}
-                                            </div>
-                                            <div className="small">
+                                            <div className=''>
+                                                <div>
+                                                    {promo.title}
+                                                </div>
                                                 <div className="small">
-                                                    {promo.details}
+                                                    <div className="small">
+                                                        {promo.details}
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <ArticlesButton
+                                                className="px-3"
+                                                small
+                                                onClick={() => {
+                                                    console.log("Load Save Modal")
+                                                    setModalShow(true)
+                                                }}
+                                            >
+                                                Save
+                                            </ArticlesButton>
+
                                         </div>
 
-                                        <ArticlesButton
-                                            className="px-3"
-                                            small
-                                            onClick={() => {
-                                                console.log("Load Save Modal")
-                                                setModalShow(true)
-                                            }}
-                                        >
-                                            Save
-                                        </ArticlesButton>
+                                    }
+                                </div>}
 
-                                    </div>
-
-                                }
-                            </div>}
-
-                            {/* Controls */}
-                            <div className='d-flex justify-content-between'>
-                                <div className='px-2'>{ad?.populated_promos?.length} Promos Active</div>
-                                <div className='controls'>
-                                    <i
-                                        className="fad fa-arrow-circle-left"
-                                        type="button"
-                                        onClick={() => {
-
-                                            if (promoIndex == 0) {
-                                                setPromoIndex(ad?.populated_promos?.length - 1)
-                                            } else {
-                                                setPromoIndex(prev => prev - 1)
-                                            }
-
-                                        }}
-                                    ></i>
-                                    {ad?.populated_promos?.map((obj, obj_i) =>
+                                {/* Controls */}
+                                <div className='d-flex justify-content-between'>
+                                    <div className='px-2'>{ad?.populated_promos?.length} Promos Active</div>
+                                    <div className='controls'>
                                         <i
-                                            key={obj._id}
-                                            className={`fa-square ${obj_i == promoIndex ? 'fad' : 'fas'}`}
-                                        >
+                                            className="fad fa-arrow-circle-left"
+                                            type="button"
+                                            onClick={() => {
 
-                                        </i>
-                                    )}
-                                    <i
-                                        className="fad fa-arrow-circle-right"
-                                        type="button"
-                                        onClick={() => {
+                                                if (promoIndex == 0) {
+                                                    setPromoIndex(ad?.populated_promos?.length - 1)
+                                                } else {
+                                                    setPromoIndex(prev => prev - 1)
+                                                }
 
-                                            if (promoIndex == ad?.populated_promos?.length - 1) {
-                                                setPromoIndex(0)
-                                            } else {
-                                                setPromoIndex(prev => prev + 1)
-                                            }
+                                            }}
+                                        ></i>
+                                        {ad?.populated_promos?.map((obj, obj_i) =>
+                                            <i
+                                                key={obj._id}
+                                                className={`fa-square ${obj_i == promoIndex ? 'fad' : 'fas'}`}
+                                            >
 
-                                        }}
-                                    ></i>
+                                            </i>
+                                        )}
+                                        <i
+                                            className="fad fa-arrow-circle-right"
+                                            type="button"
+                                            onClick={() => {
+
+                                                if (promoIndex == ad?.populated_promos?.length - 1) {
+                                                    setPromoIndex(0)
+                                                } else {
+                                                    setPromoIndex(prev => prev + 1)
+                                                }
+
+                                            }}
+                                        ></i>
+                                    </div>
                                 </div>
+
+                            </div>
+                        }
+
+                        <hr style={{ borderColor: 'white' }} className="mt-auto mb-0" />
+
+                        <div className="action-wrap d-flex justify-content-lg-between px-3 py-2">
+
+                            <div
+                                onClick={() => {
+                                    adDetailsExpandedToggle()
+                                    logEvent('Details')
+                                }}
+                                className="action flex-grow-1 flex-shrink-0"
+                            >
+                                Details
                             </div>
 
-                        </div>
-                    }
-
-                    <hr style={{ borderColor: 'white' }} className="mt-auto mb-0" />
-
-                    <div className="action-wrap d-flex justify-content-lg-between px-3 py-2">
-
-                        <div
-                            onClick={() => {
-                                adDetailsExpandedToggle()
-                                logEvent('Details')
-                            }}
-                            className="action flex-grow-1 flex-shrink-0"
-                        >
-                            Details
-                        </div>
-
-                        {/* <a style={
+                            {/* <a style={
                             {
                                 color: ad?.font_color,
                                 borderColor: `${ad?.border_color}!important`
@@ -582,27 +589,29 @@ function Ad(props) {
                             </div>
                         </a> */}
 
-                        <span className='px-4'></span>
+                            <span className='px-4'></span>
 
-                        <a
-                            className="action flex-grow-1 flex-shrink-0"
-                            href={ad?.website}
-                            target="_blank"
-                            rel="noreferrer"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setConfirmAdExitModal(true);
-                                logEvent('Confirm Exit Modal Opened')
-                                // logEvent('Website')
-                            }}
-                        >
-                            <div>
-                                Website
-                            </div>
-                        </a>
+                            <a
+                                className="action flex-grow-1 flex-shrink-0"
+                                href={ad?.website}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setConfirmAdExitModal(true);
+                                    logEvent('Confirm Exit Modal Opened')
+                                    // logEvent('Website')
+                                }}
+                            >
+                                <div>
+                                    Website
+                                </div>
+                            </a>
+
+                        </div>
 
                     </div>
-                </div>
+                }
 
             </div>
 
