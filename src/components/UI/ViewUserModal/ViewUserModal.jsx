@@ -7,9 +7,9 @@ import Link from '#root/src/components/UI/Link';
 // import dynamic from "next/dynamic";
 // import Image from 'next/image';
 
-import axios from 'axios'
+// import axios from 'axios'
 
-// import { differenceInMonths, format } from 'date-fns'
+import { differenceInMonths, format } from 'date-fns'
 
 // import { useSelector, useDispatch } from 'react-redux'
 
@@ -23,7 +23,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 // import convertRegion from 'util/convertRegion';
 
 // TODO - ADD BACK IN
-// import ArticlesDate from '../../Articles/Date';
+import ArticlesDate from '#root/src/components/UI/ArticlesDate';
 import UserProfilePhoto from '#root/src/components/UI/UserProfilePhoto';
 import usePublicUserData from '#root/src/hooks/User/UserPublic/usePublicUserData';
 import IsDev from '#root/src/components/UI/IsDev';
@@ -194,6 +194,8 @@ function ViewUserModal(props) {
     let membershipSafeName = (populated_user || userData)?.articles_membership?.plan.replace(' ', '-').toLowerCase()
 
     let membershipFakeSafeName = (fakeMembership)?.replace(' ', '-').toLowerCase()
+
+    const base = `https://articles.media/images/store/memberships/`
 
     const UserBadge = () => {
 
@@ -711,9 +713,9 @@ function ViewUserModal(props) {
 
                                                 <div className='position-relative'>
 
-                                                    {userData?.articles_membership?.plan == 'Supporter' && <Image src="/images/store/memberships/supporter.jpg" width={50} height={50} alt={"Membership plan level"} />}
-                                                    {userData?.articles_membership?.plan == 'Premium Supporter' && <Image src="/images/store/memberships/premiumSupporter.jpg" width={50} height={50} alt={"Membership plan level"} />}
-                                                    {userData?.articles_membership?.plan == 'Advocate' && <Image src="/images/store/memberships/advocate.jpg" width={50} height={50} alt={"Membership plan level"} />}
+                                                    {userData?.articles_membership?.plan == 'Supporter' && <img src={`${base}supporter.jpg`} width={50} height={50} alt={"Membership plan level"} />}
+                                                    {userData?.articles_membership?.plan == 'Premium Supporter' && <img src={`${base}premiumSupporter.jpg`} width={50} height={50} alt={"Membership plan level"} />}
+                                                    {userData?.articles_membership?.plan == 'Advocate' && <img src={`${base}advocate.jpg`} width={50} height={50} alt={"Membership plan level"} />}
 
                                                     <i
                                                         className={`fad membership-badge ${membershipSafeName} fa-badge-check me-1`}
@@ -754,7 +756,7 @@ function ViewUserModal(props) {
                                     }
                                 >
                                     <div
-                                        className={`badge bg-articles border text-dark me-1 mb-1`}
+                                        className={`badge bg-articles border me-1 mb-1`}
                                         style={{
                                             // padding: '0 0.25rem',
                                             cursor: 'pointer'
@@ -813,7 +815,7 @@ function ViewUserModal(props) {
 
                                 }
                             >
-                                <div className='badge bg-articles-secondary border text-dark me-1 mb-1'>
+                                <div className='badge bg-articles-secondary border me-1 mb-1'>
                                     <i className="fad fa-map-pin me-1"></i>
                                     {userData.address?.state}
                                 </div>
@@ -870,7 +872,7 @@ function ViewUserModal(props) {
                                     </Tooltip>
                                 }
                             >
-                                <div className='badge bg-articles-secondary border text-dark me-1 mb-1'>
+                                <div className='badge bg-articles-secondary border me-1 mb-1'>
                                     <i className="fad fa-star me-1"></i>
                                     {userData.verified?.status}
                                 </div>
@@ -893,7 +895,7 @@ function ViewUserModal(props) {
                                                 `https://articles.media/politics/parties/${(populated_user || userData)?.political?.party_id}`
                                         }
                                         >
-                                            <div className='badge bg-articles-secondary border shadow-articles text-dark text-capitalize me-1'>
+                                            <div className='badge bg-articles-secondary border shadow-articles text-capitalize me-1'>
 
                                                 <div className=''>
                                                     {(
@@ -924,7 +926,7 @@ function ViewUserModal(props) {
                                     {/* <Link
                                         href={ROUTES.RESOURCES_POLITICAL_PARTIES + '/' + political_parties.find(obj => obj._id == userData.political?.party_id)?._id}
                                         >
-                                        <span className='badge badge-hover bg-articles-secondary border text-dark text-capitalize me-0'>
+                                        <span className='badge badge-hover bg-articles-secondary border text-capitalize me-0'>
                                             <i className="fad fa-link me-0"></i>
                                         </span>
                                     </Link> */}

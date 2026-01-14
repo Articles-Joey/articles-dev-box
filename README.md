@@ -32,6 +32,8 @@ npm link @articles-media/articles-dev-box
     - Articles Ad component that connects with user data.
 - GlobalBody
     - Easy way to add future logic and components to all projects with ease. For now handling the font awesome script.
+- ViewUserModal
+    - View user profile data and recent activity
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance  

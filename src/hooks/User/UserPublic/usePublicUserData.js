@@ -24,7 +24,7 @@ const usePublicUserData = (params) => {
         {
             url: 
             process.env.NODE_ENV === 'development' ?
-            "http://localhost:3000/api/user-public/getUserDetails"
+            "http://localhost:3001/api/user-public/getUserDetails"
             :
             "https://articles.media/api/user-public/getUserDetails",
             // "/api/user-public/getUserDetails",

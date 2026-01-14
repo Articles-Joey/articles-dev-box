@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -44,10 +44,24 @@
       "import": "./dist/GlobalBody.js",
       "require": "./dist/GlobalBody.cjs"
     },
-    "./dist/style.css": "./dist/articles-dev-box.css"
+    "./ViewUserModal": {
+      "import": "./dist/ViewUserModal.js",
+      "require": "./dist/ViewUserModal.cjs"
+    },
+    "./useUserDetails": {
+      "import": "./dist/useUserDetails.js",
+      "require": "./dist/useUserDetails.cjs"
+    },
+    "./useUserToken": {
+      "import": "./dist/useUserToken.js",
+      "require": "./dist/useUserToken.cjs"
+    },
+    "./dist/style.css": "./dist/articles-dev-box.css",
+    "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
   },
   "scripts": {
-    "dev": "vite",
+    "dev-unknown": "vite dev",
+    "dev": "nodemon --watch src --ext js,ts,css,scss,jsx,json --ignore dist --exec \"npm run build\"",
     "build": "vite build",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -62,6 +76,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.2",
     "classnames": "^2.5.1",
+    "nodemon": "^3.1.11",
     "react-bootstrap": "^2.10.10",
     "sass": "^1.97.2",
     "vite": "^7.3.1"

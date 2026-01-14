@@ -19,6 +19,10 @@ export default defineConfig({
         ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
         GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
+        ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),
+        
+        useUserDetails: resolve(__dirname, 'src/hooks/User/useUserDetails.js'),
+        useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,

@@ -41,7 +41,7 @@ function GlobalBody(props) {
 
                         <link
                             rel="stylesheet"
-                            href={`https://cdn.articles.media/fonts/fontawsome/css/all.min.css`}
+                            href={`https://cdn.articles.media/fonts/fontawesome/css/all.min.css`}
                         />
 
                         <div className="content">

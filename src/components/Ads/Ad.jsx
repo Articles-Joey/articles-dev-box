@@ -353,7 +353,7 @@ function Ad(props) {
                 className='ad'
             >
 
-                {userDetails?.articles_membership?.status !== 'Active' && 
+                {userDetails?.articles_membership?.status !== 'Active' &&
                     <div
                         className="main-panel"
                     >
@@ -385,6 +385,7 @@ function Ad(props) {
                         </div>
 
                         <div className="content-wrap">
+
                             <div className="photo-banner">
 
                                 <div className="logo">
@@ -472,6 +473,7 @@ function Ad(props) {
                                 {/* <p>{JSON.stringify(previewData)}</p> */}
 
                             </div>
+
                         </div>
 
                         {/* Make dynamic */}
@@ -607,6 +609,68 @@ function Ad(props) {
                                     Website
                                 </div>
                             </a>
+
+                        </div>
+
+                    </div>
+                }
+
+                {userDetails?.articles_membership?.status == 'Active' &&
+                    <div
+                        className="main-panel"
+                    >
+
+                        <div className="content-wrap">
+
+                            <div className="photo-banner">
+
+                                <div className="logo">
+
+                                </div>
+
+                                <div className="icon d-none">
+                                    <i className="fas fa-mug-hot"></i>
+                                </div>
+
+                                <img
+                                    className="photo"
+                                    // src={
+                                    //     previewData?.background?.key ?
+                                    //         `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
+                                    //         :
+                                    //         `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
+                                    // }
+                                    alt=""
+                                />
+
+                            </div>
+
+                            <div className="details-wrap">
+
+                                <div className="detail-title">
+
+                                    <div className="detail">
+                                        {/* <span className="icon"><i className="fas fa-store-alt"></i></span> */}
+                                        <span className='h4'>Thank You So Much!</span>
+                                    </div>
+
+                                </div>
+
+                                <div className="short-description">
+                                    <div className='mb-2'>Without support from users like you, we wouldn't be here.</div>
+                                    <div>
+                                        <i className='fas fa-comments-alt'></i>
+                                        3 unread messages.
+                                    </div>
+                                    <div>
+                                        <i className='fas fa-bell'></i>
+                                        2 notifications.
+                                    </div>
+                                </div>
+
+
+
+                            </div>
 
                         </div>
 
