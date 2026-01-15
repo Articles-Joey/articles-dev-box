@@ -12,7 +12,7 @@ const StatusModal = lazy(() => import('./StatusModal'));
 
 function GlobalBody(props) {
 
-    const [ statusModal, setStatusModal ] = useState(false);
+    const [statusModal, setStatusModal] = useState(false);
 
     const {
         data: mainSiteStatus,
@@ -34,6 +34,11 @@ function GlobalBody(props) {
 
     return (
         <>
+
+            <link
+                rel="stylesheet"
+                href={`https://cdn.articles.media/fonts/fontawesome/css/all.min.css`}
+            />
 
             {process.env.NODE_ENV === 'development' &&
                 <>
@@ -85,11 +90,6 @@ function GlobalBody(props) {
                             }
                         )}
                     >
-
-                        <link
-                            rel="stylesheet"
-                            href={`https://cdn.articles.media/fonts/fontawesome/css/all.min.css`}
-                        />
 
                         <div className="content">
                             <i className="fas fa-thumbs-up"></i>
