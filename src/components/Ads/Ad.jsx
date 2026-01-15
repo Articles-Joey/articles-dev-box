@@ -40,13 +40,26 @@ import ArticlesButton from '#root/src/components/UI/Button';
 // import useAds from 'hooks/Ads/useAds';
 
 // import "../../styles/components/Ads/Ad.scss";
+
 import "#root/src/styles/components/Ad.scss";
+
+import ArticlesDate from '../UI/ArticlesDate';
+import classNames from 'classnames';
+import numberWithCommas from '../../util/numberWithCommas';
 
 function generateRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function Ad(props) {
+
+    let {
+        previewMode,
+        darkMode,
+        user_ad_token,
+        userDetails,
+        userDetailsLoading
+    } = props;
 
     // const dispatch = useDispatch()
 
@@ -61,24 +74,24 @@ function Ad(props) {
 
     // const ads = []
 
+    const [adId, setAdId] = useState(null)
+
     const {
         data: ads,
         isLoading: adsIsLoading,
         mutate: adsMutate
-    } = useAds()
+    } = useAds(
+        {
+            loading: userDetailsLoading,
+            disabled: userDetails?.articles_membership?.status == 'Active'
+        }
+    )
+
+    const { data: ad, isLoading: adIsLoading } = useAd(adId, user_ad_token)
 
     // props.setLocation(props.tabLocation);
 
-    let {
-        previewMode,
-        darkMode,
-        user_ad_token,
-        userDetails
-    } = props;
-
     let previewData = props.previewData || {}
-
-    const [adId, setAdId] = useState(null)
 
     const [randomAdId, setRandomAdId] = useState(null);
     const [promoId, setPromoId] = useState(null);
@@ -98,8 +111,6 @@ function Ad(props) {
     const [selectedDate, handleDateChange] = useState(new Date());
 
     const [loggedEvents, setLoggedEvents] = useState([]);
-
-    const { data: ad, isLoading: adIsLoading } = useAd(adId, user_ad_token)
 
     useEffect(() => {
 
@@ -308,13 +319,87 @@ function Ad(props) {
 
     }, [inView, adId]);
 
+    const [logsAvoided, setLogsAvoided] = useState(null);
+
+    function logAdAvoided() {
+
+        console.log("logAdAvoided called", user_ad_token)
+
+        axios.get(
+            process.env.NODE_ENV === "development" ?
+                "http://localhost:3001/api/user/advertising/avoided"
+                :
+                `https://articles.media/api/user/advertising/avoided`,
+            {
+                params: {
+                    user_id: userDetails?._id
+                },
+                headers: {
+                    "x-articles-api-key": user_ad_token
+                }
+            }
+        ).then(function (response) {
+            setLogsAvoided(response.data.avoided_count)
+            // setLoggedEvents([...loggedEvents, event])
+            console.log(response.data);
+            // setAd(response.data.result)
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        // Post not working with CORS?
+        // axios.post(
+        //     process.env.NODE_ENV === "development" ?
+        //         "http://localhost:3001/api/user/advertising/avoided"
+        //         :
+        //         `https://articles.media/api/user/advertising/avoided`,
+        //     {
+        //         user_id: userDetails?._id
+        //     })
+        //     .then(function (response) {
+        //         setLoggedEvents([...loggedEvents, event])
+        //         console.log(response.data);
+        //         // setAd(response.data.result)
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+
+    }
+
+    useEffect(() => {
+
+        if (!previewMode) {
+
+            console.log("inView", inView)
+
+            if (userDetails?.articles_membership?.status == 'Active' && inView) {
+                logAdAvoided('Ad Avoided')
+            }
+
+        }
+
+    }, [inView, userDetails]);
+
     // TODO - Log when a ad free member would have viewed an ad to later show them how many ads they avoided
     // TODO - Make component to show to user in membership settings page how many ads they avoided
+
+    if (userDetailsLoading) {
+        return null
+    }
 
     return (
         <div
             ref={ref}
-            className="ad-wrap"
+            className={
+                classNames(
+                    "ad-wrap",
+                    {
+                        "active-member": userDetails?.articles_membership?.status == 'Active'
+                    }
+                )
+            }
             style={
                 {
                     "--articles-ad-background-color": previewData.background_color || ad?.background_color,
@@ -628,11 +713,21 @@ function Ad(props) {
 
                                 </div>
 
-                                <div className="icon d-none">
-                                    <i className="fas fa-mug-hot"></i>
+                                <div className="splash">
+                                    <i className="fas fa-broadcast-tower"></i>
+                                    <div className='text'>
+                                        <div className='count'>{logsAvoided ? numberWithCommas(logsAvoided) : 0}</div>
+                                        <div className='label'>ads avoided.</div>
+                                    </div>
                                 </div>
 
-                                <img
+                                <div
+                                    className='member-since'
+                                >
+                                    Member since: <ArticlesDate format={"PP"} date={userDetails?.articles_membership?.membership_started} />
+                                </div>
+
+                                {/* <img
                                     className="photo"
                                     // src={
                                     //     previewData?.background?.key ?
@@ -641,7 +736,7 @@ function Ad(props) {
                                     //         `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
                                     // }
                                     alt=""
-                                />
+                                /> */}
 
                             </div>
 
@@ -651,24 +746,58 @@ function Ad(props) {
 
                                     <div className="detail">
                                         {/* <span className="icon"><i className="fas fa-store-alt"></i></span> */}
-                                        <span className='h4'>Thank You So Much!</span>
+                                        <span className='h4'>Thanks for the support!</span>
                                     </div>
 
                                 </div>
 
                                 <div className="short-description">
+
                                     <div className='mb-2'>Without support from users like you, we wouldn't be here.</div>
-                                    <div>
-                                        <i className='fas fa-comments-alt'></i>
-                                        3 unread messages.
+
+                                    <div className='links-list'>
+
+                                        <Link
+                                            newPage
+                                            className="link-item"
+                                            href='https://articles.media/messages'
+                                        >
+                                            <i className='fas fa-comments-alt'></i>
+                                            0 unread messages.
+                                        </Link>
+
+                                        <Link
+                                            newPage
+                                            className="link-item"
+                                            href='https://articles.media/settings/notifications'
+                                            onClick={() => {
+                                                logAdAvoided()
+                                            }}
+                                        >
+                                            <i className='fas fa-bell'></i>
+                                            0 notifications.
+                                        </Link>
+
+                                        <Link
+                                            newPage
+                                            className="link-item"
+                                            href='https://articles.media/settings/account'
+                                        >
+                                            <i className='fas fa-cog'></i>
+                                            Manage account settings.
+                                        </Link>
                                     </div>
-                                    <div>
-                                        <i className='fas fa-bell'></i>
-                                        2 notifications.
-                                    </div>
+
                                 </div>
 
-
+                                {/* <ArticlesButton
+                                    className="mt-3"
+                                    onClick={() => {
+                                        window.location.href = '/account/membership'
+                                    }}
+                                >
+                                    Manage Membership
+                                </ArticlesButton> */}
 
                             </div>
 

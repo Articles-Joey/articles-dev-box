@@ -1,8 +1,17 @@
-import ArticlesButton from "@/components/Articles/Button"
-import ArticlesDate from "@/components/Articles/Date"
-import routes from "@/components/constants/routes"
-import Link from "next/link"
-import ViewUserModal from "../ViewUserModal"
+// import { useState } from "react";
+
+// import { format } from "date-fns"
+
+// import ArticlesButton from '#root/src/components/UI/Button';
+import ArticlesDate from '#root/src/components/UI/ArticlesDate';
+// import Link from '#root/src/components/UI/Link';
+// import { routes } from "#root/src/constants/routes";
+
+// import ArticlesButton from "@/components/Articles/Button"
+// import ArticlesDate from "@/components/Articles/Date"
+// import routes from "@/components/constants/routes"
+// import Link from "next/link"
+import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal';
 
 export default function Verifications({
     activeLayoutProposalSentiments,

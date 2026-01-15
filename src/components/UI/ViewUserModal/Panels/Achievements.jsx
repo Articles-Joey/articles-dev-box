@@ -1,8 +1,11 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
-import Link from "next/link"
+// import ArticlesButton from "@/components/Articles/Button"
+// import routes from "@/components/constants/routes"
+// import Link from "next/link"
 
-import achievements, { achievement_tags } from 'components/constants/achievements'
+// import achievements, { achievement_tags } from 'components/constants/achievements'
+
+// TODO
+const achievements = []
 
 export default function Achievements({
     activeLayoutProposalSentiments

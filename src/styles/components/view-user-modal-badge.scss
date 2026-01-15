@@ -1,0 +1,77 @@
+// @use "@/scss/global" as *;
+@use "../global.scss" as *;
+
+.view-user-modal-badge-wrap {
+    display: flex;
+    align-items: stretch;
+    cursor: pointer;
+
+    &.large {
+        .view-user-modal-badge {
+            position: relative;
+            height: 30px;
+            // padding-left: calc(30px + 0.5rem);
+
+            .membership-badge {
+                font-size: 1rem !important;
+            }
+
+            .profile-photo-wrap {
+                height: 22px!important;
+                width: 22px!important;
+                margin-right: 0.5rem;
+            }
+
+            img {
+                margin-right: 0.5rem;
+                //     position: absolute;
+                // width: 30px !important;
+                // height: 30px !important;
+                //     left: 0;
+                //     top: 0;
+                //     border-bottom-left-radius: 5px;
+                //     border-top-left-radius: 5px;
+            }
+        }
+    }
+
+    .badge-membership {
+        position: relative;
+
+        // .months {
+        //     position: absolute;
+        //     left: 50%;
+        //     top: 50%;
+        //     transform: translateX(-50%) translateY(-50%);
+        // }
+    }
+
+    .verification-user-badge {
+        display: flex;
+        align-items: center;
+        // transform: translateX(-10px);
+    }
+
+    // Check
+    // /advertising/5fc1c7bb7915f34418d18b7b for working example
+}
+
+.profile-photo-wrap {
+    position: relative;
+
+    .online-status {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: gray;
+        bottom: 1px;
+        right: 1px;
+        border: 2px solid #000;
+        z-index: 1;
+
+        &.status-online {
+            background-color: green;
+            border: 2px solid #009b22;
+        }
+    }
+}

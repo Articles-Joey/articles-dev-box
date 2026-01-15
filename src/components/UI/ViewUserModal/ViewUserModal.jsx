@@ -22,6 +22,9 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 // import convertRegion from 'util/convertRegion';
 
+import '#root/src/styles/components/view-user-modal-badge.scss';
+// import "#root/src/styles/components/Ad.scss";
+
 // TODO - ADD BACK IN
 import ArticlesDate from '#root/src/components/UI/ArticlesDate';
 import UserProfilePhoto from '#root/src/components/UI/UserProfilePhoto';
@@ -49,16 +52,16 @@ import ArticlesButton from '#root/src/components/UI/Button';
 // import ResetPasswordPanel from './AdminPanels/ResetPassword';
 // import SessionsPanel from './AdminPanels/Sessions';
 
+import ProposalsStance from '#root/src/components/UI/ViewUserModal/Panels/ProposalsStance';
+import ProposalComments from '#root/src/components/UI/ViewUserModal/Panels/ProposalComments';
 import ProposalSentiments from '#root/src/components/UI/ViewUserModal/Panels/ProposalSentiments';
-// import ProposalComments from './Panels/ProposalComments';
-// import ProposalSubmissions from './Panels/ProposalSubmissions';
-// import NewsComments from './Panels/NewsComments';
-// import ProposalsStance from './Panels/ProposalsStance';
-// import NewsSubmissions from './Panels/NewsSubmissions';
-// import Donations from './Panels/Donations';
-// import Layouts from './Panels/Layouts';
-// import Verifications from './Panels/Verifications';
-// import Achievements from './Panels/Achievements';
+import ProposalSubmissions from './Panels/ProposalSubmissions';
+import NewsComments from './Panels/NewsComments';
+import NewsSubmissions from './Panels/NewsSubmissions';
+import Donations from './Panels/Donations';
+import Layouts from './Panels/Layouts';
+import Verifications from './Panels/Verifications';
+import Achievements from './Panels/Achievements';
 
 import numberWithCommas from '#root/src/util/numberWithCommas';
 import usePoliticalParties from '#root/src/hooks/Politics/usePoliticalParties';
@@ -204,7 +207,10 @@ function ViewUserModal(props) {
         return (
             <div
                 style={
-                    ({ position: 'relative' })
+                    ({ 
+                        position: 'relative',
+                        cursor: 'pointer'
+                    })
                     &&
                     (size == 'lg' ? { fontSize: "1.5rem" } : {})
                 }
@@ -215,7 +221,7 @@ function ViewUserModal(props) {
                     onClick={() => {
                         setModalShow(true)
                     }}
-                    className="position-relative view-user-modal-badge d-flex justify-content-between align-items-center badge bg-articles-secondary shadow-articles badge-hover "
+                    className="position-relative view-user-modal-badge d-flex justify-content-between align-items-center badge bg-articles badge-hover "
                 >
 
                     {(hasMembership || fakeMembership) &&
@@ -239,10 +245,10 @@ function ViewUserModal(props) {
 
                         {!hidePhoto &&
                             <div className={size == 'lg' ? 'me-0' : 'me-1'}>
-                                {/* <UserProfilePhoto
+                                <UserProfilePhoto
                                     width={'15px'}
                                     profile_photo={userData.profile_photo}
-                                /> */}
+                                />
                             </div>
                         }
 
@@ -319,7 +325,7 @@ function ViewUserModal(props) {
                                 }
                             >
                                 <div
-                                    className={`badge badge-membership bg-light text-capitalize ms-0 shadow-articles h-100 d-flex justify-content-center align-items-center`}
+                                    className={`badge badge-membership bg-light text-capitalize ms-0 h-100 d-flex justify-content-center align-items-center`}
                                     style={{
                                         padding: '0 0.25rem',
                                         cursor: 'pointer'
@@ -424,7 +430,7 @@ function ViewUserModal(props) {
                                 }
                             >
                                 <div
-                                    className={`badge bg-light text-capitalize ms-0 shadow-articles h-100 d-flex justify-content-center align-items-center`}
+                                    className={`badge bg-light text-capitalize ms-0 h-100 d-flex justify-content-center align-items-center`}
                                     style={{
                                         padding: '0 0.15rem',
                                         cursor: 'pointer'
@@ -815,7 +821,7 @@ function ViewUserModal(props) {
 
                                 }
                             >
-                                <div className='badge bg-articles-secondary border me-1 mb-1'>
+                                <div className='badge bg-articles border me-1 mb-1'>
                                     <i className="fad fa-map-pin me-1"></i>
                                     {userData.address?.state}
                                 </div>
@@ -829,7 +835,7 @@ function ViewUserModal(props) {
                                     </Tooltip>
                                 }
                             >
-                                <div className='badge bg-danger shadow-articles me-1 mb-1'>
+                                <div className='badge bg-danger me-1 mb-1'>
                                     <i className="fad fa-robot me-1"></i>
                                     Unverified
                                 </div>
@@ -872,7 +878,7 @@ function ViewUserModal(props) {
                                     </Tooltip>
                                 }
                             >
-                                <div className='badge bg-articles-secondary border me-1 mb-1'>
+                                <div className='badge bg-articles border me-1 mb-1'>
                                     <i className="fad fa-star me-1"></i>
                                     {userData.verified?.status}
                                 </div>
@@ -895,7 +901,7 @@ function ViewUserModal(props) {
                                                 `https://articles.media/politics/parties/${(populated_user || userData)?.political?.party_id}`
                                         }
                                         >
-                                            <div className='badge bg-articles-secondary border shadow-articles text-capitalize me-1'>
+                                            <div className='badge bg-articles border text-capitalize me-1'>
 
                                                 <div className=''>
                                                     {(
@@ -1191,7 +1197,7 @@ function ViewUserModal(props) {
 
                         </div>
 
-                        {/* {contentDisplayTab == 'Proposals Stance' &&
+                        {contentDisplayTab == 'Proposals Stance' &&
                             <ProposalsStance
                                 {...{
                                     activeLayoutProposalSentiments,
@@ -1208,7 +1214,7 @@ function ViewUserModal(props) {
                             <ProposalComments
                                 activeLayoutProposalSentiments={activeLayoutProposalSentiments}
                             />
-                        } */}
+                        }
 
                         {contentDisplayTab == 'Proposal Sentiments' &&
                             <ProposalSentiments
@@ -1216,7 +1222,7 @@ function ViewUserModal(props) {
                             />
                         }
 
-                        {/* {contentDisplayTab == 'Proposal Submissions' &&
+                        {contentDisplayTab == 'Proposal Submissions' &&
                             <ProposalSubmissions
                                 userProposalsSubmitted={publicUserData?.populated_public_proposals}
                             />
@@ -1262,7 +1268,7 @@ function ViewUserModal(props) {
                             <Achievements
                                 publicUserData={publicUserData}
                             />
-                        } */}
+                        }
 
                     </div>
 

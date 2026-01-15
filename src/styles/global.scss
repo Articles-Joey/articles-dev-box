@@ -6,9 +6,10 @@
     
 }
 
-// .badge-articles {
-//     background-color: var(--articles-theme-primary);
-// }
+.bg-articles {
+    background-color: var(--articles-theme-primary);
+    color: black!important;
+}
 
 // Define Bootstrap-like breakpoints
 $grid-breakpoints: (

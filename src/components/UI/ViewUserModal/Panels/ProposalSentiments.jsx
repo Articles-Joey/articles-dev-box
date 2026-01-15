@@ -1,8 +1,6 @@
-// import ArticlesButton from "@/components/Articles/Button"
-import ArticlesButton from '#root/src/components/UI/Button';
-// import routes from "@/components/constants/routes"
 import { format } from "date-fns"
-// import Link from "next/link"
+
+import ArticlesButton from '#root/src/components/UI/Button';
 import Link from '#root/src/components/UI/Link';
 
 export default function ProposalSentiments({

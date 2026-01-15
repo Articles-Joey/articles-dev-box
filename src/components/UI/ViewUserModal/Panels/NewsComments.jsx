@@ -1,9 +1,18 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
-import NewsPreviewImage from "@/components/News/NewsPreviewImage"
+import { useState } from "react";
+
 import { format } from "date-fns"
-import Link from "next/link"
-import renderNewsRoute from 'util/renderNewsRoute';
+
+import ArticlesButton from '#root/src/components/UI/Button';
+import Link from '#root/src/components/UI/Link';
+// import { routes } from "#root/src/constants/routes";
+
+// import ArticlesButton from "@/components/Articles/Button"
+// import routes from "@/components/constants/routes"
+import NewsPreviewImage from "#root/src/components/News/NewsPreviewImage"
+// import { format } from "date-fns"
+// import Link from "next/link"
+
+import renderNewsRoute from '#root/src/util/renderNewsRoute';
 
 export default function NewsComments({
     publicUserData

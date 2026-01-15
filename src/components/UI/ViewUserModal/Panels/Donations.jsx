@@ -1,9 +1,17 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
-import { format } from "date-fns";
-import Link from "next/link"
 import { useState } from "react";
-import numberWithCommas from "util/withCommas";
+
+import { format } from "date-fns"
+
+import ArticlesButton from '#root/src/components/UI/Button';
+import Link from '#root/src/components/UI/Link';
+import { routes } from "#root/src/constants/routes";
+
+// import ArticlesButton from "@/components/Articles/Button"
+// import routes from "@/components/constants/routes"
+// import { format } from "date-fns";
+// import Link from "next/link"
+// import { useState } from "react";
+import numberWithCommas from "#root/src/util/numberWithCommas";
 
 export default function Donations({
     activeLayoutProposalSentiments,

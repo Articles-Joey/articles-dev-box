@@ -1,7 +1,10 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
-import Link from "next/link"
 import { useState } from "react";
+
+// import { format } from "date-fns"
+
+import ArticlesButton from '#root/src/components/UI/Button';
+import Link from '#root/src/components/UI/Link';
+import { routes } from "#root/src/constants/routes";
 
 export default function ProposalSubmissions({
     activeLayoutProposalSentiments,

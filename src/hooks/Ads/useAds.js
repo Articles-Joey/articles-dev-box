@@ -35,6 +35,9 @@ const options = {
 const useAds = (params) => {
 
     const { data, error, isLoading, mutate } = useSWR(
+        (params?.loading || params?.disabled) ? 
+        null 
+        :
         {
             url: `https://articles.media/api/ads`, 
             // ad_id

@@ -1,7 +1,8 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
 import { format } from "date-fns"
-import Link from "next/link"
+
+import ArticlesButton from '#root/src/components/UI/Button';
+import Link from '#root/src/components/UI/Link';
+import { routes } from "#root/src/constants/routes";
 
 export default function ProposalComments({
     activeLayoutProposalSentiments

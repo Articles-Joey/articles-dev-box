@@ -1,8 +1,36 @@
 "use client"
 
-import { memo } from "react";
+import useMainSiteStatus from "#root/src/hooks/useMainSiteStatus";
+import useAuthSiteStatus from "#root/src/hooks/useAuthSiteStatus";
+
+import classNames from "classnames";
+import { lazy, memo, useState } from "react";
+import React, { Suspense } from 'react';
+
+// import StatusModal from "./StatusModal";
+const StatusModal = lazy(() => import('./StatusModal'));
 
 function GlobalBody(props) {
+
+    const [ statusModal, setStatusModal ] = useState(false);
+
+    const {
+        data: mainSiteStatus,
+        error: mainSiteStatusError,
+        isLoading: mainSiteStatusLoading,
+        mutate: mainSiteStatusMutate
+    } = useMainSiteStatus({
+        disable: process.env.NODE_ENV !== "development"
+    });
+
+    const {
+        data: authSiteStatus,
+        error: authSiteStatusError,
+        isLoading: authSiteStatusLoading,
+        mutate: authSiteStatusMutate
+    } = useAuthSiteStatus({
+        disable: process.env.NODE_ENV !== "development"
+    });
 
     return (
         <>
@@ -29,15 +57,34 @@ function GlobalBody(props) {
                                 height: 50px;
                                 margin: 0;
                                 padding: 0;
-                                background-color: green;
+                                background-color: yellow;
                                 color: #FFFFFF;
                                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                                 animation: grow-shrink 2s ease-in;
-                        }
-                    `}
+                                border: 4px solid red;
+                                cursor: pointer;
+                            }
+                            .articles-global-body.main-connected {
+                                background-color: green;
+                            }
+                            .articles-global-body.auth-connected {
+                                border-color: blue;
+                            }  
+                        `}
                     </style>
 
-                    <div className="articles-global-body">
+                    <div
+                        onClick={() => {
+                            setStatusModal(true)
+                        }}
+                        className={classNames(
+                            `articles-global-body`,
+                            {
+                                "main-connected": mainSiteStatus,
+                                "auth-connected": authSiteStatus
+                            }
+                        )}
+                    >
 
                         <link
                             rel="stylesheet"
@@ -49,6 +96,15 @@ function GlobalBody(props) {
                         </div>
 
                     </div>
+
+                    {statusModal &&
+                        <Suspense>
+                            <StatusModal
+                                show={statusModal}
+                                setShow={setStatusModal}
+                            />
+                        </Suspense>
+                    }
                 </>
             }
 

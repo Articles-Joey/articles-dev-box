@@ -1,15 +1,26 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
-import RenderLayoutItemLogo from "@/components/Layouts/RenderLayoutItemLogo";
-import Link from "next/link"
-import { useSelector } from "react-redux";
+// import { useState } from "react";
+
+// import { format } from "date-fns"
+
+import ArticlesButton from '#root/src/components/UI/Button';
+import Link from '#root/src/components/UI/Link';
+import { routes } from "#root/src/constants/routes";
+
+// TODO - Add in
+// import RenderLayoutItemLogo from "@/components/Layouts/RenderLayoutItemLogo";
+
+// import ArticlesButton from "@/components/Articles/Button"
+// import routes from "@/components/constants/routes"
+// import Link from "next/link"
+// import { useSelector } from "react-redux";
 
 export default function Layouts({
     userLayoutsData,
     handleClose
 }) {
 
-    const userReduxState = useSelector((state) => state.auth.user_details)
+    // TODO - Add back in
+    const userReduxState = false
 
     return (
         <div>
@@ -34,10 +45,10 @@ export default function Layouts({
                     <div key={layout._id} className="card card-articles shadow-articles">
                         <div className="card-body py-1 px-2 lh-sm d-flex align-items-center">
 
-                            <RenderLayoutItemLogo
+                            {/* <RenderLayoutItemLogo
                                 layout={layout}
                                 size={50}
-                            />
+                            /> */}
 
                             <div className='ms-2'>
 

@@ -1,8 +1,9 @@
-import ArticlesButton from "@/components/Articles/Button"
-import routes from "@/components/constants/routes"
-import Link from "next/link"
 import { ProgressBar } from "react-bootstrap";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+
+import ArticlesButton from '#root/src/components/UI/Button';
+import Link from '#root/src/components/UI/Link';
+import { routes } from "#root/src/constants/routes";
 
 export default function ProposalsStance({
     activeLayoutProposalSentiments,
@@ -13,7 +14,8 @@ export default function ProposalsStance({
     userData
 }) {
 
-    const userReduxState = useSelector((state) => state.auth.user_details)
+    // const userReduxState = useSelector((state) => state.auth.user_details)
+    const userReduxState = null;
 
     return (
         <div className="row mx-0 mb-2">
