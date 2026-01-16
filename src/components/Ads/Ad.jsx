@@ -319,9 +319,19 @@ function Ad(props) {
 
     }, [inView, adId]);
 
-    const [logsAvoided, setLogsAvoided] = useState(null);
+    const [adsAvoided, setAdsAvoided] = useState(null);
+
+    // const {
+    //     data: adAvoidedData,
+    //     isLoading: adsAvoidedLoading,
+    //     mutate: adAvoidedMutate
+    // } = useAdAvoided();
+
+    const [adsAvoidedLoading, setAdsAvoidedLoading] = useState(false);
 
     function logAdAvoided() {
+
+        setAdsAvoidedLoading(true);
 
         console.log("logAdAvoided called", user_ad_token)
 
@@ -339,13 +349,15 @@ function Ad(props) {
                 }
             }
         ).then(function (response) {
-            setLogsAvoided(response.data.avoided_count)
+            setAdsAvoidedLoading(false);
+            setAdsAvoided(response.data.avoided_count)
             // setLoggedEvents([...loggedEvents, event])
             console.log(response.data);
             // setAd(response.data.result)
         })
             .catch(function (error) {
                 console.log(error);
+                setAdsAvoidedLoading(false);
             });
 
         // Post not working with CORS?
@@ -716,7 +728,22 @@ function Ad(props) {
                                 <div className="splash">
                                     <i className="fas fa-broadcast-tower"></i>
                                     <div className='text'>
-                                        <div className='count'>{logsAvoided ? numberWithCommas(logsAvoided) : 0}</div>
+                                        <div
+                                            className='count'
+                                            // onClick={() => {
+                                            //     setAdsAvoidedLoading(!adsAvoidedLoading)
+                                            // }}
+                                        >
+                                            {adsAvoidedLoading ?
+                                                <i className="fas fa-spinner fa-spin me-0"></i>
+                                                :
+                                                adsAvoided ?
+                                                    numberWithCommas(adsAvoided)
+                                                    :
+                                                    0
+                                            }
+
+                                        </div>
                                         <div className='label'>ads avoided.</div>
                                     </div>
                                 </div>
