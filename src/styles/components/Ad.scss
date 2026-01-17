@@ -8,6 +8,7 @@
     width: 100%;
 
     --card-background: #f9edcd;
+    --bs-body-color: #000000;
 
     &.active-member {
         .ad {
@@ -115,7 +116,7 @@
                     align-items: center;
                     justify-content: center;
                     color: black;
-                    
+
                     i {
                         font-size: 3rem;
                         margin-right: 1rem;
@@ -169,14 +170,15 @@
 
             .links-list {
                 display: flex;
-                flex-direction: column;                
+                flex-direction: column;
 
                 .link-item {
                     color: black;
 
                     &:hover {
                         text-decoration: underline;
-                        text-decoration-color: red;                    }
+                        text-decoration-color: red;
+                    }
                 }
             }
 
@@ -279,6 +281,11 @@
 
         a {
             color: var(--articles-ad-font-color, var(--bs-body-color)) !important;
+
+            &:hover {
+                text-decoration: underline;
+                text-decoration-color: red;
+            }
         }
     }
 }
