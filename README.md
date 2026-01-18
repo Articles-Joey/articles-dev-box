@@ -1,5 +1,7 @@
 # Articles Dev Box
 
+![Preview](/src/img/articles-dev-box.webp)
+
 Shared code, functions, and components that are commonly used across Articles Media projects. 
 
 # Warning
