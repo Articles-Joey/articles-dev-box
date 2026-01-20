@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
