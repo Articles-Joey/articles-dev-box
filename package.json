@@ -48,6 +48,10 @@
       "import": "./dist/ViewUserModal.js",
       "require": "./dist/ViewUserModal.cjs"
     },
+    "./FriendsList": {
+      "import": "./dist/FriendsList.js",
+      "require": "./dist/FriendsList.cjs"
+    },
     "./useUserDetails": {
       "import": "./dist/useUserDetails.js",
       "require": "./dist/useUserDetails.cjs"

@@ -20,6 +20,8 @@ export default defineConfig({
         GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),
+
+        FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
         
         useUserDetails: resolve(__dirname, 'src/hooks/User/useUserDetails.js'),
         useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),

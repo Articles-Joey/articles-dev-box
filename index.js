@@ -6,6 +6,8 @@ import GlobalHead from '#root/src/components/Global/GlobalHead.jsx';
 import GlobalBody from '#root/src/components/Global/GlobalBody.jsx';
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal.jsx';
 
+import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
+
 import useUserDetails from '#root/src/hooks/User/useUserDetails';
 import useUserToken from '#root/src/hooks/User/useUserToken';
 
@@ -28,6 +30,8 @@ export {
   GlobalHead,
   GlobalBody,
   ViewUserModal,
+
+  FriendsList,
 
   useUserDetails,
   useUserToken,
