@@ -15,7 +15,13 @@ import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
 
 import "#root/src/styles/components/GameScoreboard.scss";
 
-function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
+function GameScoreboard({ 
+    game, 
+    reloadScoreboard, 
+    setReloadScoreboard,
+    prepend,
+    append
+}) {
 
     const [showSettings, setShowSettings] = useState(false)
 
@@ -110,6 +116,10 @@ function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
 
             </Modal>
 
+            <div className="prepend-container">
+                {prepend}
+            </div>
+
             <div className="card card-articles card-sm mb-3 mb-lg-0">
 
                 <div className="card-header d-flex justify-content-between align-items-center">
@@ -179,6 +189,10 @@ function GameScoreboard({ game, reloadScoreboard, setReloadScoreboard }) {
 
                 </div>
 
+            </div>
+
+            <div className="append-container">
+                {append}
             </div>
 
         </div>

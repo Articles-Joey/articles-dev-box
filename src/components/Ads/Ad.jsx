@@ -58,7 +58,9 @@ function Ad(props) {
         darkMode,
         user_ad_token,
         userDetails,
-        userDetailsLoading
+        userDetailsLoading,
+        prepend,
+        append
     } = props;
 
     // const dispatch = useDispatch()
@@ -445,6 +447,10 @@ function Ad(props) {
                     previewData={previewData}
                 />
             }
+
+            {prepend && <div className="prepend-container">
+                {prepend}
+            </div>}
 
             <div
                 className='ad'
@@ -834,6 +840,10 @@ function Ad(props) {
                 }
 
             </div>
+
+            {append && <div className="append-container">
+                {append}
+            </div>}
 
             {/* {previewMode &&
                 <div className='small'>

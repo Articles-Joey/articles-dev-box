@@ -14,6 +14,7 @@ export default function FriendsList({
     id = null,
     allowInvite = false,
     inviteFunction = null,
+    modalBackdropClassName = ''
 }) {
 
     // const { style } = props;
@@ -51,6 +52,7 @@ export default function FriendsList({
                 show={show}
                 size={'md'}
                 className={`articles-modal ${className}`}
+                modalBackdropClassName={modalBackdropClassName}
                 centered
                 onHide={() => setShow(false)}
                 style={style}

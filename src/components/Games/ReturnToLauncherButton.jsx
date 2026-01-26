@@ -2,7 +2,10 @@
 import ArticlesButton from "#root/src/components/UI/Button";
 import { useEffect, useState } from "react";
 
-export default function ReturnToLauncherButton() {
+export default function ReturnToLauncherButton({
+    className,
+    id
+}) {
 
     const [isMounted, setIsMounted] = useState(false);
 
@@ -29,8 +32,9 @@ export default function ReturnToLauncherButton() {
         return (
             <ArticlesButton
                 // ref={el => elementsRef.current[6] = el}
-                className={`w-100`}
+                className={`${className} w-100`}
                 small
+                id={id}
                 style={{
                     zIndex: 10,
                     position: "relative",
@@ -49,7 +53,8 @@ export default function ReturnToLauncherButton() {
     return (
         <ArticlesButton
             // ref={el => elementsRef.current[6] = el}
-            className={`w-100`}
+            className={`${className} w-100`}
+            id={id}
             small
             style={{
                 zIndex: 10,
