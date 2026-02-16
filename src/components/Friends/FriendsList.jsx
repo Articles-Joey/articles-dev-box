@@ -1,7 +1,7 @@
 // import useUserFriends from "@/hooks/Friends/useUserFriends";
 import useUserFriends from "#root/src/hooks/User/useUserFriends";
-import ArticlesButton from "../UI/Button"
 import { Modal } from "react-bootstrap";
+import ArticlesButton from "../UI/Button";
 
 export default function FriendsList({
     show,
@@ -81,13 +81,38 @@ export default function FriendsList({
                     }
 
                     {!friendsLoading && friends && friends.length > 0 &&
-                        <ul>
+                        <div>
                             {friends.map((friend) => (
-                                <li key={friend.user_id}>
+                                <div
+                                    key={friend.user_id}
+                                    className="d-flex align-items-center justify-content-between border p-1"
+                                >
+
                                     {friend?.populated_user?.username} - {friend?.populated_user?.display_name || 'No Display Name'}
-                                </li>
+
+                                    <div>
+                                        {allowInvite && <ArticlesButton
+                                            variant="articles"
+                                            onClick={() => {
+                                                // mutateFriends()
+                                                allowInvite(friend)
+                                            }}
+                                        >
+                                            <i className="fad fa-comment-check"></i>
+                                        </ArticlesButton>}
+                                        <ArticlesButton
+                                            variant="articles"
+                                            onClick={() => {
+                                                // mutateFriends()
+                                            }}
+                                        >
+                                            <i className="fad fa-info"></i>
+                                        </ArticlesButton>
+                                    </div>
+
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     }
 
                 </Modal.Body>
@@ -100,7 +125,8 @@ export default function FriendsList({
                             mutateFriends()
                         }}
                     >
-                        <i className="fad fa-redo"></i>
+                        <i className="fad fa-redo me-2"></i>
+                        <span>Refresh</span>
                     </ArticlesButton>
 
                     <ArticlesButton
@@ -109,6 +135,7 @@ export default function FriendsList({
                             setShow(false)
                         }}
                     >
+                        <i className="fad fa-times me-2"></i>
                         Close
                     </ArticlesButton>
 

@@ -25,6 +25,7 @@ export default defineConfig({
         
         useUserDetails: resolve(__dirname, 'src/hooks/User/useUserDetails.js'),
         useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),
+        useUserFriends: resolve(__dirname, 'src/hooks/User/useUserFriends.js'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,

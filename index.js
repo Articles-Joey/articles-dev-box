@@ -10,6 +10,7 @@ import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 
 import useUserDetails from '#root/src/hooks/User/useUserDetails';
 import useUserToken from '#root/src/hooks/User/useUserToken';
+import useUserFriends from '#root/src/hooks/User/useUserFriends';
 
 // Button and switch not exported from index.js to reduce bundle size?
 // import ArticlesButton from '#root/src/components/UI/Button';
@@ -35,4 +36,5 @@ export {
 
   useUserDetails,
   useUserToken,
+  useUserFriends,
 };

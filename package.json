@@ -60,6 +60,10 @@
       "import": "./dist/useUserToken.js",
       "require": "./dist/useUserToken.cjs"
     },
+    "./useUserFriends": {
+      "import": "./dist/useUserFriends.js",
+      "require": "./dist/useUserFriends.cjs"
+    },
     "./dist/style.css": "./dist/articles-dev-box.css",
     "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
   },
