@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -47,6 +47,14 @@
     "./ViewUserModal": {
       "import": "./dist/ViewUserModal.js",
       "require": "./dist/ViewUserModal.cjs"
+    },
+    "./SettingsModal": {
+      "import": "./dist/SettingsModal.js",
+      "require": "./dist/SettingsModal.cjs"
+    },
+    "./DarkModeHandler": {
+      "import": "./dist/DarkModeHandler.js",
+      "require": "./dist/DarkModeHandler.cjs"
     },
     "./FriendsList": {
       "import": "./dist/FriendsList.js",

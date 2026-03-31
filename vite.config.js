@@ -20,6 +20,8 @@ export default defineConfig({
         GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),
+        SettingsModal: resolve(__dirname, 'src/components/Games/Settings/SettingsModal.jsx'),
+        DarkModeHandler: resolve(__dirname, 'src/components/UI/DarkModeHandler.jsx'),
 
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
         

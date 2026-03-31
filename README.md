@@ -47,6 +47,10 @@ npm run dev
     - Easy way to add future logic and components to all projects with ease. For now handling the font awesome script. Also shows connection status to required servers in development. Will ping the main and auth server as they are needed for some dev-box features.
 - ViewUserModal
     - View user profile data and recent activity.
+- SettingsModal
+    - All in one component to handle game settings UI across multiple games.
+- DarkModeHandler
+    - Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element.
 - useUserToken
     - Hook for getting the subdomain auth token.
 - useUserDetails

@@ -5,6 +5,8 @@ import GameScoreboard from '#root/src/components/Games/GameScoreboard.jsx';
 import GlobalHead from '#root/src/components/Global/GlobalHead.jsx';
 import GlobalBody from '#root/src/components/Global/GlobalBody.jsx';
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal.jsx';
+import SettingsModal from '#root/src/components/Games/Settings/SettingsModal.jsx';
+import DarkModeHandler from '#root/src/components/UI/DarkModeHandler';
 
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 
@@ -31,7 +33,9 @@ export {
   GlobalHead,
   GlobalBody,
   ViewUserModal,
-
+  SettingsModal,
+  DarkModeHandler,
+  
   FriendsList,
 
   useUserDetails,
