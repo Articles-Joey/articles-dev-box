@@ -6,7 +6,7 @@ import GraphicsTab from "#root/src/components/Games/Settings/GraphicsTab.jsx";
 import AudioTab from "#root/src/components/Games/Settings/AudioTab.jsx";
 import MultiplayerTab from "#root/src/components/Games/Settings/MultiplayerTab.jsx";
 import ControlsTab from "#root/src/components/Games/Settings/ControlsTab.jsx";
-import OtherTab from "./OtherTab";
+import OtherTab from "#root/src/components/Games/Settings/OtherTab";
 
 export default function SettingsModal({
     show,

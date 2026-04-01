@@ -49,19 +49,20 @@ npm run dev
     - View user profile data and recent activity.
 - SettingsModal
     - All in one component to handle game settings UI across multiple games.
+- CreditsModal
+    - All in one component to handle game credits UI across multiple games.
 - DarkModeHandler
     - Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element.
 - useUserToken
     - Hook for getting the subdomain auth token.
 - useUserDetails
     - Hook for getting the details of the current user if a valid user token is found.
+- useFullScreen
+    - Hook for going fullscreen on the body or provided element
 
 # Roadmap
-⏹️ Remove Bootstrap reliance  
-⏹️ Look into npm package yalc  
-⏹️ Automatic GitHub Action for NPM are done but need to figure out how to show verified build badge on NPM.  
-⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails.
-
+⏹️ Remove Bootstrap reliance
+⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails. Bootstrap SASS related I think.
 
 # TODO
 - Bundle SCSS on a component level instead of a project level.

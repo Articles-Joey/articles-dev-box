@@ -21,13 +21,15 @@ export default defineConfig({
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),
         SettingsModal: resolve(__dirname, 'src/components/Games/Settings/SettingsModal.jsx'),
+        CreditsModal: resolve(__dirname, 'src/components/Games/Credits/CreditsModal.jsx'),
         DarkModeHandler: resolve(__dirname, 'src/components/UI/DarkModeHandler.jsx'),
 
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
-        
+
         useUserDetails: resolve(__dirname, 'src/hooks/User/useUserDetails.js'),
         useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),
         useUserFriends: resolve(__dirname, 'src/hooks/User/useUserFriends.js'),
+        useFullscreen: resolve(__dirname, 'src/hooks/useFullScreen.js'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,

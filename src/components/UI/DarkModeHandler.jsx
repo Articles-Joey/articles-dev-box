@@ -5,6 +5,12 @@ import { useEffect } from "react";
 // import { useEightBallStore } from "@/hooks/useEightBallStore";
 // import { useStore } from "../hooks/useStore";
 
+/**
+ * Adds two numbers together.
+ *
+ * @param {function} A Zustand store hook - With darkMode and setDarkMode
+ * @returns {null} Nothing returned from this function.
+ */
 export default function DarkModeHandler({ useStore }) {
 
     // const theme = useEightBallStore(state => state.theme);

@@ -52,6 +52,10 @@
       "import": "./dist/SettingsModal.js",
       "require": "./dist/SettingsModal.cjs"
     },
+    "./CreditsModal": {
+      "import": "./dist/CreditsModal.js",
+      "require": "./dist/CreditsModal.cjs"
+    },
     "./DarkModeHandler": {
       "import": "./dist/DarkModeHandler.js",
       "require": "./dist/DarkModeHandler.cjs"
@@ -71,6 +75,10 @@
     "./useUserFriends": {
       "import": "./dist/useUserFriends.js",
       "require": "./dist/useUserFriends.cjs"
+    },
+    "./useFullscreen": {
+      "import": "./dist/useFullscreen.js",
+      "require": "./dist/useFullscreen.cjs"
     },
     "./dist/style.css": "./dist/articles-dev-box.css",
     "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"

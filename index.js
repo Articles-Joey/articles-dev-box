@@ -6,6 +6,7 @@ import GlobalHead from '#root/src/components/Global/GlobalHead.jsx';
 import GlobalBody from '#root/src/components/Global/GlobalBody.jsx';
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal.jsx';
 import SettingsModal from '#root/src/components/Games/Settings/SettingsModal.jsx';
+import CreditsModal from '#root/src/components/Games/Credits/CreditsModal.jsx';
 import DarkModeHandler from '#root/src/components/UI/DarkModeHandler';
 
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
@@ -13,6 +14,7 @@ import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 import useUserDetails from '#root/src/hooks/User/useUserDetails';
 import useUserToken from '#root/src/hooks/User/useUserToken';
 import useUserFriends from '#root/src/hooks/User/useUserFriends';
+import useFullscreen from '#root/src/hooks/useFullscreen';
 
 // Button and switch not exported from index.js to reduce bundle size?
 // import ArticlesButton from '#root/src/components/UI/Button';
@@ -35,10 +37,12 @@ export {
   ViewUserModal,
   SettingsModal,
   DarkModeHandler,
-  
+  CreditsModal,
   FriendsList,
 
   useUserDetails,
   useUserToken,
   useUserFriends,
+
+  useFullscreen
 };
