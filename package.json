@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -95,7 +95,11 @@
   "license": "ISC",
   "peerDependencies": {
     "react": ">=19.2.3",
-    "react-dom": ">=19.2.3"
+    "react-dom": ">=19.2.3",
+    "swr": "^2.0.0",
+    "date-fns": "^4.0.0",
+    "react-intersection-observer": "^10.0.0",
+    "react-bootstrap": "^2.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
@@ -105,9 +109,5 @@
     "sass": "^1.97.2",
     "vite": "^8.0.3"
   },
-  "dependencies": {
-    "date-fns": "^4.1.0",
-    "react-intersection-observer": "^10.0.0",
-    "swr": "^2.4.1"
-  }
+  "dependencies": {}
 }

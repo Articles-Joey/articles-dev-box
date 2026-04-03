@@ -35,7 +35,7 @@ export default defineConfig({
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', 'swr', 'swr/immutable', 'date-fns', 'react-intersection-observer', 'react-bootstrap'],
       output: {
         globals: {
           react: 'React',
