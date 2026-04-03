@@ -1,12 +1,12 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "files": [
     "dist"
@@ -16,70 +16,22 @@
     "url": "git+https://github.com/Articles-Joey/articles-dev-box.git"
   },
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./Ad": {
-      "import": "./dist/Ad.js",
-      "require": "./dist/Ad.cjs"
-    },
-    "./ArticlesAd": {
-      "import": "./dist/ArticlesAd.js",
-      "require": "./dist/ArticlesAd.cjs"
-    },
-    "./GameScoreboard": {
-      "import": "./dist/GameScoreboard.js",
-      "require": "./dist/GameScoreboard.cjs"
-    },
-    "./ReturnToLauncherButton": {
-      "import": "./dist/ReturnToLauncherButton.js",
-      "require": "./dist/ReturnToLauncherButton.cjs"
-    },
-    "./GlobalHead": {
-      "import": "./dist/GlobalHead.js",
-      "require": "./dist/GlobalHead.cjs"
-    },
-    "./GlobalBody": {
-      "import": "./dist/GlobalBody.js",
-      "require": "./dist/GlobalBody.cjs"
-    },
-    "./ViewUserModal": {
-      "import": "./dist/ViewUserModal.js",
-      "require": "./dist/ViewUserModal.cjs"
-    },
-    "./SettingsModal": {
-      "import": "./dist/SettingsModal.js",
-      "require": "./dist/SettingsModal.cjs"
-    },
-    "./CreditsModal": {
-      "import": "./dist/CreditsModal.js",
-      "require": "./dist/CreditsModal.cjs"
-    },
-    "./DarkModeHandler": {
-      "import": "./dist/DarkModeHandler.js",
-      "require": "./dist/DarkModeHandler.cjs"
-    },
-    "./FriendsList": {
-      "import": "./dist/FriendsList.js",
-      "require": "./dist/FriendsList.cjs"
-    },
-    "./useUserDetails": {
-      "import": "./dist/useUserDetails.js",
-      "require": "./dist/useUserDetails.cjs"
-    },
-    "./useUserToken": {
-      "import": "./dist/useUserToken.js",
-      "require": "./dist/useUserToken.cjs"
-    },
-    "./useUserFriends": {
-      "import": "./dist/useUserFriends.js",
-      "require": "./dist/useUserFriends.cjs"
-    },
-    "./useFullscreen": {
-      "import": "./dist/useFullscreen.js",
-      "require": "./dist/useFullscreen.cjs"
-    },
+    ".": "./dist/index.js",
+    "./Ad": "./dist/Ad.js",
+    "./ArticlesAd": "./dist/ArticlesAd.js",
+    "./GameScoreboard": "./dist/GameScoreboard.js",
+    "./ReturnToLauncherButton": "./dist/ReturnToLauncherButton.js",
+    "./GlobalHead": "./dist/GlobalHead.js",
+    "./GlobalBody": "./dist/GlobalBody.js",
+    "./ViewUserModal": "./dist/ViewUserModal.js",
+    "./SettingsModal": "./dist/SettingsModal.js",
+    "./CreditsModal": "./dist/CreditsModal.js",
+    "./DarkModeHandler": "./dist/DarkModeHandler.js",
+    "./FriendsList": "./dist/FriendsList.js",
+    "./useUserDetails": "./dist/useUserDetails.js",
+    "./useUserToken": "./dist/useUserToken.js",
+    "./useUserFriends": "./dist/useUserFriends.js",
+    "./useFullscreen": "./dist/useFullscreen.js",
     "./dist/style.css": "./dist/articles-dev-box.css",
     "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
   },

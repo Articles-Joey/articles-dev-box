@@ -31,8 +31,8 @@ export default defineConfig({
         useUserFriends: resolve(__dirname, 'src/hooks/User/useUserFriends.js'),
         useFullscreen: resolve(__dirname, 'src/hooks/useFullscreen.js'),
       },
-      formats: ['es', 'cjs'],
-      fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
+      formats: ['es'],
+      fileName: (format, entryName) => `${entryName}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'swr', 'swr/immutable', 'date-fns', 'react-intersection-observer', 'react-bootstrap'],
