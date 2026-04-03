@@ -57,7 +57,7 @@ npm run dev
     - Hook for getting the subdomain auth token.
 - useUserDetails
     - Hook for getting the details of the current user if a valid user token is found.
-- useFullScreen
+- useFullscreen
     - Hook for going fullscreen on the body or provided element
 
 # Roadmap
