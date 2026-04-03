@@ -5,8 +5,6 @@ import { useState, useEffect, memo, lazy } from 'react';
 import Link from '#root/src/components/UI/Link';
 // import dynamic from 'next/dynamic'
 
-import axios from 'axios'
-
 // import Popover from 'react-bootstrap/Popover';
 // import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
@@ -229,15 +227,18 @@ function Ad(props) {
             return
         }
 
-        axios.get(`/api/ads/event`, {
-            params: {
-                ad_id: ad?._id,
-                event: event
-            }
-        })
+        const params = new URLSearchParams({
+            ad_id: ad?._id,
+            event: event
+        }).toString();
+
+        fetch(`/api/ads/event?${params}`)
             .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
                 setLoggedEvents([...loggedEvents, event])
-                console.log(response.data);
+                console.log(data);
                 // setAd(response.data.result)
             })
             .catch(function (error) {
@@ -337,26 +338,30 @@ function Ad(props) {
 
         console.log("logAdAvoided called", user_ad_token)
 
-        axios.get(
-            process.env.NODE_ENV === "development" ?
-                "http://localhost:3001/api/user/advertising/avoided"
-                :
-                `https://articles.media/api/user/advertising/avoided`,
-            {
-                params: {
-                    user_id: userDetails?._id
-                },
-                headers: {
-                    "x-articles-api-key": user_ad_token
-                }
+        const url = process.env.NODE_ENV === "development" ?
+            "http://localhost:3001/api/user/advertising/avoided"
+            :
+            `https://articles.media/api/user/advertising/avoided`;
+
+        const params = new URLSearchParams({
+            user_id: userDetails?._id
+        }).toString();
+
+        fetch(`${url}?${params}`, {
+            headers: {
+                "x-articles-api-key": user_ad_token
             }
-        ).then(function (response) {
-            setAdsAvoidedLoading(false);
-            setAdsAvoided(response.data.avoided_count)
-            // setLoggedEvents([...loggedEvents, event])
-            console.log(response.data);
-            // setAd(response.data.result)
         })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                setAdsAvoidedLoading(false);
+                setAdsAvoided(data.avoided_count)
+                // setLoggedEvents([...loggedEvents, event])
+                console.log(data);
+                // setAd(response.data.result)
+            })
             .catch(function (error) {
                 console.log(error);
                 setAdsAvoidedLoading(false);

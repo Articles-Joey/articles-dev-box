@@ -1,33 +1,26 @@
 import useSWR from "swr";
 
-import axios from "axios";
-
 const fetcher = async (obj) => {
     if (process.env.NODE_ENV === 'development') {
         try {
-            const res = await axios.get("http://localhost:3001/api/user/friends", {
-                params: {
-                    game: obj.game,
-                    // user_token: obj.user_token
-                },
+            const params = new URLSearchParams({ game: obj.game }).toString();
+            const res = await fetch(`http://localhost:3001/api/user/friends?${params}`, {
                 headers: {
                     "x-articles-api-key": obj.user_token
                 }
             });
-            return res.data;
+            return await res.json();
         } catch (err) {
             // Failed to fetch from localhost, fallback to default URL
         }
     }
 
-    return axios.get(obj.url, {
-        params: {
-            game: obj.game,
-        },
+    const params = new URLSearchParams({ game: obj.game }).toString();
+    return fetch(`${obj.url}?${params}`, {
         headers: {
             "x-articles-api-key": obj.user_token
         }
-    }).then((res) => res.data);
+    }).then((res) => res.json());
 };
 
 const options = {

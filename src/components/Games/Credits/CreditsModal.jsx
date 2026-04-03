@@ -12,6 +12,10 @@ import ArticlesButton from '#root/src/components/UI/Button';
  * @param {Function} props.useStore - Zustand store hook (currently unused in this component).
  * @param {string} props.owner - The GitHub repository owner's username.
  * @param {string} props.repo - The GitHub repository name.
+ * @param {string} props.introText - Introductory text for the modal.
+ * @param {Array} props.developers - List of developers.
+ * @param {string} props.publisher - The publisher's name.
+
  * 
  * @returns {JSX.Element} The CreditsModal component.
  */
@@ -23,6 +27,7 @@ export default function CreditsModal({
     repo,
     developers,
     publisher,
+    introText
 }) {
 
     const [showModal, setShowModal] = useState(false);
@@ -51,6 +56,10 @@ export default function CreditsModal({
             </Modal.Header>
 
             <Modal.Body className="flex-column p-3">
+
+                {introText &&
+                    <div className="mb-3">{introText}</div>
+                }
 
                 {developers ?
                     <div></div>

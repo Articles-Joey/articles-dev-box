@@ -61,9 +61,9 @@ npm run dev
     - Hook for going fullscreen on the body or provided element
 
 # Roadmap
-⏹️ Remove Bootstrap reliance
-⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails. Bootstrap SASS related I think.
+⏹️ Remove Bootstrap reliance  
+⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails. Bootstrap SASS related I think.  
 
 # TODO
-- Bundle SCSS on a component level instead of a project level.
+- Bundle SCSS on a component level instead of a project level.  
 - Verify I am exporting components the most efficient way.

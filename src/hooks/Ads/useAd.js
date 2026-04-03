@@ -1,27 +1,22 @@
 import useSWR from "swr";
 
-import axios from "axios";
-
 const fetcher = async (data) => {
     if (process.env.NODE_ENV === 'development') {
         try {
-            const res = await axios.get(`http://localhost:3001/api/ads/${data.ad_id}`, {
-                params: {
-                    ad_id: data.ad_id,
-                    user_ad_token: data.user_ad_token
-                }
-            });
-            return res.data.result;
+            const params = new URLSearchParams({
+                ad_id: data.ad_id,
+                user_ad_token: data.user_ad_token
+            }).toString();
+            const res = await fetch(`http://localhost:3001/api/ads/${data.ad_id}?${params}`);
+            const json = await res.json();
+            return json.result;
         } catch (err) {
             // Failed to fetch from localhost, fallback to default URL
         }
     }
 
-    return axios.get(data.url, {
-        params: {
-            ad_id: data.ad_id
-        }
-    }).then((res) => res.data.result);
+    const params = new URLSearchParams({ ad_id: data.ad_id }).toString();
+    return fetch(`${data.url}?${params}`).then((res) => res.json()).then(json => json.result);
 };
 
 const minutes = 60;

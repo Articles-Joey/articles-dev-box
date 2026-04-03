@@ -1,9 +1,8 @@
 import useSWR from "swr";
 
-import axios from "axios";
 import { minutesToMilliseconds } from "date-fns";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const options = {
     dedupingInterval: minutesToMilliseconds(60),

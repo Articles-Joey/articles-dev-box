@@ -1,7 +1,6 @@
-import axios from "axios";
 import useSWR from "swr";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // Used to warn user if a local connection cant be made to main site as it would impact functionality of the dev-box
 

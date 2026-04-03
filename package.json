@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -103,12 +103,11 @@
     "nodemon": "^3.1.11",
     "react-bootstrap": "^2.10.10",
     "sass": "^1.97.2",
-    "vite": "^7.3.1"
+    "vite": "^8.0.3"
   },
   "dependencies": {
-    "axios": "^1.13.2",
     "date-fns": "^4.1.0",
     "react-intersection-observer": "^10.0.0",
-    "swr": "^2.3.8"
+    "swr": "^2.4.1"
   }
 }

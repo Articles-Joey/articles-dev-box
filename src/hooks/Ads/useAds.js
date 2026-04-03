@@ -1,27 +1,18 @@
 import useSWR from "swr";
 
-import axios from "axios";
 import { minutesToMilliseconds } from "date-fns";
 
 const fetcher = async (data) => {
     if (process.env.NODE_ENV === 'development') {
         try {
-            const res = await axios.get("http://localhost:3001/api/ads", {
-                params: {
-                    // ad_id: data.ad_id
-                }
-            });
-            return res.data;
+            const res = await fetch("http://localhost:3001/api/ads");
+            return await res.json();
         } catch (err) {
             // Failed to fetch from localhost, fallback to default URL
         }
     }
 
-    return axios.get(data.url, {
-        params: {
-            // ad_id: data.ad_id
-        }
-    }).then((res) => res.data);
+    return fetch(data.url).then((res) => res.json());
 };
 
 const minutes = 60;

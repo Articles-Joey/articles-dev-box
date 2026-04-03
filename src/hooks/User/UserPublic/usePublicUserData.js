@@ -2,14 +2,14 @@ import useSWRImmutable from 'swr/immutable'
 
 // import fetcher from "@/libs/fetcher";
 
-import axios from "axios";
 import useSWR from 'swr';
 
-const fetcher = (data) => axios.get(data.url, {
-    params: {
+const fetcher = (data) => {
+    const params = new URLSearchParams({
         user_id: data.user_id
-    }
-}).then((res) => res.data);
+    }).toString();
+    return fetch(`${data.url}?${params}`).then((res) => res.json());
+};
 
 const options = {
     dedupingInterval: ((1000 * 60) * 1),

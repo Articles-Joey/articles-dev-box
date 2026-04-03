@@ -1,26 +1,18 @@
 import useSWR from "swr";
 
-import axios from "axios";
-
 const fetcher = async (obj) => {
     if (process.env.NODE_ENV === 'development') {
         try {
-            const res = await axios.get("http://localhost:3001/api/community/games/scoreboard", {
-                params: {
-                    game: obj.game,
-                }
-            });
-            return res.data;
+            const params = new URLSearchParams({ game: obj.game }).toString();
+            const res = await fetch(`http://localhost:3001/api/community/games/scoreboard?${params}`);
+            return await res.json();
         } catch (err) {
             // Failed to fetch from localhost, fallback to default URL
         }
     }
     
-    return axios.get(obj.url, {
-        params: {
-            game: obj.game,
-        }
-    }).then((res) => res.data);
+    const params = new URLSearchParams({ game: obj.game }).toString();
+    return fetch(`${obj.url}?${params}`).then((res) => res.json());
 };
 
 const options = {

@@ -1,15 +1,11 @@
-import axios from "axios";
 import useSWR from "swr";
 
-const fetcher = (params) =>
-    axios.get(params.url, {
-        // headers: {
-        //     Authorization: `Bearer ${params.token}`
-        // },
-        params: {
-            token: params.token
-        }
-    }).then((res) => res.data);
+const fetcher = (params) => {
+    const searchParams = new URLSearchParams({
+        token: params.token
+    }).toString();
+    return fetch(`${params.url}?${searchParams}`).then((res) => res.json());
+};
 
 const useUserDetails = (params) => {
 
