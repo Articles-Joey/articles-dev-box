@@ -64,22 +64,62 @@ export default function CreditsModal({
                 {developers ?
                     <div></div>
                     :
-                    <div>Developed by: ArticlesJoey </div>
+                    <div>
+                        <h6 className="mb-2">
+                            Developer: Articles Joey
+                        </h6>
+
+                        <a
+                            href="https://github.com/articles-joey"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[0] = el}
+                                size=""
+                                className="mb-4"
+                            >
+                                <i className="fab fa-github me-2"></i>
+                                <span>View on Github</span>
+                            </ArticlesButton>
+                        </a>
+                    </div>
+
+
                 }
 
                 {publisher ?
                     <div></div>
                     :
-                    <div>Published by: Articles Media </div>
+                    <div>
+                        <h6 className="mb-2">
+                            Publisher: Articles Media
+                        </h6>
+
+                        <a
+                            href="https://github.com/Articles-Media"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[1] = el}
+                                size=""
+                                className="mb-4"
+                            >
+                                <i className="fad fa-browser me-2"></i>
+                                <span>View Website</span>
+                            </ArticlesButton>
+                        </a>
+                    </div>
                 }
 
-                <div className="mb-3"></div>
+                {/* <div className="mb-3"></div> */}
 
                 {(owner && repo) &&
-                    <div>
+                    <div className="">
                         <div>Attributions:</div>
                         <a
-                            href={`https://github.com/${owner}/${repo}/blob/main/README.md`}
+                            href={`https://github.com/${owner}/${repo}/blob/main/README.md#attributions`}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
