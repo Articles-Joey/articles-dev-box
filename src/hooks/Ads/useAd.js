@@ -22,6 +22,7 @@ const fetcher = async (data) => {
 const minutes = 60;
 const options = {
     dedupingInterval: ((1000 * 60) * minutes),
+    errorRetryInterval: ((1000 * 60) * 5),
     // keepPreviousData: true,
     // fallbackData: []
 }

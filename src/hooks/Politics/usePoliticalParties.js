@@ -4,12 +4,6 @@ import { minutesToMilliseconds } from "date-fns";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const options = {
-    dedupingInterval: minutesToMilliseconds(60),
-    focusThrottleInterval: minutesToMilliseconds(60),
-    fallbackData: []
-}
-
 const usePoliticalParties = (params) => {
 
     const { data, error, isLoading, mutate } = useSWR(
@@ -21,11 +15,15 @@ const usePoliticalParties = (params) => {
         params?.preload ?
             {
                 dedupingInterval: ((1000 * 60) * 10),
+                focusThrottleInterval: minutesToMilliseconds(60),
+                errorRetryInterval: ((1000 * 60) * 5),
                 fallbackData: params?.preload
             }
             :
             {
                 dedupingInterval: ((1000 * 60) * 10),
+                focusThrottleInterval: minutesToMilliseconds(60),
+                errorRetryInterval: ((1000 * 60) * 5),
                 // fallbackData: []
             }
     );

@@ -3,7 +3,7 @@ export default function ControlsTab({
 }) {
 
     return (
-        <div className="">
+        <div className="p-3">
 
             <div>
                 <h5>Control Settings</h5>

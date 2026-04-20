@@ -24,6 +24,7 @@ const useUserDetails = (params) => {
             revalidateOnFocus: false,
             revalidateOnReconnect: false,
             shouldRetryOnError: false,
+            errorRetryInterval: ((1000 * 60) * 1),
         }
     );
 

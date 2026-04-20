@@ -19,6 +19,7 @@ const minutes = 60;
 const options = {
     dedupingInterval: minutesToMilliseconds(minutes),
     focusThrottleInterval: minutesToMilliseconds(minutes),
+    errorRetryInterval: ((1000 * 60) * 5),
     // keepPreviousData: true,
     // fallbackData: []
 }

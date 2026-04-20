@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -48,7 +48,7 @@
   "peerDependencies": {
     "react": ">=19.2.3",
     "react-dom": ">=19.2.3",
-    "swr": "^2.0.0",
+    "swr": "^2.4.1",
     "date-fns": "^4.0.0",
     "react-intersection-observer": "^10.0.0",
     "react-bootstrap": "^2.0.0"

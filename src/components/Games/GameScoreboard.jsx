@@ -16,7 +16,8 @@ import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
 import "#root/src/styles/components/GameScoreboard.scss";
 
 function GameScoreboard({ 
-    game, 
+    game,
+    metric,
     reloadScoreboard, 
     setReloadScoreboard,
     prepend,
@@ -143,7 +144,7 @@ function GameScoreboard({
                         <div className="small p-2">No scores yet</div>
                     }
 
-                    {scoreboard?.map((doc, i) =>
+                    {scoreboard?.length > 0 && scoreboard?.map((doc, i) =>
                         <div key={doc._id} className="result d-flex flex-column justify-content-between border-bottom p-2">
 
                             <div className='d-flex justify-content-between lh-sm'>

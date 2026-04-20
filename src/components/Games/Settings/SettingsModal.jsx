@@ -13,6 +13,7 @@ export default function SettingsModal({
     setShow,
     store,
     useAudioStore,
+    useTouchControlsStore,
     config
 }) {
 
@@ -91,6 +92,7 @@ export default function SettingsModal({
                     {tab == 'Controls' &&
                         <ControlsTab
                             useStore={store}
+                            useTouchControlsStore={useTouchControlsStore}
                             config={config}
                         />
                     }

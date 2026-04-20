@@ -17,6 +17,7 @@ const fetcher = async (obj) => {
 
 const options = {
     dedupingInterval: ((1000 * 60) * 30),
+    errorRetryInterval: ((1000 * 60) * 5),
     refreshInterval: 0,
     revalidateOnFocus: false,
     revalidateIfStale: false,
