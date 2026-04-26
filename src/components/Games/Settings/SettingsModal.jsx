@@ -19,7 +19,12 @@ export default function SettingsModal({
 
     const [showModal, setShowModal] = useState(false);
 
-    const [tab, setTab] = useState('Graphics');
+    const [tab, setTab] = useState(localStorage.getItem('articles_settings_tab') || 'Graphics');
+
+    const handleTabChange = (newTab) => {
+        setTab(newTab);
+        localStorage.setItem('articles_settings_tab', newTab);
+    };
 
     const darkMode = store((state) => state.darkMode);
     const setDarkMode = store((state) => state.setDarkMode);
@@ -78,7 +83,7 @@ export default function SettingsModal({
                         <ArticlesButton
                             key={item}
                             active={tab == item}
-                            onClick={() => { setTab(item) }}
+                            onClick={() => { handleTabChange(item) }}
                         >
                             {item}
                         </ArticlesButton>
@@ -121,6 +126,7 @@ export default function SettingsModal({
                     {tab == 'Other' &&
                         <OtherTab
                             useStore={store}
+                            config={config}
                         />
                     }
 

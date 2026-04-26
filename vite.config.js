@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import SignInButton from './src/components/User/SignInButton';
 
 export default defineConfig({
   plugins: [react()],
@@ -17,6 +18,7 @@ export default defineConfig({
         ArticlesAd: resolve(__dirname, 'src/components/Ads/ArticlesAd.jsx'),
         GameScoreboard: resolve(__dirname, 'src/components/Games/GameScoreboard.jsx'),
         ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
+        SignInButton: resolve(__dirname, 'src/components/User/SignInButton.jsx'),
         GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),

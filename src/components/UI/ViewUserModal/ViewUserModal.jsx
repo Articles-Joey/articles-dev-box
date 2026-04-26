@@ -479,6 +479,7 @@ function ViewUserModal(props) {
                 return (
                     <span
                         type='button'
+                        className={props.className}
                         onClick={() => {
                             setModalShow(true)
                         }}

@@ -37,6 +37,8 @@ npm run dev
 
 - ReturnToLauncherButton
     - For bringing users back to their state in the games showcase/launcher
+- SignInButton
+    - For bringing users to the accounts service to login at and redirecting back
 - GameScoreboard
     - Scoreboard for registered games that links with a user's Articles Media account.
 - Ad
