@@ -14,6 +14,7 @@ export default function SettingsModal({
     store,
     useAudioStore,
     useTouchControlsStore,
+    useSocketStore,
     config
 }) {
 
@@ -92,7 +93,7 @@ export default function SettingsModal({
 
                 <hr className="my-0" />
 
-                <div className="p-2">
+                <div className="p-3">
 
                     {tab == 'Controls' &&
                         <ControlsTab
@@ -118,7 +119,7 @@ export default function SettingsModal({
 
                     {tab == 'Multiplayer' &&
                         <MultiplayerTab
-                            useStore={store}
+                            useStore={useSocketStore}
                             config={config}
                         />
                     }

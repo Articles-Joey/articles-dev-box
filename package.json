@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -28,6 +28,8 @@
     "./SettingsModal": "./dist/SettingsModal.js",
     "./CreditsModal": "./dist/CreditsModal.js",
     "./DarkModeHandler": "./dist/DarkModeHandler.js",
+    "./ToontownModeHandler": "./dist/ToontownModeHandler.js",
+    "./SocketServerUrlHandler": "./dist/SocketServerUrlHandler.js",
     "./FriendsList": "./dist/FriendsList.js",
     "./useUserDetails": "./dist/useUserDetails.js",
     "./useUserToken": "./dist/useUserToken.js",

@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import SignInButton from './src/components/User/SignInButton';
 
 export default defineConfig({
   plugins: [react()],
@@ -25,6 +24,8 @@ export default defineConfig({
         SettingsModal: resolve(__dirname, 'src/components/Games/Settings/SettingsModal.jsx'),
         CreditsModal: resolve(__dirname, 'src/components/Games/Credits/CreditsModal.jsx'),
         DarkModeHandler: resolve(__dirname, 'src/components/UI/DarkModeHandler.jsx'),
+        ToontownModeHandler: resolve(__dirname, 'src/components/Games/ToontownModeHandler.jsx'),
+        SocketServerUrlHandler: resolve(__dirname, 'src/components/Games/SocketServerUrlHandler.jsx'),
 
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
 

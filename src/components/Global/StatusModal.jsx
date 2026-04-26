@@ -49,7 +49,7 @@ export default function StatusModal({
             <Modal.Body>
 
                 <div className="d-flex align-items-center mb-2">
-                    <h5 className="mb-0 me-2">Main Site Status: {getStatusCode(mainSiteStatus, mainSiteStatusError, mainSiteStatusLoading)}</h5>
+                    <h5 className="mb-0 me-2">Main Site Status: <span className={`badge ${mainSiteStatus ? 'bg-success' : 'bg-danger'}`}>{getStatusCode(mainSiteStatus, mainSiteStatusError, mainSiteStatusLoading)}</span></h5>
                     <ArticlesButton variant="link" size="sm" className="p-0" onClick={() => setShowMainDetails(!showMainDetails)}>
                         {showMainDetails ? 'Hide' : 'View'} More
                     </ArticlesButton>
@@ -63,7 +63,7 @@ export default function StatusModal({
                 )}
 
                 <div className="d-flex align-items-center mb-2">
-                    <h5 className="mb-0 me-2">Auth Site Status: {getStatusCode(authSiteStatus, authSiteStatusError, authSiteStatusLoading)}</h5>
+                    <h5 className="mb-0 me-2">Auth Site Status: <span className={`badge ${authSiteStatus ? 'bg-success' : 'bg-danger'}`}>{getStatusCode(authSiteStatus, authSiteStatusError, authSiteStatusLoading)}</span></h5>
                     <ArticlesButton variant="link" size="sm" className="p-0" onClick={() => setShowAuthDetails(!showAuthDetails)}>
                         {showAuthDetails ? 'Hide' : 'View'} More
                     </ArticlesButton>

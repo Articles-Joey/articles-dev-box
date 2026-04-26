@@ -55,6 +55,10 @@ npm run dev
     - All in one component to handle game credits UI across multiple games.
 - DarkModeHandler
     - Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element.
+- ToontownModeHandler
+    - Handles setting zustand state from url params if toontownMode is passed.
+- SocketServerUrlHandler
+    - Handles setting socket server state from url params if socketServerUrl is passed.
 - useUserToken
     - Hook for getting the subdomain auth token.
 - useUserDetails

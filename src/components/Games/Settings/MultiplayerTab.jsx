@@ -3,34 +3,57 @@ import { Form } from "react-bootstrap";
 import ArticlesButton from '#root/src/components/UI/Button';
 
 export default function MultiplayerTab({
-    useStore
+    useStore,
+    config
 }) {
 
-    const socketServerHost = useStore((state) => state.socketServerHost);
-    const setSocketServerHost = useStore((state) => state.setSocketServerHost);
+    const serverUrl = useStore((state) => state.serverUrl);
+    const setServerUrl = useStore((state) => state.setServerUrl);
+    const connected = useStore((state) => state.connected);
+
+    const connectSocket = useStore((state) => state.connectSocket);
+    const disconnectSocket = useStore((state) => state.disconnectSocket);
 
     return (
-        <div className="p-2">
+        <div className="">
 
             {/* <div>
                 Test: {socketServerHost ? 'test' : 'no'}
             </div> */}
 
-            <Form.Label className="mb-0">Socket Server Host</Form.Label>
+            <Form.Label className="mb-0">
+                <div>Status: <span className={`badge ${connected ? 'bg-success' : 'bg-danger'}`}>{connected ? 'Online' : 'Offline'}</span></div>
+                Socket Server Host
+            </Form.Label>
             <Form.Control
                 type="text"
-                value={socketServerHost}
-                onChange={(e) => setSocketServerHost(e.target.value)}
+                value={serverUrl}
+                onChange={(e) => setServerUrl(e.target.value)}
             />
             <Form.Label className="mb-0">Edit this to connect to a different multiplayer host!</Form.Label>
 
             <div className="mt-3">
-                <ArticlesButton
-                    className="mb-1"
-                >
-                    Retry
-                </ArticlesButton>
-                <div>Status: <span className="badge bg-danger">Offline</span></div>
+
+                {connected ?
+                    <ArticlesButton
+                        className=""
+                        onClick={() => {
+                            disconnectSocket()
+                        }}
+                    >
+                        Disconnect
+                    </ArticlesButton>
+                    :
+                    <ArticlesButton
+                        className=""
+                        onClick={() => {
+                            connectSocket()
+                        }}
+                    >
+                        Connect
+                    </ArticlesButton>
+                }
+
             </div>
 
         </div>

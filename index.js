@@ -9,6 +9,8 @@ import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal.j
 import SettingsModal from '#root/src/components/Games/Settings/SettingsModal.jsx';
 import CreditsModal from '#root/src/components/Games/Credits/CreditsModal.jsx';
 import DarkModeHandler from '#root/src/components/UI/DarkModeHandler';
+import ToontownModeHandler from '#root/src/components/Games/ToontownModeHandler.jsx';
+import SocketServerUrlHandler from '#root/src/components/Games/SocketServerUrlHandler.jsx';
 
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 
@@ -16,16 +18,6 @@ import useUserDetails from '#root/src/hooks/User/useUserDetails';
 import useUserToken from '#root/src/hooks/User/useUserToken';
 import useUserFriends from '#root/src/hooks/User/useUserFriends';
 import useFullscreen from '#root/src/hooks/useFullscreen';
-
-// Button and switch not exported from index.js to reduce bundle size?
-// import ArticlesButton from '#root/src/components/UI/Button';
-// import ArticlesSwitch from '#root/src/components/UI/ArticlesSwitch';
-
-// function helloWorld() {
-//   return "Hello, world!";
-// }
-
-
 
 export {
   // helloWorld,
@@ -39,6 +31,8 @@ export {
   ViewUserModal,
   SettingsModal,
   DarkModeHandler,
+  ToontownModeHandler,
+  SocketServerUrlHandler,
   CreditsModal,
   FriendsList,
 
