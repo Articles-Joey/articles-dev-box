@@ -7,6 +7,17 @@ export default function MultiplayerTab({
     config
 }) {
 
+    return (
+        <div className="">
+
+            {useStore && <SocketSettings useStore={useStore} />}
+
+        </div>
+    )
+}
+
+function SocketSettings({ useStore }) {
+
     const serverUrl = useStore((state) => state.serverUrl);
     const setServerUrl = useStore((state) => state.setServerUrl);
     const connected = useStore((state) => state.connected);
@@ -15,11 +26,7 @@ export default function MultiplayerTab({
     const disconnectSocket = useStore((state) => state.disconnectSocket);
 
     return (
-        <div className="">
-
-            {/* <div>
-                Test: {socketServerHost ? 'test' : 'no'}
-            </div> */}
+        <div>
 
             <Form.Label className="mb-0">
                 <div>Status: <span className={`badge ${connected ? 'bg-success' : 'bg-danger'}`}>{connected ? 'Online' : 'Offline'}</span></div>
@@ -58,4 +65,5 @@ export default function MultiplayerTab({
 
         </div>
     )
+
 }

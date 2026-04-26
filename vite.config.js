@@ -18,6 +18,7 @@ export default defineConfig({
         GameScoreboard: resolve(__dirname, 'src/components/Games/GameScoreboard.jsx'),
         ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
         SignInButton: resolve(__dirname, 'src/components/User/SignInButton.jsx'),
+        SessionButton: resolve(__dirname, 'src/components/User/SessionButton.jsx'),
         GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),

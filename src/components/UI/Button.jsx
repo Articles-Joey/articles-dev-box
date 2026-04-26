@@ -20,6 +20,7 @@ const ArticlesButton = forwardRef((props, ref) => {
         onMouseLeave,
         onTouchStart,
         onTouchEnd,
+        title,
         ...rest
     } = props;
 
@@ -32,6 +33,7 @@ const ArticlesButton = forwardRef((props, ref) => {
             }
             disabled={disabled}
             style={style}
+            title={title}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseLeave}

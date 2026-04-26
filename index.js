@@ -1,5 +1,6 @@
 import ReturnToLauncherButton from '#root/src/components/Games/ReturnToLauncherButton.jsx';
 import SignInButton from '#root/src/components/User/SignInButton.jsx';
+import SessionButton from '#root/src/components/User/SessionButton.jsx';
 import ArticlesAd from '#root/src/components/Ads/ArticlesAd.jsx';
 import Ad from '#root/src/components/Ads/Ad.jsx';
 import GameScoreboard from '#root/src/components/Games/GameScoreboard.jsx';
@@ -23,6 +24,7 @@ export {
   // helloWorld,
   ReturnToLauncherButton,
   SignInButton,
+  SessionButton,
   ArticlesAd,
   Ad,
   GameScoreboard,
