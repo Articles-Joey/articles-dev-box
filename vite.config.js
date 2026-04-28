@@ -34,6 +34,9 @@ export default defineConfig({
         useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),
         useUserFriends: resolve(__dirname, 'src/hooks/User/useUserFriends.js'),
         useFullscreen: resolve(__dirname, 'src/hooks/useFullscreen.js'),
+
+        typicalZustandStoreExcludes: resolve(__dirname, 'src/constants/typicalZustandStoreExcludes.js'),
+        typicalZustandStoreStateSlice: resolve(__dirname, 'src/constants/typicalZustandStoreStateSlice.js'),
       },
       formats: ['es'],
       fileName: (format, entryName) => `${entryName}.js`,

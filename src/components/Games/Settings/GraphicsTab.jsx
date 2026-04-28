@@ -4,7 +4,8 @@
 import ArticlesButton from '#root/src/components/UI/Button';
 
 export default function GraphicsTab({
-    useStore
+    useStore,
+    config
 }) {
 
     const darkMode = useStore((state) => state?.darkMode);
@@ -68,6 +69,8 @@ export default function GraphicsTab({
                     Enabled
                 </ArticlesButton>
             </div>
+
+            {config?.tabs?.Graphics?.children}
 
         </>
     )

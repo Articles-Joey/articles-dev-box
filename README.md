@@ -67,6 +67,10 @@ npm run dev
     - Hook for getting the details of the current user if a valid user token is found.
 - useFullscreen
     - Hook for going fullscreen on the body or provided element
+- typicalZustandStoreExcludes
+    - Array of strings that every game published by Articles Media would want to normally exclude from persisting in base game store.
+- typicalZustandStoreStateSlice
+    - Slice of zustand states that every game normally uses
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance  
