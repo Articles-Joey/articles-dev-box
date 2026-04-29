@@ -40,23 +40,27 @@ export default function AudioTab({
                 </ArticlesButton>
             </div>
 
-            {config?.tabs?.Audio?.sliders?.map(slider_obj => {
-                return (
-                    <div key={slider_obj.key}>
-                        <Form.Label className="mb-0">{slider_obj.label}</Form.Label>
-                        <Form.Range
-                            value={audioSettings?.[slider_obj.key]}
-                            onChange={(value) => {
-                                setAudioSettings({
-                                    ...audioSettings,
-                                    [slider_obj.key]: value.target.value
-                                });
-                            }}
-                        />
+            <div className="border mb-3 p-2">
+                {config?.tabs?.Audio?.sliders?.map(slider_obj => {
+                    return (
+                        <div key={slider_obj.key}>
+                            <Form.Label className="mb-0">{slider_obj.label}</Form.Label>
+                            <Form.Range
+                                value={audioSettings?.[slider_obj.key]}
+                                onChange={(value) => {
+                                    setAudioSettings({
+                                        ...audioSettings,
+                                        [slider_obj.key]: value.target.value
+                                    });
+                                }}
+                            />
+    
+                        </div>
+                    )
+                })}
+            </div>
 
-                    </div>
-                )
-            })}
+            {config?.tabs?.Controls?.children}
 
             {/* <Form.Label className="mb-0">Game Volume</Form.Label>
             <Form.Range

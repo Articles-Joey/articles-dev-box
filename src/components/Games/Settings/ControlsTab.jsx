@@ -1,7 +1,8 @@
 import ArticlesButton from '#root/src/components/UI/Button';
 
 export default function ControlsTab({
-    useTouchControlsStore
+    useTouchControlsStore,
+    config
 }) {
 
     // const enabled = useTouchControlsStore((state) => state?.enabled);
@@ -36,6 +37,8 @@ export default function ControlsTab({
                     useTouchControlsStore={useTouchControlsStore}
                 />
             }
+
+            {config?.tabs?.Controls?.children}
 
         </div>
     )

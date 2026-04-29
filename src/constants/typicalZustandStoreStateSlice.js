@@ -110,6 +110,18 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
         }))
     },
 
+    sceneKey: 0,
+    setSceneKey: (newValue) => {
+        set((prev) => ({
+            sceneKey: newValue
+        }))
+    },
+    reloadScene: () => {
+        set((prev) => ({
+            sceneKey: prev.sceneKey + 1
+        }))
+    }
+
 })
 
 export default typicalZustandStoreStateSlice

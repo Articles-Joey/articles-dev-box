@@ -10,7 +10,11 @@ export default function MultiplayerTab({
     return (
         <div className="">
 
-            {useStore && <SocketSettings useStore={useStore} />}
+            {useStore && 
+                <SocketSettings useStore={useStore} />
+            }
+
+            {config?.tabs?.Multiplayer?.children}
 
         </div>
     )
@@ -26,7 +30,7 @@ function SocketSettings({ useStore }) {
     const disconnectSocket = useStore((state) => state.disconnectSocket);
 
     return (
-        <div>
+        <div className="mb-3">
 
             <Form.Label className="mb-0">
                 <div>Status: <span className={`badge ${connected ? 'bg-success' : 'bg-danger'}`}>{connected ? 'Online' : 'Offline'}</span></div>

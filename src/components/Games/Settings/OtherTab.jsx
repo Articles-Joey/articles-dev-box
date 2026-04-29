@@ -6,7 +6,6 @@ import ArticlesButton from '#root/src/components/UI/Button';
 export default function OtherTab({
     useStore,
     config,
-    children
 }) {
 
     const debug = useStore((state) => state?.debug);
@@ -53,12 +52,7 @@ export default function OtherTab({
                 </>
             }
 
-            {children && <div>
-                <div className='mb-3'>Other Settings</div>
-                <div className="mb-3">
-                    {children}
-                </div>
-            </div>}
+            {config?.tabs?.Other?.children}
 
         </>
     )

@@ -27,7 +27,8 @@ export default function CreditsModal({
     repo,
     developers,
     publisher,
-    introText
+    introText,
+    outroText,
 }) {
 
     const [showModal, setShowModal] = useState(false);
@@ -84,8 +85,6 @@ export default function CreditsModal({
                             </ArticlesButton>
                         </a>
                     </div>
-
-
                 }
 
                 {publisher ?
@@ -113,10 +112,8 @@ export default function CreditsModal({
                     </div>
                 }
 
-                {/* <div className="mb-3"></div> */}
-
                 {(owner && repo) &&
-                    <div className="">
+                    <div className="mb-3">
                         <div>Attributions:</div>
                         <a
                             href={`https://github.com/${owner}/${repo}/blob/main/README.md#attributions`}
@@ -130,6 +127,10 @@ export default function CreditsModal({
                             </ArticlesButton>
                         </a>
                     </div>
+                }
+
+                {outroText &&
+                    <div className="mb-3">{outroText}</div>
                 }
 
             </Modal.Body>

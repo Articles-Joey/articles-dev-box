@@ -8,6 +8,8 @@ import MultiplayerTab from "#root/src/components/Games/Settings/MultiplayerTab.j
 import ControlsTab from "#root/src/components/Games/Settings/ControlsTab.jsx";
 import OtherTab from "#root/src/components/Games/Settings/OtherTab";
 
+import "#root/src/styles/components/SettingsModal.scss";
+
 export default function SettingsModal({
     show,
     setShow,
@@ -51,7 +53,7 @@ export default function SettingsModal({
 
     return (
         <Modal
-            className="articles-modal"
+            className="articles-modal articles-settings-modal"
             size='md'
             show={show}
             // To much jumping with little content for now
