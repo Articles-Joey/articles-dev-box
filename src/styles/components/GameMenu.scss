@@ -6,7 +6,7 @@
             display: none;
         }
         .panel-left {
-            display: flex;
+            display: flex!important;
         }
     }
 }
@@ -119,7 +119,7 @@
 }
 
 .panel-left {
-    display: none;
+    display: none!important;
     // display: flex;
     // justify-content: center;
     // align-items: center;
