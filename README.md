@@ -45,6 +45,8 @@ npm run dev
     - Scoreboard for registered games that links with a user's Articles Media account.
 - Ad
     - Articles Ad component that connects with user data.
+- GameMenu
+    - All in one component that handles the sidebar and menu-bar inside a game page.
 - GlobalHead
     - Not used at this time, allows for just <head> related tags to be added to site without other logic.
 - GlobalBody
@@ -72,10 +74,16 @@ npm run dev
 - typicalZustandStoreStateSlice
     - Slice of zustand states that every game normally uses
 
+# Usage Examples
+For newly developed components I sometimes find myself trying to remember what repos used it. Here is a short list of recent components developed and what project is using it. Doing this until AMPM can search by imports or enough projects adopted the component.
+
+- typicalZustandStoreExcludes - Catching Game and School Run
+- SessionButton - Catching Game and School Run
+- GameMenu - School Run
+
 # Roadmap
-⏹️ Remove Bootstrap reliance  
+⏹️ Remove Bootstrap reliance?
 ⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails. Bootstrap SASS related I think.  
 
 # TODO
-- Bundle SCSS on a component level instead of a project level.  
-- Verify I am exporting components the most efficient way.
+- TODO

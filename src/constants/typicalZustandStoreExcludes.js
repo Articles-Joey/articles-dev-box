@@ -7,6 +7,7 @@ const typicalZustandStoreExcludes = [
     'showMenu',
     'lobbyDetails',
     'sceneKey',
+    'showFriendsModal'
 ]
 
 export default typicalZustandStoreExcludes

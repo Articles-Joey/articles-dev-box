@@ -1,0 +1,132 @@
+@use "../global.scss" as *;
+
+@include media-breakpoint-up(lg) {
+    .show-sidebar {
+        .menu-bar {
+            display: none;
+        }
+        .panel-left {
+            display: flex;
+        }
+    }
+}
+
+.menu-bar {
+    // position: fixed;
+    // bottom: 0;
+    // left: 0;
+    // width: 100%;
+    // height: 50px;
+    // z-index: 3;
+
+    // @include media-breakpoint-up(lg) {
+    //     display: none;
+    // }
+
+    // position: fixed;
+    // bottom: 0;
+    // left: 0;
+    // width: 50px;
+    // height: 50px;
+    // z-index: 3;
+    border-radius: 0;
+
+    &.Bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        z-index: 3;
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &.Corner_Button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        z-index: 3;
+
+        .btn {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+
+            i {
+                margin-right: 0;
+                font-size: 1.25rem;
+            }
+
+            // .text {
+            //     position: absolute;
+            //     bottom: 0rem;
+            //     left: 50%;
+            //     transform: translateX(-50%);
+            // }
+        }
+    }
+}
+
+.mobile-menu {
+    position: fixed;
+    // bottom: 0px;
+    left: 0;
+    width: 100%;
+    top: 0px;
+    // height: calc(100vh - 50px);
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.75);
+    transform: translateY(calc(100% + 50px));
+    transition-duration: 200ms;
+    padding: 1rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    &.Bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        z-index: 3;
+    }
+
+    &.show {
+        transform: translateY(0);
+    }
+}
+
+.panel-left,
+.panel-right {
+    width: 300px;
+    height: calc(100vh - 0px);
+    flex-shrink: 0;
+}
+
+.panel-left {
+    display: none;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+}
+
+.panel-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

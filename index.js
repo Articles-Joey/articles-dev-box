@@ -3,6 +3,7 @@ import SignInButton from '#root/src/components/User/SignInButton.jsx';
 import SessionButton from '#root/src/components/User/SessionButton.jsx';
 import ArticlesAd from '#root/src/components/Ads/ArticlesAd.jsx';
 import Ad from '#root/src/components/Ads/Ad.jsx';
+import GameMenu from '#root/src/components/Games/GameMenu/GameMenu.jsx';
 import GameScoreboard from '#root/src/components/Games/GameScoreboard.jsx';
 import GlobalHead from '#root/src/components/Global/GlobalHead.jsx';
 import GlobalBody from '#root/src/components/Global/GlobalBody.jsx';
@@ -30,6 +31,7 @@ export {
   SessionButton,
   ArticlesAd,
   Ad,
+  GameMenu,
   GameScoreboard,
   GlobalHead,
   GlobalBody,

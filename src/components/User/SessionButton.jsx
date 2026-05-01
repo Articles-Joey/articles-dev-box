@@ -4,9 +4,12 @@ import useUserToken from "#root/src/hooks/User/useUserToken";
 import SignInButton from "#root/src/components/User/SignInButton";
 import ViewUserModal from "#root/src/components/UI/ViewUserModal/ViewUserModal";
 import ArticlesButton from "#root/src/components/UI/Button";
+import { useState } from "react";
+import FriendsList from "#root/src/components/Friends/FriendsList";
 
 export default function SessionButton({
-    port
+    port,
+    friendsButton
 }) {
 
     const {
@@ -33,6 +36,8 @@ export default function SessionButton({
 
     const logoutLink = `${baseUrl}/api/signout`
 
+    const [showFriendsModal, setShowFriendsModal] = useState(false);
+
     return (
         <>
             {!userDetails ?
@@ -57,31 +62,52 @@ export default function SessionButton({
                         </ArticlesButton>
                     </ViewUserModal>
 
-                    <ArticlesButton
+                    {showFriendsModal &&
+                        <FriendsList
+                            show={showFriendsModal}
+                            setShow={setShowFriendsModal}
+                            componentType="modal"
+                        />
+                    }
+
+                    {friendsButton &&
+                        <ArticlesButton
                             className={""}
                             small
-                            title="Sign out"
+                            title="My Friends"
                             onClick={() => {
-
-                                fetch(logoutLink, {
-                                    method: 'GET',
-                                    headers: {}
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        console.log("Logout successful:", data);
-                                        // window.location.reload();
-                                        userTokenMutate(null);
-                                        userDetailsMutate(null);
-                                    })
-                                    .catch((error) => {
-                                        console.error("Logout error:", error);
-                                    });
-
+                                setShowFriendsModal(true)
                             }}
                         >
-                            <i className="fad fa-sign-out"></i>
+                            <i className="fad fa-users"></i>
                         </ArticlesButton>
+                    }
+
+                    <ArticlesButton
+                        className={""}
+                        small
+                        title="Sign out"
+                        onClick={() => {
+
+                            fetch(logoutLink, {
+                                method: 'GET',
+                                headers: {}
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log("Logout successful:", data);
+                                    // window.location.reload();
+                                    userTokenMutate(null);
+                                    userDetailsMutate(null);
+                                })
+                                .catch((error) => {
+                                    console.error("Logout error:", error);
+                                });
+
+                        }}
+                    >
+                        <i className="fad fa-sign-out"></i>
+                    </ArticlesButton>
 
                 </div>
             }

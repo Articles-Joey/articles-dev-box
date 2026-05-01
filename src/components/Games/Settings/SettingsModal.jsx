@@ -7,8 +7,11 @@ import AudioTab from "#root/src/components/Games/Settings/AudioTab.jsx";
 import MultiplayerTab from "#root/src/components/Games/Settings/MultiplayerTab.jsx";
 import ControlsTab from "#root/src/components/Games/Settings/ControlsTab.jsx";
 import OtherTab from "#root/src/components/Games/Settings/OtherTab";
+import DebugTab from "./DebugTab";
 
 import "#root/src/styles/components/SettingsModal.scss";
+
+// import packageJson from "../../../../package.json";
 
 export default function SettingsModal({
     show,
@@ -22,34 +25,32 @@ export default function SettingsModal({
 
     const [showModal, setShowModal] = useState(false);
 
-    const [tab, setTab] = useState(localStorage.getItem('articles_settings_tab') || 'Graphics');
+    // if (!store) {
+    //     console.error("GameMenu: useStore is required");
+    //     return null;
+    // }
 
-    const handleTabChange = (newTab) => {
-        setTab(newTab);
-        localStorage.setItem('articles_settings_tab', newTab);
-    };
+    // const toggleDarkMode = () => {
+    //     setDarkMode(!darkMode);
+    // }
+    // const toggleArcadeMode = () => {
+    //     setArcadeMode(!arcadeMode);
+    // }
 
-    const darkMode = store((state) => state.darkMode);
-    const setDarkMode = store((state) => state.setDarkMode);
-    const arcadeMode = store((state) => state.arcadeMode);
-    const setArcadeMode = store((state) => state.setArcadeMode);
+    // function reset() {
+    //     // setDarkMode(false);
+    //     // setArcadeMode(false);
+    // }
 
-    const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-    }
-    const toggleArcadeMode = () => {
-        setArcadeMode(!arcadeMode);
-    }
+    // function handleClose() {
+    //     // reset();
+    //     // setShow(false);
+    // }
 
-    function reset() {
-        // setDarkMode(false);
-        // setArcadeMode(false);
-    }
-
-    function handleClose() {
-        // reset();
-        // setShow(false);
-    }
+    // if (!store) {
+    //     console.error("GameMenu: useStore is required");
+    //     return null;
+    // }
 
     return (
         <Modal
@@ -68,6 +69,45 @@ export default function SettingsModal({
             }}
         >
 
+            {/* Note - If not done like this then I get "Rendered fewer hooks than expected." whenever I try to consume useStore content. Doing it this way prevents that issue for now until I can figure out."  */}
+
+            {store &&
+                <ModalContent
+                    useStore={store}
+                    useAudioStore={useAudioStore}
+                    useTouchControlsStore={useTouchControlsStore}
+                    useSocketStore={useSocketStore}
+                    config={config}
+                />
+            }
+
+        </Modal>
+    );
+}
+
+function ModalContent({
+    useStore,
+    useAudioStore,
+    useTouchControlsStore,
+    useSocketStore,
+    config
+}) {
+
+    const [tab, setTab] = useState(localStorage.getItem('articles_settings_tab') || 'Graphics');
+
+    const handleTabChange = (newTab) => {
+        setTab(newTab);
+        localStorage.setItem('articles_settings_tab', newTab);
+    };
+
+    // const darkMode = store((state) => state.darkMode);
+    // const setDarkMode = store((state) => state.setDarkMode);
+    // const arcadeMode = store((state) => state.arcadeMode);
+    // const setArcadeMode = store((state) => state.setArcadeMode);
+    const debug = useStore((state) => state.debug);
+
+    return (
+        <>
             <Modal.Header closeButton>
                 <Modal.Title>Game Settings</Modal.Title>
             </Modal.Header>
@@ -82,6 +122,7 @@ export default function SettingsModal({
                         'Multiplayer',
                         // 'Chat',
                         'Other',
+                        ...((debug) ? ['Debug'] : [])
                     ].map(item =>
                         <ArticlesButton
                             key={item}
@@ -99,7 +140,7 @@ export default function SettingsModal({
 
                     {tab == 'Controls' &&
                         <ControlsTab
-                            useStore={store}
+                            useStore={useStore}
                             useTouchControlsStore={useTouchControlsStore}
                             config={config}
                         />
@@ -107,7 +148,7 @@ export default function SettingsModal({
 
                     {tab == 'Graphics' &&
                         <GraphicsTab
-                            useStore={store}
+                            useStore={useStore}
                             config={config}
                         />
                     }
@@ -128,79 +169,23 @@ export default function SettingsModal({
 
                     {tab == 'Other' &&
                         <OtherTab
-                            useStore={store}
+                            useStore={useStore}
                             config={config}
                         />
                     }
 
-                    {/* {tab == 'Other' &&
-                        <div className="mx-4 pt-3">
-
-                            <div className="mb-3">
-                                <div className="d-flex align-items-center">
-                                    <Form.Check
-                                        type="switch"
-                                        id="dark-mode-switch"
-                                        label="Dark Mode"
-                                        // value={enabled}
-                                        checked={darkMode}
-                                        onChange={() => {
-                                            toggleDarkMode();
-                                        }}
-                                    />
-                                </div>
-                                <div className="small mt-2">
-                                    {`Dark Mode changes the game's color scheme to be easier on the eyes in low light environments.`}
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <div className="mb-3">
-                                <div className="d-flex align-items-center">
-                                    <Form.Check
-                                        type="switch"
-                                        id="arcade-mode-switch"
-                                        label="Arcade Mode"
-                                        // value={enabled}
-                                        checked={arcadeMode}
-                                        onChange={() => {
-                                            setArcadeMode(!arcadeMode);
-                                        }}
-                                    />
-                                </div>
-                                <div className="small mt-2">Arcade Mode automates the end of game and starting new ones for hands off arcade fun.</div>
-                            </div>
-
-                            <hr />
-
-                            <div className="mb-3">
-                                <div className="d-flex align-items-center">
-                                    <Form.Check
-                                        type="switch"
-                                        id="toontown-mode-switch"
-                                        label="Toontown Mode"
-                                        // value={enabled}
-                                        checked={toontownMode}
-                                        onChange={() => {
-                                            setToontownMode(!toontownMode);
-                                        }}
-                                    />
-                                </div>
-                                <div className="small mt-2">Toontown Mode reskins the game to look like the classic Toontown Online game.</div>
-                            </div>
-
-                        </div>
-                    } */}
+                    {tab == 'Debug' &&
+                        <DebugTab
+                            useStore={useStore}
+                            config={config}
+                        />
+                    }
 
                 </div>
 
             </Modal.Body>
 
             <Modal.Footer className="justify-content-between">
-
-                {/* <div></div> */}
-
 
                 <div>
 
@@ -225,13 +210,8 @@ export default function SettingsModal({
 
                 </div>
 
-
-                {/* <ArticlesButton variant="success" onClick={() => setValue(false)}>
-                    Save
-                </ArticlesButton> */}
-
             </Modal.Footer>
+        </>
+    )
 
-        </Modal>
-    );
 }

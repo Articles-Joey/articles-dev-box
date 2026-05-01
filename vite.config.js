@@ -14,6 +14,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'index.js'),
         Ad: resolve(__dirname, 'src/components/Ads/Ad.jsx'),
+        GameMenu: resolve(__dirname, 'src/components/Games/GameMenu/GameMenu.jsx'),
         ArticlesAd: resolve(__dirname, 'src/components/Ads/ArticlesAd.jsx'),
         GameScoreboard: resolve(__dirname, 'src/components/Games/GameScoreboard.jsx'),
         ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
@@ -41,6 +42,7 @@ export default defineConfig({
       formats: ['es'],
       fileName: (format, entryName) => `${entryName}.js`,
     },
+    minify: false,
     rollupOptions: {
       external: (id) => /^(react|react-dom|react-bootstrap|swr)(\/|$)/.test(id),
       output: {
