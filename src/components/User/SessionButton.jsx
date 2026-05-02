@@ -1,3 +1,4 @@
+"use client";
 import useUserDetails from "#root/src/hooks/User/useUserDetails";
 import useUserToken from "#root/src/hooks/User/useUserToken";
 
@@ -6,6 +7,7 @@ import ViewUserModal from "#root/src/components/UI/ViewUserModal/ViewUserModal";
 import ArticlesButton from "#root/src/components/UI/Button";
 import { useState } from "react";
 import FriendsList from "#root/src/components/Friends/FriendsList";
+import SignOutModal from "#root/src/components/User/SignOutModal";
 
 export default function SessionButton({
     port,
@@ -30,13 +32,9 @@ export default function SessionButton({
         token: userToken
     });
 
-    // const baseUrl = process.env.NODE_ENV === 'production' ? "https://accounts.articles.media" : 'http://localhost:3012';
-
-    const baseUrl = '';
-
-    const logoutLink = `${baseUrl}/api/signout`
-
     const [showFriendsModal, setShowFriendsModal] = useState(false);
+
+    const [confirmSignOut, setConfirmSignOut] = useState(false);
 
     return (
         <>
@@ -62,13 +60,28 @@ export default function SessionButton({
                         </ArticlesButton>
                     </ViewUserModal>
 
+                    {confirmSignOut &&
+                        <SignOutModal
+                            show={confirmSignOut}
+                            setShow={setConfirmSignOut}
+                            action={() => {
+                                const baseUrl = '';
+
+                                const logoutLink = `${baseUrl}/api/signout?redirect=${encodeURIComponent(window.location.href)}`;
+
+                                // console.log("Start of logging out...")
+                                window.location.assign(logoutLink);
+                            }}
+                        />
+                    }
+
                     {showFriendsModal &&
                         <FriendsList
                             show={showFriendsModal}
                             setShow={setShowFriendsModal}
                             componentType="modal"
-                            // user_id={userDetails?.id}
-                            // user_token={userToken}
+                        // user_id={userDetails?.id}
+                        // user_token={userToken}
                         />
                     }
 
@@ -90,22 +103,7 @@ export default function SessionButton({
                         small
                         title="Sign out"
                         onClick={() => {
-
-                            fetch(logoutLink, {
-                                method: 'GET',
-                                headers: {}
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log("Logout successful:", data);
-                                    // window.location.reload();
-                                    userTokenMutate(null);
-                                    userDetailsMutate(null);
-                                })
-                                .catch((error) => {
-                                    console.error("Logout error:", error);
-                                });
-
+                            setConfirmSignOut(true)
                         }}
                     >
                         <i className="fad fa-sign-out"></i>
