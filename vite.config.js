@@ -38,6 +38,8 @@ export default defineConfig({
 
         typicalZustandStoreExcludes: resolve(__dirname, 'src/constants/typicalZustandStoreExcludes.js'),
         typicalZustandStoreStateSlice: resolve(__dirname, 'src/constants/typicalZustandStoreStateSlice.js'),
+
+        getSignOutRedirectUrl: resolve(__dirname, 'src/util/getSignOutRedirectUrl.js'),
       },
       formats: ['es'],
       fileName: (format, entryName) => `${entryName}.js`,

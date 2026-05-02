@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -39,6 +39,7 @@
     "./useFullscreen": "./dist/useFullscreen.js",
     "./typicalZustandStoreExcludes": "./dist/typicalZustandStoreExcludes.js",
     "./typicalZustandStoreStateSlice": "./dist/typicalZustandStoreStateSlice.js",
+    "./getSignOutRedirectUrl": "./dist/getSignOutRedirectUrl.js",
     "./dist/style.css": "./dist/articles-dev-box.css",
     "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
   },

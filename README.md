@@ -73,6 +73,8 @@ npm run dev
     - Array of strings that every game published by Articles Media would want to normally exclude from persisting in base game store.
 - typicalZustandStoreStateSlice
     - Slice of zustand states that every game normally uses
+- getSignOutRedirectUrl
+    - Handles signout redirect api logic
 
 # Usage Examples
 For newly developed components I sometimes find myself trying to remember what repos used it. Here is a short list of recent components developed and what project is using it. Doing this until AMPM can search by imports or enough projects adopted the component.
@@ -80,6 +82,7 @@ For newly developed components I sometimes find myself trying to remember what r
 - typicalZustandStoreExcludes - Catching Game and School Run
 - SessionButton - Catching Game and School Run
 - GameMenu - Catching Game and School Run use Static Panel for sidebarStyle and Corner Button for menuBarStyle. Ice Slide uses Floating Panel for sidebarStyle and Bar for menuBarStyle.
+- getSignOutRedirectUrl - Catching Game
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance?  

@@ -24,6 +24,8 @@ import useFullscreen from '#root/src/hooks/useFullscreen';
 import typicalZustandStoreExcludes from '#root/src/constants/typicalZustandStoreExcludes';
 import typicalZustandStoreStateSlice from '#root/src/constants/typicalZustandStoreStateSlice';
 
+import getSignOutRedirectUrl from '#root/src/util/getSignOutRedirectUrl';
+
 export {
   // helloWorld,
   ReturnToLauncherButton,
@@ -51,4 +53,6 @@ export {
 
   typicalZustandStoreExcludes,
   typicalZustandStoreStateSlice,
+
+  getSignOutRedirectUrl,
 };
