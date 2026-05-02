@@ -6,14 +6,10 @@ export default function MobileMenu({
     LeftPanelContent,
 
     menuBarConfig,
-    // menuBarStyle,
-    // menuBarButtonPosition,
 }) {
 
     const showMenu = useStore(state => state.showMenu);
     const setShowMenu = useStore(state => state.setShowMenu);
-
-    // const playerLocation = useGameStore(state => state.playerLocation);
 
     const MenuButton = () => (
         <ArticlesButton
@@ -35,7 +31,7 @@ export default function MobileMenu({
                 // className="menu-bar card card-articles p-1 justify-content-center"
                 className={
                     classNames(
-                        "menu-bar",
+                        `menu-bar ${menuBarConfig.menuBarClassName || ''}`,
                         {
                             'card card-articles p-1 justify-content-center': menuBarConfig.style == "Bar",
                             [menuBarConfig.style.replaceAll(" ", "_")]: menuBarConfig.style,
@@ -44,6 +40,7 @@ export default function MobileMenu({
                     )
                 }
                 style={{
+                    ...menuBarConfig.menuBarCssStyle,
                     ...(menuBarConfig.style == "Bar" && {
                         borderRadius: "0px",
                     }),

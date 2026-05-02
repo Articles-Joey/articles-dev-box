@@ -10,11 +10,11 @@ export default function DebugTab({
     config,
 }) {
 
-    const debug = useStore((state) => state?.debug);
-    const setDebug = useStore((state) => state?.setDebug);
+    // const debug = useStore((state) => state?.debug);
+    // const setDebug = useStore((state) => state?.setDebug);
 
-    const toontownMode = useStore((state) => state?.toontownMode);
-    const setToontownMode = useStore((state) => state?.setToontownMode);
+    // const toontownMode = useStore((state) => state?.toontownMode);
+    // const setToontownMode = useStore((state) => state?.setToontownMode);
 
     return (
         <>
@@ -23,23 +23,24 @@ export default function DebugTab({
                 dev-box version: {packageJson.version}
             </div>
 
-            <div>Future Thing</div>
+            {/* <div>Future Thing</div>
             <div className="mb-3">
                 {[false, true].map((level, i) => (
                     <ArticlesButton
                         key={i}
-                        // active={debug === level}
-                        onClick={() => {
-                            // setDebug(level);
-                        }}
+                        onClick={() => {}}
                     >
-                        {/* {level ? "On" : "Off"} */}
                         Placeholder
                     </ArticlesButton>
                 ))}
-            </div>
+            </div> */}
 
-            {config?.tabs?.Debug?.children}
+            {config?.tabs?.Debug?.children &&
+                <>
+                    <hr />
+                    {config?.tabs?.Debug?.children}
+                </>
+            }
 
         </>
     )
