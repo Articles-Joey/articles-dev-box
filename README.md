@@ -79,7 +79,7 @@ For newly developed components I sometimes find myself trying to remember what r
 
 - typicalZustandStoreExcludes - Catching Game and School Run
 - SessionButton - Catching Game and School Run
-- GameMenu - School Run
+- GameMenu - Catching Game and School Run use Static Panel for sidebarStyle and Corner Button for menuBarStyle. Ice Slide uses Floating Panel for sidebarStyle and Bar for menuBarStyle.
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance?  

@@ -4,7 +4,10 @@ import ArticlesButton from "#root/src/components/UI/Button";
 export default function MobileMenu({
     useStore,
     LeftPanelContent,
-    menuBarStyle,
+
+    menuBarConfig,
+    // menuBarStyle,
+    // menuBarButtonPosition,
 }) {
 
     const showMenu = useStore(state => state.showMenu);
@@ -12,38 +15,67 @@ export default function MobileMenu({
 
     // const playerLocation = useGameStore(state => state.playerLocation);
 
+    const MenuButton = () => (
+        <ArticlesButton
+            small
+            active={showMenu}
+            onClick={() => {
+                setShowMenu(!showMenu)
+            }}
+            className={"d-flex"}
+        >
+            <i className="fad fa-bars"></i>
+            <span className="text">Menu</span>
+        </ArticlesButton>
+    )
+
     return (
         <>
-            <div 
+            <div
                 // className="menu-bar card card-articles p-1 justify-content-center"
                 className={
                     classNames(
                         "menu-bar",
                         {
-                            'card card-articles p-1 justify-content-center': menuBarStyle == "Bar",
-                            [menuBarStyle.replaceAll(" ", "_")]: menuBarStyle
+                            'card card-articles p-1 justify-content-center': menuBarConfig.style == "Bar",
+                            [menuBarConfig.style.replaceAll(" ", "_")]: menuBarConfig.style,
+                            [menuBarConfig.menuBarButtonPosition]: menuBarConfig.menuBarButtonPosition,
                         }
                     )
                 }
+                style={{
+                    ...(menuBarConfig.style == "Bar" && {
+                        borderRadius: "0px",
+                    }),
+                    // ...(menuBarConfig.style == "Corner Button" && {
+                    //     bottom: "0px"
+                    // })
+                }}
             >
 
                 <div className='flex-header align-items-center'>
 
-                    <ArticlesButton
-                        small
-                        active={showMenu}
-                        onClick={() => {
-                            setShowMenu(!showMenu)
-                        }}
-                        className={"d-flex"}
-                    >
-                        <i className="fad fa-bars"></i>
-                        <span className="text">Menu</span>
-                    </ArticlesButton>
+                    <div className="Left d-flex align-items-center">
+                        {(menuBarConfig.menuBarButtonPosition == "Left" || !menuBarConfig.menuBarButtonPosition) &&
+                            <MenuButton />
+                        }
+                        {menuBarConfig.leftSlotChildren && menuBarConfig.leftSlotChildren}
+                    </div>
 
-                    {/* <div>
-                        Y: {(playerLocation?.y || 0)}
-                    </div> */}
+                    {/* Center */}
+                    <div className="Center d-flex align-items-center">
+                        {(menuBarConfig.menuBarButtonPosition == "Center") &&
+                            <MenuButton />
+                        }
+                        {menuBarConfig.centerSlotChildren && menuBarConfig.centerSlotChildren}
+                    </div>
+
+                    <div className="Right d-flex align-items-center">
+                        {(menuBarConfig.menuBarButtonPosition == "Right") &&
+                            <MenuButton />
+                        }
+                        {menuBarConfig.rightSlotChildren && menuBarConfig.rightSlotChildren}
+                    </div>
 
                 </div>
 
@@ -53,17 +85,19 @@ export default function MobileMenu({
                 className={`mobile-menu ${showMenu && 'show'}`}
                 onClick={() => setShowMenu(false)}
                 style={{
-                    ...(menuBarStyle == "Bar" && {
+                    ...(menuBarConfig.style == "Bar" && {
                         bottom: "50px"
                     }),
-                    ...(menuBarStyle == "Corner Button" && {
+                    ...(menuBarConfig.style == "Corner Button" && {
                         bottom: "0px"
                     })
                 }}
             >
                 <div
                     style={{
-                        maxWidth: '300px'
+                        maxWidth: '300px',
+                        maxHeight: 'calc(100vh - 100px)',
+                        overflowY: 'auto',
                     }}
                     className='mobile-menu-container'
                     onClick={(e) => e.stopPropagation()}

@@ -21,8 +21,13 @@ export default function GameMenu(props) {
     const {
         useStore,
         LeftPanelContent,
-        menuBarStyle,
+        
+        sidebarStyleConfig,
         sidebarStyle,
+
+        menuBarConfig,
+        menuBarStyle,
+        menuBarButtonPosition,
     } = props;
 
     const sidebar = useStore(state => state.sidebar);
@@ -49,7 +54,13 @@ export default function GameMenu(props) {
             <MobileMenu 
                 useStore={useStore}
                 LeftPanelContent={LeftPanelContent}
-                menuBarStyle={menuBarStyle}
+                menuBarConfig={{
+                    ...menuBarConfig,
+                    style: menuBarConfig.style || menuBarStyle,
+                    menuBarButtonPosition: menuBarConfig.menuBarButtonPosition || menuBarButtonPosition,
+                }}
+                // menuBarStyle={menuBarStyle}
+                // menuBarButtonPosition={menuBarButtonPosition}
             />
 
             <div 
