@@ -67,6 +67,8 @@ export default function SessionButton({
                             show={showFriendsModal}
                             setShow={setShowFriendsModal}
                             componentType="modal"
+                            // user_id={userDetails?.id}
+                            // user_token={userToken}
                         />
                     }
 

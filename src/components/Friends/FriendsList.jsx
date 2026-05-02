@@ -2,6 +2,8 @@
 import useUserFriends from "#root/src/hooks/User/useUserFriends";
 import { Modal } from "react-bootstrap";
 import ArticlesButton from "../UI/Button";
+import useUserToken from "#root/src/hooks/User/useUserToken.js";
+import useUserDetails from "#root/src/hooks/User/useUserDetails.js";
 
 export default function FriendsList({
     show,
@@ -9,13 +11,37 @@ export default function FriendsList({
     componentType,
     className,
     style = {},
-    user_id,
-    user_token,
+    // user_id,
+    // user_token,
     id = null,
     allowInvite = false,
     inviteFunction = null,
-    modalBackdropClassName = ''
+    modalBackdropClassName = '',
+    passedPort
 }) {
+
+    const port = window.location.port || passedPort;
+    // const port = 3030;
+
+    console.log("Logged a port of ", port, " passedPort: ", passedPort)
+
+    const {
+        data: userToken,
+        error: userTokenError,
+        isLoading: userTokenLoading,
+        mutate: userTokenMutate
+    } = useUserToken(
+        port
+    );
+
+    const {
+        data: userDetails,
+        error: userDetailsError,
+        isLoading: userDetailsLoading,
+        mutate: userDetailsMutate
+    } = useUserDetails({
+        token: userToken
+    });
 
     // const { style } = props;
 
@@ -26,8 +52,8 @@ export default function FriendsList({
         // isValidating: friendsValidating,
         mutate: mutateFriends,
     } = useUserFriends({
-        user_id: user_id,
-        user_token: user_token,
+        user_id: userDetails?.user_id,
+        user_token: userToken,
     });
 
     if (!componentType || componentType == 'list') {

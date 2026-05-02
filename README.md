@@ -82,8 +82,8 @@ For newly developed components I sometimes find myself trying to remember what r
 - GameMenu - School Run
 
 # Roadmap
-⏹️ Remove Bootstrap reliance?
+⏹️ Remove Bootstrap reliance?  
 ⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails. Bootstrap SASS related I think.  
 
 # TODO
-- TODO
+- Nothing major right now, search "TODO" in repo for minor stuff.
