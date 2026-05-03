@@ -116,7 +116,7 @@ export default function CreditsModal({
                     <div className="mb-3">
                         <div>Attributions:</div>
                         <a
-                            href={`https://github.com/${owner}/${repo}/blob/main/README.md#attributions`}
+                            href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}/blob/main/README.md#attributions`}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

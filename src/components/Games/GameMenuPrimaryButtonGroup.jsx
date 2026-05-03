@@ -4,7 +4,9 @@ import useFullscreen from '#root/src/hooks/useFullscreen';
 
 export default function PrimaryButtonGroup({
     useStore,
-    type
+    type,
+    owner,
+    repo,
 }) {
 
     if (!useStore) {
@@ -63,7 +65,7 @@ export default function PrimaryButtonGroup({
                     </ArticlesButton>
 
                     <a
-                        href={'https://github.com/Articles-Joey/catching-game'}
+                        href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo ||process.env.NEXT_PUBLIC_REPO}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='w-50'
