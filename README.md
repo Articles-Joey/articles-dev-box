@@ -47,6 +47,10 @@ npm run dev
     - Articles Ad component that connects with user data.
 - GameMenu
     - All in one component that handles the sidebar and menu-bar inside a game page.
+- GameMenuPrimaryButtonGroup
+    - The common button groups for landing page and menu content across our games
+- NicknameInput
+    - Handles nickname UI on landing page
 - GlobalHead
     - Not used at this time, allows for just <head> related tags to be added to site without other logic.
 - GlobalBody
@@ -83,6 +87,8 @@ For newly developed components I sometimes find myself trying to remember what r
 - SessionButton - Catching Game and School Run
 - GameMenu - Catching Game and School Run use Static Panel for sidebarStyle and Corner Button for menuBarStyle. Ice Slide uses Floating Panel for sidebarStyle and Bar for menuBarStyle.
 - getSignOutRedirectUrl - Catching Game
+- GameMenuPrimaryButtonGroup - Catching Game and Move Match
+- NicknameInput - Catching Game
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance?  

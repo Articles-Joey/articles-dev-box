@@ -15,16 +15,21 @@ export default defineConfig({
         index: resolve(__dirname, 'index.js'),
         Ad: resolve(__dirname, 'src/components/Ads/Ad.jsx'),
         GameMenu: resolve(__dirname, 'src/components/Games/GameMenu/GameMenu.jsx'),
+        GameMenuPrimaryButtonGroup: resolve(__dirname, 'src/components/Games/GameMenuPrimaryButtonGroup.jsx'),
+        NicknameInput: resolve(__dirname, 'src/components/Games/NicknameInput.jsx'),
         ArticlesAd: resolve(__dirname, 'src/components/Ads/ArticlesAd.jsx'),
         GameScoreboard: resolve(__dirname, 'src/components/Games/GameScoreboard.jsx'),
         ReturnToLauncherButton: resolve(__dirname, 'src/components/Games/ReturnToLauncherButton.jsx'),
         SignInButton: resolve(__dirname, 'src/components/User/SignInButton.jsx'),
         SessionButton: resolve(__dirname, 'src/components/User/SessionButton.jsx'),
+
         GlobalHead: resolve(__dirname, 'src/components/Global/GlobalHead.jsx'),
         GlobalBody: resolve(__dirname, 'src/components/Global/GlobalBody.jsx'),
+
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),
         SettingsModal: resolve(__dirname, 'src/components/Games/Settings/SettingsModal.jsx'),
         CreditsModal: resolve(__dirname, 'src/components/Games/Credits/CreditsModal.jsx'),
+
         DarkModeHandler: resolve(__dirname, 'src/components/UI/DarkModeHandler.jsx'),
         ToontownModeHandler: resolve(__dirname, 'src/components/Games/ToontownModeHandler.jsx'),
         SocketServerUrlHandler: resolve(__dirname, 'src/components/Games/SocketServerUrlHandler.jsx'),

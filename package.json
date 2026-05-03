@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -19,6 +19,8 @@
     ".": "./dist/index.js",
     "./Ad": "./dist/Ad.js",
     "./GameMenu": "./dist/GameMenu.js",
+    "./GameMenuPrimaryButtonGroup": "./dist/GameMenuPrimaryButtonGroup.js",
+    "./NicknameInput": "./dist/NicknameInput.js",
     "./ArticlesAd": "./dist/ArticlesAd.js",
     "./GameScoreboard": "./dist/GameScoreboard.js",
     "./ReturnToLauncherButton": "./dist/ReturnToLauncherButton.js",

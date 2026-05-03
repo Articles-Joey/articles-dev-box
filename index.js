@@ -4,6 +4,8 @@ import SessionButton from '#root/src/components/User/SessionButton.jsx';
 import ArticlesAd from '#root/src/components/Ads/ArticlesAd.jsx';
 import Ad from '#root/src/components/Ads/Ad.jsx';
 import GameMenu from '#root/src/components/Games/GameMenu/GameMenu.jsx';
+import GameMenuPrimaryButtonGroup from '#root/src/components/Games/GameMenuPrimaryButtonGroup.jsx';
+import NicknameInput from '#root/src/components/Games/NicknameInput.jsx';
 import GameScoreboard from '#root/src/components/Games/GameScoreboard.jsx';
 import GlobalHead from '#root/src/components/Global/GlobalHead.jsx';
 import GlobalBody from '#root/src/components/Global/GlobalBody.jsx';
@@ -34,6 +36,8 @@ export {
   ArticlesAd,
   Ad,
   GameMenu,
+  GameMenuPrimaryButtonGroup,
+  NicknameInput,
   GameScoreboard,
   GlobalHead,
   GlobalBody,
