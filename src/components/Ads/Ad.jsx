@@ -513,15 +513,22 @@ function Ad(props) {
                                     <i className="fas fa-mug-hot"></i>
                                 </div>
 
-                                <img
-                                    className="photo" src={
-                                        previewData?.background?.key ?
-                                            `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
-                                            :
-                                            `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
-                                    }
-                                    alt=""
-                                />
+                                {(
+                                    ad?.background?.key
+                                    ||
+                                    previewData?.background?.key
+                                ) &&
+                                    <img
+                                        className="photo"
+                                        src={
+                                            previewData?.background?.key ?
+                                                `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
+                                                :
+                                                `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
+                                        }
+                                        alt=""
+                                    />
+                                }
 
                             </div>
 
@@ -741,9 +748,9 @@ function Ad(props) {
                                     <div className='text'>
                                         <div
                                             className='count'
-                                            // onClick={() => {
-                                            //     setAdsAvoidedLoading(!adsAvoidedLoading)
-                                            // }}
+                                        // onClick={() => {
+                                        //     setAdsAvoidedLoading(!adsAvoidedLoading)
+                                        // }}
                                         >
                                             {adsAvoidedLoading ?
                                                 <i className="fas fa-spinner fa-spin me-0"></i>

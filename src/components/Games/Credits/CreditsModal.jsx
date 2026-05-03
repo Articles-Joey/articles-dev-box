@@ -112,9 +112,18 @@ export default function CreditsModal({
                     </div>
                 }
 
-                {(owner && repo) &&
+                {(
+                    (owner && repo)
+                    ||
+                    (process.env.NEXT_PUBLIC_OWNER && process.env.NEXT_PUBLIC_REPO)
+                ) &&
                     <div className="mb-3">
-                        <div>Attributions:</div>
+
+                        {/* <div>Attributions:</div> */}
+                        <h6 className="mb-2">
+                            Attributions:
+                        </h6>
+
                         <a
                             href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}/blob/main/README.md#attributions`}
                             target="_blank"

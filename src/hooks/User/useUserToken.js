@@ -1,6 +1,12 @@
 import useSWR from "swr";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url) =>
+    fetch(url).then((res) => {
+        if (res.status !== 200) {
+            return false;
+        }
+        return res.json();
+    });
 
 const useUserToken = (port) => {
 
