@@ -33,6 +33,7 @@ export default defineConfig({
         DarkModeHandler: resolve(__dirname, 'src/components/UI/DarkModeHandler.jsx'),
         ToontownModeHandler: resolve(__dirname, 'src/components/Games/ToontownModeHandler.jsx'),
         SocketServerUrlHandler: resolve(__dirname, 'src/components/Games/SocketServerUrlHandler.jsx'),
+        HasNoMouseHandler: resolve(__dirname, 'src/components/Handlers/HasNoMouseHandler.jsx'),
 
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
 

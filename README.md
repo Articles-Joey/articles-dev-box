@@ -67,6 +67,8 @@ npm run dev
     - Handles setting zustand state from url params if toontownMode is passed.
 - SocketServerUrlHandler
     - Handles setting socket server state from url params if socketServerUrl is passed.
+- HasNoMouseHandler
+    - Sets hasNoMouse and isTouchCapable on first load
 - useUserToken
     - Hook for getting the subdomain auth token.
 - useUserDetails

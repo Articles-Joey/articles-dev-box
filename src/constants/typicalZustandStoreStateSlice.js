@@ -42,6 +42,25 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
         }))
     },
 
+    debugConfig: {
+        showStats: false,
+    },
+    setDebugConfig: (newValue) => {
+        set((prev) => ({
+            debugConfig: {
+                ...newValue,
+            }
+        }))
+    },
+    setDebugConfigKey: (key, value) => {
+        set((prev) => ({
+            debugConfig: {
+                ...prev.debugConfig,
+                [key]: value,
+            }
+        }))
+    },
+
     sidebar: true,
     toggleSidebar: () => {
         set((prev) => ({
@@ -127,7 +146,12 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
         set((prev) => ({
             sceneKey: prev.sceneKey + 1
         }))
-    }
+    },
+
+    hasNoMouse: null,
+    setHasNoMouse: (value) => set({ hasNoMouse: value }),
+    isTouchCapable: null,
+    setIsTouchCapable: (value) => set({ isTouchCapable: value }),
 
 })
 

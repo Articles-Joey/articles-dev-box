@@ -11,20 +11,6 @@ export default function MobileMenu({
     const showMenu = useStore(state => state.showMenu);
     const setShowMenu = useStore(state => state.setShowMenu);
 
-    const MenuButton = () => (
-        <ArticlesButton
-            small
-            active={showMenu}
-            onClick={() => {
-                setShowMenu(!showMenu)
-            }}
-            className={"d-flex"}
-        >
-            <i className="fad fa-bars"></i>
-            <span className="text">Menu</span>
-        </ArticlesButton>
-    )
-
     return (
         <>
             <div
@@ -50,11 +36,14 @@ export default function MobileMenu({
                 }}
             >
 
-                <div className='flex-header align-items-center'>
+                <div className='menu-bar-container flex-header align-items-center'>
 
                     <div className="Left d-flex align-items-center">
                         {(menuBarConfig.menuBarButtonPosition == "Left" || !menuBarConfig.menuBarButtonPosition) &&
-                            <MenuButton />
+                            <MenuButton 
+                                useStore={useStore}
+                                menuBarConfig={menuBarConfig}
+                            />
                         }
                         {menuBarConfig.leftSlotChildren && menuBarConfig.leftSlotChildren}
                     </div>
@@ -62,14 +51,20 @@ export default function MobileMenu({
                     {/* Center */}
                     <div className="Center d-flex align-items-center">
                         {(menuBarConfig.menuBarButtonPosition == "Center") &&
-                            <MenuButton />
+                            <MenuButton 
+                                useStore={useStore}
+                                menuBarConfig={menuBarConfig}
+                            />
                         }
                         {menuBarConfig.centerSlotChildren && menuBarConfig.centerSlotChildren}
                     </div>
 
                     <div className="Right d-flex align-items-center">
                         {(menuBarConfig.menuBarButtonPosition == "Right") &&
-                            <MenuButton />
+                            <MenuButton 
+                                useStore={useStore}
+                                menuBarConfig={menuBarConfig}
+                            />
                         }
                         {menuBarConfig.rightSlotChildren && menuBarConfig.rightSlotChildren}
                     </div>
@@ -108,4 +103,42 @@ export default function MobileMenu({
             </div>
         </>
     )
+}
+
+function MenuButton({
+    useStore,
+    menuBarConfig,
+}) {
+
+    const showMenu = useStore(state => state.showMenu);
+    const setShowMenu = useStore(state => state.setShowMenu);
+    const setShowSettingsModal = useStore(state => state.setShowSettingsModal);
+
+    return (
+        <>
+            <ArticlesButton
+                small
+                active={showMenu}
+                onClick={() => {
+                    console.log("Menu button clicked, toggling menu visibility");
+                    setShowMenu(!showMenu)
+                }}
+                className={"d-flex"}
+            >
+                <i className="fad fa-bars"></i>
+                <span className="text">Menu</span>
+            </ArticlesButton>
+            {menuBarConfig?.settingsWithMenuButton &&
+                <ArticlesButton
+                    // active={showSettingsModal}
+                    onClick={() => {
+                        setShowSettingsModal(true)
+                    }}
+                >
+                    <i className='fad fa-cog'></i>
+                </ArticlesButton>
+            }
+        </>
+    )
+
 }

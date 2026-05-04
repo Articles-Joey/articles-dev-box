@@ -5,34 +5,14 @@ export default function ControlsTab({
     config
 }) {
 
-    // const enabled = useTouchControlsStore((state) => state?.enabled);
-    // const setEnabled = useTouchControlsStore((state) => state?.setEnabled);
-
     return (
         <div className="">
 
-            {/* <div>
-                <h5>Control Settings</h5>
-                <p>Configure your key bindings and control preferences here.</p>
-            </div> */}
-
-            {/* <div>Touch Controls</div>
-            <div className="small">Adds on screen controls for touch devices.</div>
-            <div className="mb-3">
-                {[false, true].map((level, i) => (
-                    <ArticlesButton
-                        key={i}
-                        active={enabled === level}
-                        onClick={() => {
-                            setEnabled(level);
-                        }}
-                    >
-                        {level ? "On" : "Off"}
-                    </ArticlesButton>
-                ))}
-            </div> */}
-
-            {useTouchControlsStore &&
+            {(
+                useTouchControlsStore
+                && 
+                config?.tabs?.Controls?.touchControls
+            ) &&
                 <TouchControls
                     useTouchControlsStore={useTouchControlsStore}
                 />

@@ -16,6 +16,9 @@ export default function DebugTab({
     // const toontownMode = useStore((state) => state?.toontownMode);
     // const setToontownMode = useStore((state) => state?.setToontownMode);
 
+    const showStats = useStore((state) => state?.debugConfig?.showStats);
+    const setDebugConfigKey = useStore((state) => state?.setDebugConfigKey);
+
     return (
         <>
 
@@ -23,17 +26,21 @@ export default function DebugTab({
                 dev-box version: {packageJson.version}
             </div>
 
-            {/* <div>Future Thing</div>
+            <div>Show Debug Stats</div>
             <div className="mb-3">
                 {[false, true].map((level, i) => (
                     <ArticlesButton
                         key={i}
-                        onClick={() => {}}
+                        active={showStats === level}
+                        onClick={() => {
+                            setDebugConfigKey("showStats", level);
+
+                        }}
                     >
-                        Placeholder
+                        {level ? "Enabled" : "Disabled"}
                     </ArticlesButton>
                 ))}
-            </div> */}
+            </div>
 
             {config?.tabs?.Debug?.children &&
                 <>

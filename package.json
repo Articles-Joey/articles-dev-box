@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -34,6 +34,7 @@
     "./DarkModeHandler": "./dist/DarkModeHandler.js",
     "./ToontownModeHandler": "./dist/ToontownModeHandler.js",
     "./SocketServerUrlHandler": "./dist/SocketServerUrlHandler.js",
+    "./HasNoMouseHandler": "./dist/HasNoMouseHandler.js",
     "./FriendsList": "./dist/FriendsList.js",
     "./useUserDetails": "./dist/useUserDetails.js",
     "./useUserToken": "./dist/useUserToken.js",

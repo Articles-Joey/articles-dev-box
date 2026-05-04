@@ -15,6 +15,7 @@ import CreditsModal from '#root/src/components/Games/Credits/CreditsModal.jsx';
 import DarkModeHandler from '#root/src/components/UI/DarkModeHandler';
 import ToontownModeHandler from '#root/src/components/Games/ToontownModeHandler.jsx';
 import SocketServerUrlHandler from '#root/src/components/Games/SocketServerUrlHandler.jsx';
+import HasNoMouseHandler from '#root/src/components/Handlers/HasNoMouseHandler.jsx';
 
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 
@@ -46,6 +47,7 @@ export {
   DarkModeHandler,
   ToontownModeHandler,
   SocketServerUrlHandler,
+  HasNoMouseHandler,
   CreditsModal,
   FriendsList,
 

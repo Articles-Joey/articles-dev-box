@@ -5,8 +5,9 @@
         .menu-bar {
             display: none;
         }
+
         .panel-left {
-            display: flex!important;
+            display: flex !important;
         }
     }
 }
@@ -95,6 +96,17 @@
             // }
         }
     }
+
+    .menu-bar-container {
+        .Center {
+            @include media-breakpoint-up(lg) {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
 }
 
 .mobile-menu {
@@ -136,7 +148,7 @@
 }
 
 .panel-left {
-    display: none!important;
+    display: none !important;
     // display: flex;
     // justify-content: center;
     // align-items: center;

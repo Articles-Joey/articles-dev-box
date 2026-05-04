@@ -44,7 +44,16 @@ export default function AudioTab({
                 {config?.tabs?.Audio?.sliders?.map(slider_obj => {
                     return (
                         <div key={slider_obj.key}>
-                            <Form.Label className="mb-0">{slider_obj.label}</Form.Label>
+
+                            <Form.Label className="mb-0">
+                                <span>{slider_obj.label}</span>
+                                {audioSettings?.[slider_obj.key] && 
+                                    <span className="ms-2 text-muted">
+                                        {audioSettings[slider_obj.key]}%
+                                    </span>
+                                }
+                            </Form.Label>
+
                             <Form.Range
                                 value={audioSettings?.[slider_obj.key]}
                                 onChange={(value) => {
@@ -60,7 +69,7 @@ export default function AudioTab({
                 })}
             </div>
 
-            {config?.tabs?.Controls?.children}
+            {config?.tabs?.Audio?.children}
 
             {/* <Form.Label className="mb-0">Game Volume</Form.Label>
             <Form.Range
