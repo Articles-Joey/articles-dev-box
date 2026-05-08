@@ -36,6 +36,11 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
     },
 
     debug: false,
+    toggleDebug: () => {
+        set((prev) => ({
+            debug: !prev.debug
+        }))
+    },
     setDebug: (newValue) => {
         set((prev) => ({
             debug: newValue
@@ -74,6 +79,11 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
     },
 
     showMenu: false,
+    toggleShowMenu: () => {
+        set((prev) => ({
+            showMenu: !prev.showMenu
+        }))
+    },
     setShowMenu: (value) => set({ showMenu: value }),
 
     showSettingsModal: false,

@@ -1,7 +1,13 @@
 import ArticlesButton from "../UI/Button";
-
 import useFullscreen from '#root/src/hooks/useFullscreen';
 
+/**
+ * @param {Object} props
+ * @param {function} props.useStore Zustand store hook
+ * @param {('Landing'|'GameMenu')} props.type Only "Landing" or "GameMenu" allowed
+ * @param {string} [props.owner] Optional GitHub owner
+ * @param {string} [props.repo] Optional GitHub repo
+ */
 export default function PrimaryButtonGroup({
     useStore,
     type,

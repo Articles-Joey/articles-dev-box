@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.0.42",
+  "version": "1.1.0",
   "type": "module",
   "imports": {
     "#root/src/*": "./src/*"
@@ -23,14 +23,17 @@
     "./NicknameInput": "./dist/NicknameInput.js",
     "./ArticlesAd": "./dist/ArticlesAd.js",
     "./GameScoreboard": "./dist/GameScoreboard.js",
+    "./PageTemplateLandingPage": "./dist/PageTemplateLandingPage.js",
     "./ReturnToLauncherButton": "./dist/ReturnToLauncherButton.js",
     "./SignInButton": "./dist/SignInButton.js",
     "./SessionButton": "./dist/SessionButton.js",
     "./GlobalHead": "./dist/GlobalHead.js",
     "./GlobalBody": "./dist/GlobalBody.js",
+    "./GlobalClientModals": "./dist/GlobalClientModals.js",
     "./ViewUserModal": "./dist/ViewUserModal.js",
     "./SettingsModal": "./dist/SettingsModal.js",
     "./CreditsModal": "./dist/CreditsModal.js",
+    "./InfoModal": "./dist/InfoModal.js",
     "./DarkModeHandler": "./dist/DarkModeHandler.js",
     "./ToontownModeHandler": "./dist/ToontownModeHandler.js",
     "./SocketServerUrlHandler": "./dist/SocketServerUrlHandler.js",
@@ -42,7 +45,10 @@
     "./useFullscreen": "./dist/useFullscreen.js",
     "./typicalZustandStoreExcludes": "./dist/typicalZustandStoreExcludes.js",
     "./typicalZustandStoreStateSlice": "./dist/typicalZustandStoreStateSlice.js",
+    "./defaultGameNextConfig": "./dist/defaultGameNextConfig.js",
+    "./defaultGameThemeConfig": "./dist/defaultGameThemeConfig.js",
     "./getSignOutRedirectUrl": "./dist/getSignOutRedirectUrl.js",
+    "./generateRandomNickname": "./dist/generateRandomNickname.js",
     "./dist/style.css": "./dist/articles-dev-box.css",
     "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
   },

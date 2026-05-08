@@ -1,0 +1,292 @@
+"use client"
+import { lazy } from 'react';
+
+import ArticlesButton from '../../UI/Button';
+import NicknameInput from '../NicknameInput';
+import GameMenuPrimaryButtonGroup from '../GameMenuPrimaryButtonGroup';
+
+import useUserDetails from '../../../hooks/User/useUserDetails';
+import useUserToken from '../../../hooks/User/useUserToken';
+
+const SessionButton = lazy(() => import('../../User/SessionButton'));
+const ReturnToLauncherButton = lazy(() => import('../ReturnToLauncherButton'));
+const GameScoreboard = lazy(() => import('../GameScoreboard'));
+const Ad = lazy(() => import('../../Ads/Ad'));
+
+export default function PageTemplateLandingPage({
+    useStore,
+    useSocketStore,
+    RotatingMascot,
+    Link,
+    logoImage,
+    backgroundImage,
+    CardBodyOverride,
+    singlePlayerConfig,
+    multiplayerConfig,
+    brandingTextClass,
+    disableHero,
+    disableAd,
+    disableGameScoreboard,
+    maxInnerWidth = "20rem",
+    AdditionalContent = null,
+    PostCardContent = null,
+    PostExtrasContent = null,
+    PreHeroContent = null,
+    PostHeroContent = null,
+}) {
+
+    // const {
+    //     socket,
+    // } = useSocketStore(state => ({
+    //     socket: state.socket,
+    // }));
+
+    const {
+        data: userToken,
+        error: userTokenError,
+        isLoading: userTokenLoading,
+        mutate: userTokenMutate
+    } = useUserToken(
+        process.env.NEXT_PUBLIC_GAME_PORT
+    );
+
+    const {
+        data: userDetails,
+        error: userDetailsError,
+        isLoading: userDetailsLoading,
+        mutate: userDetailsMutate
+    } = useUserDetails({
+        token: userToken
+    });
+
+    const darkMode = useStore(state => state.darkMode)
+    const lobbyDetails = useStore(state => state.lobbyDetails)
+
+    return (
+
+        <div className="landing-page">
+
+            {AdditionalContent}
+
+            <div className='background-wrap'>
+                <img
+                    src={backgroundImage}
+                    alt=""
+                    width="100%"
+                    height="100%"
+                    style={{ objectFit: 'cover', objectPosition: 'bottom' }}
+                />
+            </div>
+
+            <div
+                className="container d-flex flex-column-reverse flex-lg-row justify-content-center align-items-center py-3"
+            >
+
+                <div
+                    className=''
+                    style={{ "width": maxInnerWidth }}
+                >
+
+                    {PreHeroContent}
+
+                    {!disableHero &&
+                        <div className='landing-hero text-center mb-2'>
+
+                            <img
+                                src={logoImage}
+                                alt=""
+                                width="200"
+                                height="auto"
+                                style={{ objectFit: 'cover', objectPosition: 'bottom' }}
+                            />
+
+                            <h1 className={`text-center mb-0 ${brandingTextClass}`}>
+                                {process.env.NEXT_PUBLIC_GAME_NAME}
+                            </h1>
+
+                        </div>
+                    }
+
+                    {PostHeroContent}
+
+                    <div className="card card-articles mb-3">
+
+                        <div className="card-header">
+
+                            <NicknameInput
+                                useStore={useStore}
+                            />
+
+                        </div>
+
+                        {CardBodyOverride ?
+                            <CardBodyOverride />
+                            :
+                            <div className="card-body">
+
+                                {singlePlayerConfig &&
+                                    <Link
+                                        href="/play"
+                                        style={{
+                                            textDecoration: "none"
+                                        }}
+                                    >
+                                        <ArticlesButton
+                                            variant=""
+                                            className="d-flex justify-content-center align-items-center mb-3 w-100"
+                                            onClick={() => { }}
+                                        >
+                                            <i className='fad fa-play me-2'></i>
+                                            Single Player
+                                        </ArticlesButton>
+                                    </Link>
+                                }
+
+                                {multiplayerConfig &&
+                                    <>
+                                        <div className="fw-bold mb-1 small text-center">
+                                            {lobbyDetails?.players.length || 0} player{lobbyDetails?.players.length !== 1 && 's'} in the lobby.
+                                        </div>
+
+                                        <div className="servers">
+
+                                            {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
+
+                                                let lobbyLookup = lobbyDetails?.games?.find(lobby =>
+                                                    parseInt(lobby.server_id) == id
+                                                )
+
+                                                return (
+                                                    <div key={id} className="server">
+
+                                                        <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
+                                                            <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {id}</b></div>
+                                                            <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
+                                                        </div>
+
+                                                        <div className='d-flex justify-content-around w-100 mb-1'>
+                                                            {[1, 2, 3, 4].map(player_count => {
+
+                                                                let playerLookup = false
+
+                                                                if (lobbyLookup?.players?.length >= player_count) playerLookup = true
+
+                                                                return (
+                                                                    <div key={player_count} className="icon" style={{
+                                                                        width: '20px',
+                                                                        height: '20px',
+                                                                        ...(playerLookup ? {
+                                                                            backgroundColor: 'black',
+                                                                        } : {
+                                                                            backgroundColor: 'gray',
+                                                                        }),
+                                                                        border: '1px solid black'
+                                                                    }}>
+
+                                                                    </div>
+                                                                )
+                                                            })}
+                                                        </div>
+
+                                                        <Link
+                                                            className={``}
+                                                            href={{
+                                                                pathname: `/play`,
+                                                                query: {
+                                                                    server: id
+                                                                }
+                                                            }}
+                                                            style={{
+                                                                ...(multiplayerConfig?.comingSoon ? {
+                                                                    pointerEvents: "none"
+                                                                } : {
+
+                                                                })
+                                                            }}
+                                                        >
+                                                            <ArticlesButton
+                                                                small
+                                                                className="px-3"
+                                                                disabled={multiplayerConfig?.comingSoon}
+                                                            >
+                                                                {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
+                                                            </ArticlesButton>
+                                                        </Link>
+
+                                                    </div>
+                                                )
+                                            })}
+
+                                        </div>
+                                    </>
+                                }
+
+                            </div>
+                        }
+
+                        <div className="card-footer d-flex flex-wrap justify-content-center">
+
+                            <GameMenuPrimaryButtonGroup
+                                useStore={useStore}
+                                type="Landing"
+                            />
+
+                        </div>
+
+                    </div>
+
+                    {PostCardContent}
+
+                    <div className="extras">
+                        <SessionButton
+                            port={process.env.NEXT_PUBLIC_GAME_PORT}
+                            friendsButton={true}
+                        />
+
+                        <ReturnToLauncherButton />
+                    </div>
+
+                    {PostExtrasContent}
+
+                </div>
+
+                {!disableGameScoreboard &&
+                    <GameScoreboard
+                        game={process.env.NEXT_PUBLIC_GAME_NAME}
+                        style="Default"
+                        darkMode={darkMode ? true : false}
+                        prepend={
+                            RotatingMascot && <>
+                                <div
+                                    style={{
+                                        width: '100%',
+                                        height: '200px',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <RotatingMascot />
+                                </div>
+                            </>
+                        }
+                    />
+                }
+
+                {!disableAd &&
+                    <Ad
+                        style="Default"
+                        section={"Games"}
+                        section_id={process.env.NEXT_PUBLIC_GAME_NAME}
+                        darkMode={darkMode ? true : false}
+                        user_ad_token={userToken}
+                        userDetails={userDetails}
+                        userDetailsLoading={userDetailsLoading}
+                    />
+                }
+
+            </div>
+
+        </div>
+    );
+}

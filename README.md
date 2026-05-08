@@ -91,6 +91,14 @@ For newly developed components I sometimes find myself trying to remember what r
 - getSignOutRedirectUrl - Catching Game
 - GameMenuPrimaryButtonGroup - Catching Game and Move Match
 - NicknameInput - Catching Game
+- InfoModal - USA Tycoon
+- GlobalClientModals - USA Tycoon
+- generateRandomNickname - USA Tycoon
+- defaultGameNextConfig - USA Tycoon
+- defaultGameThemeConfig - USA Tycoon
+- useModalNavigation - USA Tycoon
+- gameLandingPageTemplate - USA Tycoon
+- gamePageTemplate - USA Tycoon
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance?  

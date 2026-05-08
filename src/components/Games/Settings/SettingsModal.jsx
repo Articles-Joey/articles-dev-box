@@ -73,6 +73,7 @@ export default function SettingsModal({
 
             {store &&
                 <ModalContent
+                    setShow={setShow}
                     useStore={store}
                     useAudioStore={useAudioStore}
                     useTouchControlsStore={useTouchControlsStore}
@@ -86,6 +87,7 @@ export default function SettingsModal({
 }
 
 function ModalContent({
+    setShow,
     useStore,
     useAudioStore,
     useTouchControlsStore,
