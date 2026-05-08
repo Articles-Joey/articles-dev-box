@@ -19,7 +19,7 @@ export default function ReturnToLauncherButton({
 
     // if (typeof window === "undefined") return null
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URL(window.location.href).searchParams;
     const paramsObject = Object.fromEntries(urlParams)
 
     let { launcher_mode } = paramsObject
