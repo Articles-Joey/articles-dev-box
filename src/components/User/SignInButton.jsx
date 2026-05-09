@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 export default function SignInButton({
     className,
     id,
-    text
+    text,
+    size = "sm",
 }) {
 
     const [isMounted, setIsMounted] = useState(false);
@@ -32,7 +33,8 @@ export default function SignInButton({
                 // ref={el => elementsRef.current[6] = el}
                 className={`${className} w-100`}
                 id={id}
-                small
+                // small
+                size={size}
                 style={{
                     zIndex: 10,
                     position: "relative",

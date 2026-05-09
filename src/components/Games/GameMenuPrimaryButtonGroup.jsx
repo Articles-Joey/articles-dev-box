@@ -13,6 +13,9 @@ export default function PrimaryButtonGroup({
     type,
     owner,
     repo,
+    LeaveGameOverride,
+    SidebarOverride,
+    SettingsOverride,
 }) {
 
     if (!useStore) {
@@ -71,7 +74,7 @@ export default function PrimaryButtonGroup({
                     </ArticlesButton>
 
                     <a
-                        href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo ||process.env.NEXT_PUBLIC_REPO}`}
+                        href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         className='w-50'
@@ -105,18 +108,22 @@ export default function PrimaryButtonGroup({
         case "GameMenu":
             return (
                 <>
-                    <a
-                        href={'/'}
-                        className="w-50"
-                    >
-                        <ArticlesButton
-                            className='w-100'
-                            small
+                    {LeaveGameOverride ?
+                        LeaveGameOverride
+                        :
+                        <a
+                            href={'/'}
+                            className="w-50"
                         >
-                            <i className="fad fa-arrow-alt-square-left"></i>
-                            <span>Leave Game</span>
-                        </ArticlesButton>
-                    </a>
+                            <ArticlesButton
+                                className='w-100'
+                                small
+                            >
+                                <i className="fad fa-arrow-alt-square-left"></i>
+                                <span>Leave Game</span>
+                            </ArticlesButton>
+                        </a>
+                    }
 
                     <ArticlesButton
                         small
@@ -135,42 +142,50 @@ export default function PrimaryButtonGroup({
                         <span>Fullscreen</span>
                     </ArticlesButton>
 
-                    <div className='w-50 d-flex'>
+                    {SettingsOverride ?
+                        SettingsOverride
+                        :
+                        <div className='w-50 d-flex'>
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[2] = el}
+                                className={`w-100`}
+                                small
+                                onClick={() => {
+                                    setShowSettingsModal(true)
+                                }}
+                            >
+                                <i className="fad fa-cog"></i>
+                                Settings
+                            </ArticlesButton>
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[2] = el}
+                                className={``}
+                                small
+                                onClick={() => {
+                                    toggleDarkMode()
+                                }}
+                            >
+                                {darkMode ? <i className="fad fa-sun"></i> : <i className="fad fa-moon"></i>}
+                            </ArticlesButton>
+                        </div>
+                    }
+
+                    {SidebarOverride ?
+                        SidebarOverride
+                        :
                         <ArticlesButton
                             // ref={el => elementsRef.current[2] = el}
-                            className={`w-100`}
+                            className={`w-50`}
                             small
+                            active={sidebar}
                             onClick={() => {
-                                setShowSettingsModal(true)
+                                setSidebar(!sidebar)
                             }}
                         >
                             <i className="fad fa-cog"></i>
-                            Settings
+                            Sidebar
                         </ArticlesButton>
-                        <ArticlesButton
-                            // ref={el => elementsRef.current[2] = el}
-                            className={``}
-                            small
-                            onClick={() => {
-                                toggleDarkMode()
-                            }}
-                        >
-                            {darkMode ? <i className="fad fa-sun"></i> : <i className="fad fa-moon"></i>}
-                        </ArticlesButton>
-                    </div>
-
-                    <ArticlesButton
-                        // ref={el => elementsRef.current[2] = el}
-                        className={`w-50`}
-                        small
-                        active={sidebar}
-                        onClick={() => {
-                            setSidebar(!sidebar)
-                        }}
-                    >
-                        <i className="fad fa-cog"></i>
-                        Sidebar
-                    </ArticlesButton>
+                    }
                 </>
             )
         default:

@@ -41,9 +41,9 @@ export default function AudioTab({
             </div>
 
             <div className="border mb-3 p-2">
-                {config?.tabs?.Audio?.sliders?.map(slider_obj => {
+                {config?.tabs?.Audio?.sliders?.map((slider_obj, i) => {
                     return (
-                        <div key={slider_obj.key}>
+                        <div key={slider_obj.key + '_' + i} className="mb-3">
 
                             <Form.Label className="mb-0">
                                 <span>{slider_obj.label}</span>

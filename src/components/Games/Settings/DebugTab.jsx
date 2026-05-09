@@ -26,21 +26,27 @@ export default function DebugTab({
                 dev-box version: {packageJson.version}
             </div>
 
-            <div>Show Debug Stats</div>
-            <div className="mb-3">
-                {[false, true].map((level, i) => (
-                    <ArticlesButton
-                        key={i}
-                        active={showStats === level}
-                        onClick={() => {
-                            setDebugConfigKey("showStats", level);
+            {/* Note - This is opt out as most games will be using pmndrs/drei */}
+            {/* This was only done for blackjack at this time */}
+            {config?.tabs?.Debug?.showStats !== false &&
+                <div className='mb-3'>
+                    <div>Show Debug Stats</div>
+                    <div className="">
+                        {[false, true].map((level, i) => (
+                            <ArticlesButton
+                                key={i}
+                                active={showStats === level}
+                                onClick={() => {
+                                    setDebugConfigKey("showStats", level);
 
-                        }}
-                    >
-                        {level ? "Enabled" : "Disabled"}
-                    </ArticlesButton>
-                ))}
-            </div>
+                                }}
+                            >
+                                {level ? "Enabled" : "Disabled"}
+                            </ArticlesButton>
+                        ))}
+                    </div>
+                </div>
+            }
 
             {config?.tabs?.Debug?.children &&
                 <>

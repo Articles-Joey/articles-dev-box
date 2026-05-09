@@ -62,7 +62,7 @@ export default function FriendsList({
             return (
                 <ul className={className} style={style}>
                     {friends.map((friend) => (
-                        <li key={friend.user_id}>
+                        <li key={friend.friend_id}>
                             {friend?.populated_user?.username} - {friend?.populated_user?.display_name || 'No Display Name'}
                         </li>
                     ))}
@@ -78,7 +78,8 @@ export default function FriendsList({
                 show={show}
                 size={'md'}
                 className={`articles-modal ${className}`}
-                modalBackdropClassName={modalBackdropClassName}
+                // modalBackdropClassName={modalBackdropClassName}
+                backdropClassName={modalBackdropClassName}
                 centered
                 onHide={() => setShow(false)}
                 style={style}
@@ -110,7 +111,7 @@ export default function FriendsList({
                         <div>
                             {friends.map((friend) => (
                                 <div
-                                    key={friend.user_id}
+                                    key={friend.friend_id}
                                     className="d-flex align-items-center justify-content-between border p-1"
                                 >
 
@@ -130,9 +131,10 @@ export default function FriendsList({
                                             variant="articles"
                                             onClick={() => {
                                                 // mutateFriends()
+                                                console.log("View friend details for ", friend)
                                             }}
                                         >
-                                            <i className="fad fa-info"></i>
+                                            <i className="fad fa-info me-0"></i>
                                         </ArticlesButton>
                                     </div>
 

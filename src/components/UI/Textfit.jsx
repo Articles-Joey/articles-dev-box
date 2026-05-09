@@ -1,7 +1,12 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 
-const Textfit = ({ children, maxFontSize = 18, minFontSize = 10 }) => {
+const Textfit = ({
+    children,
+    maxFontSize = 18,
+    minFontSize = 10,
+    justifyContent = "left",
+}) => {
     const containerRef = useRef(null);
     const textRef = useRef(null);
     const [fontSize, setFontSize] = useState(maxFontSize);
@@ -34,7 +39,15 @@ const Textfit = ({ children, maxFontSize = 18, minFontSize = 10 }) => {
     }, [children, maxFontSize, minFontSize]);
 
     return (
-        <div ref={containerRef} style={{ width: "100%", display: "flex", justifyContent: "center", overflow: "hidden" }}>
+        <div
+            ref={containerRef}
+            style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: justifyContent,
+                overflow: "hidden"
+            }}
+        >
             <span ref={textRef} style={{ fontSize, whiteSpace: "nowrap", lineHeight: 1 }}>
                 {children}
             </span>

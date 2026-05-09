@@ -25,33 +25,6 @@ export default function SettingsModal({
 
     const [showModal, setShowModal] = useState(false);
 
-    // if (!store) {
-    //     console.error("GameMenu: useStore is required");
-    //     return null;
-    // }
-
-    // const toggleDarkMode = () => {
-    //     setDarkMode(!darkMode);
-    // }
-    // const toggleArcadeMode = () => {
-    //     setArcadeMode(!arcadeMode);
-    // }
-
-    // function reset() {
-    //     // setDarkMode(false);
-    //     // setArcadeMode(false);
-    // }
-
-    // function handleClose() {
-    //     // reset();
-    //     // setShow(false);
-    // }
-
-    // if (!store) {
-    //     console.error("GameMenu: useStore is required");
-    //     return null;
-    // }
-
     return (
         <Modal
             className="articles-modal articles-settings-modal"

@@ -35,70 +35,42 @@ npm run dev
 
 ## Package Exports
 
-- ReturnToLauncherButton
-    - For bringing users back to their state in the games showcase/launcher
-- SignInButton
-    - For bringing users to the accounts service to login at and redirecting back
-- SessionButton
-    - Button that manages sign in, sign out, and account details.
-- GameScoreboard
-    - Scoreboard for registered games that links with a user's Articles Media account.
-- Ad
-    - Articles Ad component that connects with user data.
-- GameMenu
-    - All in one component that handles the sidebar and menu-bar inside a game page.
-- GameMenuPrimaryButtonGroup
-    - The common button groups for landing page and menu content across our games
-- NicknameInput
-    - Handles nickname UI on landing page
-- GlobalHead
-    - Not used at this time, allows for just <head> related tags to be added to site without other logic.
-- GlobalBody
-    - Easy way to add future logic and components to all projects with ease. For now handling the font awesome script. Also shows connection status to required servers in development. Will ping the main and auth server as they are needed for some dev-box features.
-- ViewUserModal
-    - View user profile data and recent activity.
-- SettingsModal
-    - All in one component to handle game settings UI across multiple games.
-- CreditsModal
-    - All in one component to handle game credits UI across multiple games.
-- DarkModeHandler
-    - Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element.
-- ToontownModeHandler
-    - Handles setting zustand state from url params if toontownMode is passed.
-- SocketServerUrlHandler
-    - Handles setting socket server state from url params if socketServerUrl is passed.
-- HasNoMouseHandler
-    - Sets hasNoMouse and isTouchCapable on first load
-- useUserToken
-    - Hook for getting the subdomain auth token.
-- useUserDetails
-    - Hook for getting the details of the current user if a valid user token is found.
-- useFullscreen
-    - Hook for going fullscreen on the body or provided element
-- typicalZustandStoreExcludes
-    - Array of strings that every game published by Articles Media would want to normally exclude from persisting in base game store.
-- typicalZustandStoreStateSlice
-    - Slice of zustand states that every game normally uses
-- getSignOutRedirectUrl
-    - Handles signout redirect api logic
+| Name | Description | Usage Example |
+| :--- | :--- | :--- |
+| ReturnToLauncherButton | For bringing users back to their state in the games showcase/launcher | |
+| SignInButton | For bringing users to the accounts service to login at and redirecting back | |
+| SessionButton | Button that manages sign in, sign out, and account details. | Catching Game and School Run |
+| GameScoreboard | Scoreboard for registered games that links with a user's Articles Media account. | |
+| Ad | Articles Ad component that connects with user data. | |
+| GameMenu | All in one component that handles the sidebar and menu-bar inside a game page. | Catching Game and School Run use Static Panel for sidebarStyle and Corner Button for menuBarStyle. Ice Slide uses Floating Panel for sidebarStyle and Bar for menuBarStyle. |
+| GameMenuPrimaryButtonGroup | The common button groups for landing page and menu content across our games | Catching Game and Move Match |
+| NicknameInput | Handles nickname UI on landing page | Catching Game |
+| GlobalHead | Not used at this time, allows for just <head> related tags to be added to site without other logic. | |
+| GlobalBody | Easy way to add future logic and components to all projects with ease. For now handling the font awesome script. Also shows connection status to required servers in development. Will ping the main and auth server as they are needed for some dev-box features. | |
+| ViewUserModal | View user profile data and recent activity. | |
+| SettingsModal | All in one component to handle game settings UI across multiple games. | |
+| CreditsModal | All in one component to handle game credits UI across multiple games. | |
+| InfoModal | All in one component to handle game info modal across multiple games. | USA Tycoon |
+| DarkModeHandler | Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element. | |
+| ToontownModeHandler | Handles setting zustand state from url params if toontownMode is passed. | |
+| SocketServerUrlHandler | Handles setting socket server state from url params if socketServerUrl is passed. | |
+| HasNoMouseHandler | Sets hasNoMouse and isTouchCapable on first load | |
+| useUserToken | Hook for getting the subdomain auth token. | |
+| useUserDetails | Hook for getting the details of the current user if a valid user token is found. | |
+| useFullscreen | Hook for going fullscreen on the body or provided element | |
+| typicalZustandStoreExcludes | Array of strings that every game published by Articles Media would want to normally exclude from persisting in base game store. | Catching Game and School Run |
+| typicalZustandStoreStateSlice | Slice of zustand states that every game normally uses | Catching Game and School Run |
+| getSignOutRedirectUrl | Handles signout redirect api logic | Catching Game |
+| GlobalClientModals | Imports all global client modals like FriendsList, CreditsModal, SettingsModal, InfoModal, and so on | USA Tycoon |
+| generateRandomNickname | Reusable way of doing random nicknames from package | USA Tycoon |
+| defaultGameNextConfig | Not usable, for reference | None |
+| defaultGameThemeConfig | Not usable, for reference | None |
+| useModalNavigation | Handles navigating a modal with controller | None |
+| gameLandingPageTemplate | All in one component that sets up the default landing page as much as possible | USA Tycoon |
+| gamePageTemplate | All in one component that sets up the default game page as much as possible | USA Tycoon |
 
 # Usage Examples
 For newly developed components I sometimes find myself trying to remember what repos used it. Here is a short list of recent components developed and what project is using it. Doing this until AMPM can search by imports or enough projects adopted the component.
-
-- typicalZustandStoreExcludes - Catching Game and School Run
-- SessionButton - Catching Game and School Run
-- GameMenu - Catching Game and School Run use Static Panel for sidebarStyle and Corner Button for menuBarStyle. Ice Slide uses Floating Panel for sidebarStyle and Bar for menuBarStyle.
-- getSignOutRedirectUrl - Catching Game
-- GameMenuPrimaryButtonGroup - Catching Game and Move Match
-- NicknameInput - Catching Game
-- InfoModal - USA Tycoon
-- GlobalClientModals - USA Tycoon
-- generateRandomNickname - USA Tycoon
-- defaultGameNextConfig - USA Tycoon
-- defaultGameThemeConfig - USA Tycoon
-- useModalNavigation - USA Tycoon
-- gameLandingPageTemplate - USA Tycoon
-- gamePageTemplate - USA Tycoon
 
 # Roadmap
 ⏹️ Remove Bootstrap reliance?  
