@@ -70,11 +70,11 @@ export default function PageTemplateLandingPage({
 
         <div className="landing-page">
 
-            {AdditionalContent}
+            {AdditionalContent && AdditionalContent}
 
             <div className='background-wrap'>
-                {landingAnimation ?
-                    <LandingBackgroundAnimation />
+                {(LandingBackgroundAnimation && landingAnimation) ?
+                    LandingBackgroundAnimation
                     :
                     <img
                         src={backgroundImage}
@@ -95,7 +95,7 @@ export default function PageTemplateLandingPage({
                     style={{ "width": maxInnerWidth }}
                 >
 
-                    {PreHeroContent}
+                    {PreHeroContent && PreHeroContent}
 
                     {!disableHero &&
                         <div className='landing-hero text-center mb-2'>
@@ -115,12 +115,10 @@ export default function PageTemplateLandingPage({
                         </div>
                     }
 
-                    {PostHeroContent}
+                    {PostHeroContent && PostHeroContent}
 
                     {CardOverride ?
-                        <>
-                            {CardOverride}
-                        </>
+                        CardOverride
                         :
                         <div className="card card-articles mb-3">
 
@@ -134,7 +132,7 @@ export default function PageTemplateLandingPage({
                             </div>
 
                             {CardBodyOverride ?
-                                <CardBodyOverride />
+                                CardBodyOverride
                                 :
                                 <div className="card-body">
 
@@ -239,18 +237,16 @@ export default function PageTemplateLandingPage({
                             }
 
                             <div className="card-footer d-flex flex-wrap justify-content-center">
-
                                 <GameMenuPrimaryButtonGroup
                                     useStore={useStore}
                                     type="Landing"
                                 />
-
                             </div>
 
                         </div>
                     }
 
-                    {PostCardContent}
+                    {PostCardContent && PostCardContent}
 
                     <div className="extras">
                         <SessionButton
@@ -261,7 +257,7 @@ export default function PageTemplateLandingPage({
                         <ReturnToLauncherButton />
                     </div>
 
-                    {PostExtrasContent}
+                    {PostExtrasContent && PostExtrasContent}
 
                 </div>
 
