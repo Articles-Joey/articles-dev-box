@@ -17,7 +17,7 @@ export default function MobileMenu({
                 // className="menu-bar card card-articles p-1 justify-content-center"
                 className={
                     classNames(
-                        `menu-bar ${menuBarConfig.menuBarClassName || ''}`,
+                        `dev-box-game-menu menu-bar ${menuBarConfig.menuBarClassName || ''}`,
                         {
                             'card card-articles p-1 justify-content-center': menuBarConfig.style == "Bar",
                             [menuBarConfig.style.replaceAll(" ", "_")]: menuBarConfig.style,
@@ -74,7 +74,7 @@ export default function MobileMenu({
             </div>
 
             <div
-                className={`mobile-menu ${showMenu && 'show'}`}
+                className={`dev-box-game-menu mobile-menu ${showMenu && 'show'}`}
                 onClick={() => setShowMenu(false)}
                 style={{
                     ...(menuBarConfig.style == "Bar" && {

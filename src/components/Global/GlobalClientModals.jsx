@@ -5,6 +5,7 @@ const InfoModal = lazy(() => import('../Games/InfoModal'));
 const CreditsModal = lazy(() => import('../Games/Credits/CreditsModal'));
 const FriendsList = lazy(() => import('../Friends/FriendsList'));
 const SettingsModal = lazy(() => import('../Games/Settings/SettingsModal'));
+const InviteModal = lazy(() => import('../Games/InviteModal'));
 
 import useUserDetails from '../../hooks/User/useUserDetails';
 import useUserToken from '../../hooks/User/useUserToken';
@@ -31,6 +32,9 @@ export default function GlobalClientModals({
 
     const showFriendsModal = useStore((state) => state.showFriendsModal)
     const setShowFriendsModal = useStore((state) => state.setShowFriendsModal)
+
+    const showInviteModal = useStore((state) => state.showInviteModal)
+    const setShowInviteModal = useStore((state) => state.setShowInviteModal)
 
     const {
         data: userToken,
@@ -93,19 +97,17 @@ export default function GlobalClientModals({
                     componentType="modal"
                     show={showFriendsModal}
                     setShow={setShowFriendsModal}
-                    user_id={
-                        userDetails ? userDetails.user_id : null
-                    }
-                    user_token={
-                        userToken ? userToken : null
-                    }
-                // className="123"
-                // style={{
-                //     backgroundColor: 'pink'
-                // }}
-                // id="456"
                 />
             }
+
+            {showInviteModal &&
+                <InviteModal
+                    show={showInviteModal}
+                    setShow={setShowInviteModal}
+                    useSocketStore={useSocketStore}
+                />
+            }
+
         </>
     )
 }

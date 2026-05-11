@@ -29,7 +29,7 @@ const options = {
     revalidateOnFocus: false,
     revalidateIfStale: false,
     shouldRetryOnError: false,
-    errorRetryInterval: ((1000 * 60) * 1),
+    errorRetryInterval: ((1000 * 60) * 2),
     // fallbackData: []
 }
 

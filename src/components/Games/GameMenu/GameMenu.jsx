@@ -1,6 +1,7 @@
 import MobileMenu from "./MobileMenu";
 
 import "#root/src/styles/components/GameMenu.scss";
+
 import { useEffect } from "react";
 
 /**
@@ -60,7 +61,7 @@ export default function GameMenu(props) {
             />
 
             <div 
-                className={`panel-left card rounded-0 ${convertedSidebarStyle} ${sidebarConfig?.className || ''}`}
+                className={`dev-box-game-menu panel-left card rounded-0 ${convertedSidebarStyle} ${sidebarConfig?.className || ''}`}
                 style={{
                     ...sidebarConfig?.cssStyle,
                     ...(convertedSidebarStyle == "Floating_Panel" && {

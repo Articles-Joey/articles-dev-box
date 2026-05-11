@@ -19,6 +19,7 @@ const useUserToken = (port) => {
             revalidateOnReconnect: false,
             shouldRetryOnError: false,
             errorRetryInterval: ((1000 * 60) * 1),
+            dedupingInterval: (1000 * 60) * 5, // 5 minute
         }
     );
 

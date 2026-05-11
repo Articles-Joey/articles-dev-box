@@ -20,6 +20,7 @@ import SocketServerUrlHandler from '#root/src/components/Games/SocketServerUrlHa
 import HasNoMouseHandler from '#root/src/components/Handlers/HasNoMouseHandler.jsx';
 
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
+import InviteModal from '#root/src/components/Games/InviteModal.jsx';
 
 import useUserDetails from '#root/src/hooks/User/useUserDetails';
 import useUserToken from '#root/src/hooks/User/useUserToken';
@@ -59,6 +60,7 @@ export {
   HasNoMouseHandler,
   CreditsModal,
   FriendsList,
+  InviteModal,
 
   useUserDetails,
   useUserToken,

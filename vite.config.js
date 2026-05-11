@@ -42,6 +42,7 @@ export default defineConfig({
         HasNoMouseHandler: resolve(__dirname, 'src/components/Handlers/HasNoMouseHandler.jsx'),
 
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
+        InviteModal: resolve(__dirname, 'src/components/Games/InviteModal.jsx'),
 
         useUserDetails: resolve(__dirname, 'src/hooks/User/useUserDetails.js'),
         useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),

@@ -2,8 +2,10 @@
 import useUserFriends from "#root/src/hooks/User/useUserFriends";
 import { Modal } from "react-bootstrap";
 import ArticlesButton from "../UI/Button";
+
 import useUserToken from "#root/src/hooks/User/useUserToken.js";
 import useUserDetails from "#root/src/hooks/User/useUserDetails.js";
+import { useMemo } from "react";
 
 export default function FriendsList({
     show,
@@ -56,9 +58,71 @@ export default function FriendsList({
         user_token: userToken,
     });
 
+    const friendsWrapped = useMemo(() => {
+
+        return <div>
+            {friends?.map((friend) => (
+                <div
+                    key={friend.friend_id}
+                    className="d-flex align-items-center justify-content-between border p-1"
+                >
+
+                    <div>
+
+                        <img
+                            src={friend?.populated_user?.photo_url}
+                            alt={`${friend?.populated_user?.username}'s avatar`}
+                            width={32}
+                            height={32}
+                            className="me-2"
+                        />
+
+                        {friend?.populated_user?.username} - {friend?.populated_user?.display_name || 'No Display Name'}
+
+                    </div>
+
+                    <div>
+                        {allowInvite && <ArticlesButton
+                            variant="articles"
+                            onClick={() => {
+                                // mutateFriends()
+                                allowInvite(friend)
+                            }}
+                        >
+                            <i className="fad fa-paper-plane me-2"></i>
+                            <span>Invite</span>
+                        </ArticlesButton>}
+                        <ArticlesButton
+                            variant="articles"
+                            onClick={() => {
+                                // mutateFriends()
+                                console.log("View friend details for ", friend)
+                            }}
+                        >
+                            <i className="fad fa-info me-0"></i>
+                        </ArticlesButton>
+                        <ArticlesButton
+                            variant="articles"
+                            onClick={() => {
+                                console.log("Start Message")
+                            }}
+                        >
+                            <i className="fad fa-envelope me-0"></i>
+                        </ArticlesButton>
+                    </div>
+
+                </div>
+            ))}
+        </div>
+
+    }, [friends])
+
     if (!componentType || componentType == 'list') {
 
         if (!friendsLoading && friends && friends.length > 0) {
+
+            return friendsWrapped
+
             return (
                 <ul className={className} style={style}>
                     {friends.map((friend) => (
@@ -108,39 +172,7 @@ export default function FriendsList({
                     }
 
                     {!friendsLoading && friends && friends.length > 0 &&
-                        <div>
-                            {friends.map((friend) => (
-                                <div
-                                    key={friend.friend_id}
-                                    className="d-flex align-items-center justify-content-between border p-1"
-                                >
-
-                                    {friend?.populated_user?.username} - {friend?.populated_user?.display_name || 'No Display Name'}
-
-                                    <div>
-                                        {allowInvite && <ArticlesButton
-                                            variant="articles"
-                                            onClick={() => {
-                                                // mutateFriends()
-                                                allowInvite(friend)
-                                            }}
-                                        >
-                                            <i className="fad fa-comment-check"></i>
-                                        </ArticlesButton>}
-                                        <ArticlesButton
-                                            variant="articles"
-                                            onClick={() => {
-                                                // mutateFriends()
-                                                console.log("View friend details for ", friend)
-                                            }}
-                                        >
-                                            <i className="fad fa-info me-0"></i>
-                                        </ArticlesButton>
-                                    </div>
-
-                                </div>
-                            ))}
-                        </div>
+                        friendsWrapped
                     }
 
                 </Modal.Body>

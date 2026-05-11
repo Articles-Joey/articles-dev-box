@@ -2,17 +2,17 @@
 
 @include media-breakpoint-up(lg) {
     .show-sidebar {
-        .menu-bar {
+        .menu-bar.dev-box-game-menu {
             display: none;
         }
 
-        .panel-left {
+        .panel-left.dev-box-game-menu {
             display: flex !important;
         }
     }
 }
 
-.menu-bar {
+.menu-bar.dev-box-game-menu {
     // position: fixed;
     // bottom: 0;
     // left: 0;
@@ -109,7 +109,7 @@
     }
 }
 
-.mobile-menu {
+.mobile-menu.dev-box-game-menu {
     position: fixed;
     // bottom: 0px;
     left: 0;
@@ -139,22 +139,22 @@
     }
 }
 
-.panel-left,
-.panel-right {
+.panel-left.dev-box-game-menu,
+.panel-right.dev-box-game-menu {
     width: 300px;
     height: calc(100vh - 0px);
     overflow-y: auto;
     flex-shrink: 0;
 }
 
-.panel-left {
+.panel-left.dev-box-game-menu {
     display: none !important;
     // display: flex;
     // justify-content: center;
     // align-items: center;
 }
 
-.panel-right {
+.panel-right.dev-box-game-menu {
     display: flex;
     justify-content: center;
     align-items: center;

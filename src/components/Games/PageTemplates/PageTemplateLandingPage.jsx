@@ -68,7 +68,7 @@ export default function PageTemplateLandingPage({
 
     return (
 
-        <div className="landing-page">
+        <div className="landing-page dev-box-template-landing-page">
 
             {AdditionalContent && AdditionalContent}
 
