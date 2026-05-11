@@ -8,7 +8,8 @@ import ArticlesButton from "../UI/Button";
  * @returns {JSX.Element|null} The rendered NicknameInput component or null if useStore is not provided.
  */
 export default function NicknameInput({
-    useStore
+    useStore,
+    config,
 }) {
 
     const _hasHydrated = useStore((state) => state._hasHydrated);
@@ -21,7 +22,12 @@ export default function NicknameInput({
     }
 
     return (
-        <>
+        <div className="d-flex w-100">
+            {config?.PreComponent &&
+                <>
+                    {config.PreComponent}
+                </>
+            }
             <div className="flex-grow-1">
 
                 <div className="form-group articles mb-0">
@@ -54,7 +60,7 @@ export default function NicknameInput({
                 <div className='mt-1' style={{ fontSize: '0.8rem' }}>Visible to all players</div>
 
             </div>
-        </>
+        </div>
     )
 
 }

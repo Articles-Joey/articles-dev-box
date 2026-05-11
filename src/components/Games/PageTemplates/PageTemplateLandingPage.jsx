@@ -33,6 +33,7 @@ export default function PageTemplateLandingPage({
     PostExtrasContent = null,
     PreHeroContent = null,
     PostHeroContent = null,
+    NicknameInputConfig = null,
 }) {
 
     // const {
@@ -115,6 +116,7 @@ export default function PageTemplateLandingPage({
 
                             <NicknameInput
                                 useStore={useStore}
+                                config={NicknameInputConfig}
                             />
 
                         </div>
