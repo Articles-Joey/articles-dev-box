@@ -173,15 +173,15 @@ function ModalContent({
                         Close
                     </ArticlesButton>
 
-                    <ArticlesButton
+                    {config?.reset && <ArticlesButton
                         variant="outline-danger ms-3"
                         onClick={() => {
-                            reset()
+                            config.reset()
                             // setShow(false)
                         }}
                     >
                         Reset
-                    </ArticlesButton>
+                    </ArticlesButton>}
 
                 </div>
 

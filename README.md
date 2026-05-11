@@ -45,7 +45,7 @@ npm run dev
 | GameMenu | All in one component that handles the sidebar and menu-bar inside a game page. | Catching Game and School Run use Static Panel for sidebarStyle and Corner Button for menuBarStyle. Ice Slide uses Floating Panel for sidebarStyle and Bar for menuBarStyle. |
 | GameMenuPrimaryButtonGroup | The common button groups for landing page and menu content across our games | Catching Game and Move Match |
 | NicknameInput | Handles nickname UI on landing page | Catching Game |
-| GlobalHead | Not used at this time, allows for just <head> related tags to be added to site without other logic. | |
+| GlobalHead | Not used at this time, allows for head element related tags to be added to site without other logic. | |
 | GlobalBody | Easy way to add future logic and components to all projects with ease. For now handling the font awesome script. Also shows connection status to required servers in development. Will ping the main and auth server as they are needed for some dev-box features. | |
 | ViewUserModal | View user profile data and recent activity. | |
 | SettingsModal | All in one component to handle game settings UI across multiple games. | |

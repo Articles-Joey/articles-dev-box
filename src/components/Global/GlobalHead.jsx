@@ -1,12 +1,14 @@
-function GlobalHead() {
+function GlobalHead({
+    fontawesome = false,
+}) {
 
     return (
         <>
 
-            <link
+            {fontawesome && <link
                 rel="stylesheet"
                 href={`https://cdn.articles.media/fonts/fontawesome/css/all.min.css`} 
-            />
+            />}
 
         </>
     )

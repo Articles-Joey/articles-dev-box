@@ -8,9 +8,15 @@ export default function ControlsTab({
     return (
         <div className="">
 
+            {config?.tabs?.Controls?.ControlsPanel &&
+                <>
+                    {config?.tabs?.Controls?.ControlsPanel}
+                </>
+            }
+
             {(
                 useTouchControlsStore
-                && 
+                &&
                 config?.tabs?.Controls?.touchControls
             ) &&
                 <TouchControls

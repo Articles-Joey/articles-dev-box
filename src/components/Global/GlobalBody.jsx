@@ -10,7 +10,9 @@ import React, { Suspense } from 'react';
 // import StatusModal from "./StatusModal";
 const StatusModal = lazy(() => import('./StatusModal'));
 
-function GlobalBody(props) {
+function GlobalBody({
+    fontawesome = true,
+}) {
 
     const [statusModal, setStatusModal] = useState(false);
 
@@ -35,10 +37,10 @@ function GlobalBody(props) {
     return (
         <>
 
-            <link
+            {fontawesome && <link
                 rel="stylesheet"
                 href={`https://cdn.articles.media/fonts/fontawesome/css/all.min.css`}
-            />
+            />}
 
             {process.env.NODE_ENV === 'development' &&
                 <>

@@ -16,6 +16,10 @@ export default function PrimaryButtonGroup({
     LeaveGameOverride,
     SidebarOverride,
     SettingsOverride,
+    InfoOverride,
+    CreditsOverride,
+    GithubOverride,
+    FullscreenOverride,
 }) {
 
     if (!useStore) {
@@ -37,72 +41,86 @@ export default function PrimaryButtonGroup({
         case "Landing":
             return (
                 <>
-                    <div className='w-50 d-flex'>
+                    {SettingsOverride ?
+                        SettingsOverride
+                        :
+                        <div className='w-50 d-flex'>
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[2] = el}
+                                className={`w-100`}
+                                small
+                                onClick={() => {
+                                    setShowSettingsModal(true)
+                                }}
+                            >
+                                <i className="fad fa-cog"></i>
+                                Settings
+                            </ArticlesButton>
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[2] = el}
+                                className={``}
+                                small
+                                onClick={() => {
+                                    toggleDarkMode()
+                                }}
+                            >
+                                {darkMode ? <i className="fad fa-sun"></i> : <i className="fad fa-moon"></i>}
+                            </ArticlesButton>
+                        </div>
+                    }
+
+                    {InfoOverride ?
+                        InfoOverride
+                        :
                         <ArticlesButton
-                            // ref={el => elementsRef.current[2] = el}
-                            className={`w-100`}
+                            // ref={el => elementsRef.current[3] = el}
+                            className={`w-50`}
                             small
                             onClick={() => {
-                                setShowSettingsModal(true)
+                                setShowInfoModal(true)
                             }}
                         >
-                            <i className="fad fa-cog"></i>
-                            Settings
-                        </ArticlesButton>
+                            <i className="fad fa-info-square"></i>
+                            Info
+                        </ArticlesButton>}
+
+                    {GithubOverride ?
+                        GithubOverride
+                        :
+                        <a
+                            href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}`}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='w-50'
+                        >
+                            <ArticlesButton
+                                // ref={el => elementsRef.current[4] = el}
+                                className={`w-100`}
+                                small
+                                onClick={() => {
+
+                                }}
+                            >
+                                <i className="fab fa-github"></i>
+                                Github
+                            </ArticlesButton>
+                        </a>}
+
+                    {CreditsOverride ?
+                        CreditsOverride
+                        :
                         <ArticlesButton
-                            // ref={el => elementsRef.current[2] = el}
-                            className={``}
+                            // ref={el => elementsRef.current[5] = el}
+                            className={`w-50`}
                             small
                             onClick={() => {
-                                toggleDarkMode()
+                                setShowCreditsModal(true)
                             }}
                         >
-                            {darkMode ? <i className="fad fa-sun"></i> : <i className="fad fa-moon"></i>}
+                            <i className="fad fa-users"></i>
+                            Credits
                         </ArticlesButton>
-                    </div>
-
-                    <ArticlesButton
-                        // ref={el => elementsRef.current[3] = el}
-                        className={`w-50`}
-                        small
-                        onClick={() => {
-                            setShowInfoModal(true)
-                        }}
-                    >
-                        <i className="fad fa-info-square"></i>
-                        Info
-                    </ArticlesButton>
-
-                    <a
-                        href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='w-50'
-                    >
-                        <ArticlesButton
-                            // ref={el => elementsRef.current[4] = el}
-                            className={`w-100`}
-                            small
-                            onClick={() => {
-
-                            }}
-                        >
-                            <i className="fab fa-github"></i>
-                            Github
-                        </ArticlesButton>
-                    </a>
-
-                    <ArticlesButton
-                        // ref={el => elementsRef.current[5] = el}
-                        className={`w-50`}
-                        small
-                        onClick={() => {
-                            setShowCreditsModal(true)
-                        }}
-                    >
-                        <i className="fad fa-users"></i>
-                        Credits
-                    </ArticlesButton>
+                    }
                 </>
             )
         case "GameMenu":
@@ -125,22 +143,25 @@ export default function PrimaryButtonGroup({
                         </a>
                     }
 
-                    <ArticlesButton
-                        small
-                        className="w-50"
-                        active={isFullscreen}
-                        onClick={() => {
-                            if (isFullscreen) {
-                                exitFullscreen()
-                            } else {
-                                requestFullscreen()
-                            }
-                        }}
-                    >
-                        {isFullscreen && <span>Exit </span>}
-                        {!isFullscreen && <span><i className='fad fa-expand'></i></span>}
-                        <span>Fullscreen</span>
-                    </ArticlesButton>
+                    {FullscreenOverride ?
+                        FullscreenOverride
+                        :
+                        <ArticlesButton
+                            small
+                            className="w-50"
+                            active={isFullscreen}
+                            onClick={() => {
+                                if (isFullscreen) {
+                                    exitFullscreen()
+                                } else {
+                                    requestFullscreen()
+                                }
+                            }}
+                        >
+                            {isFullscreen && <span>Exit </span>}
+                            {!isFullscreen && <span><i className='fad fa-expand'></i></span>}
+                            <span>Fullscreen</span>
+                        </ArticlesButton>}
 
                     {SettingsOverride ?
                         SettingsOverride
