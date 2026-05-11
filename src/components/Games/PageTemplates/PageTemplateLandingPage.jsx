@@ -34,6 +34,8 @@ export default function PageTemplateLandingPage({
     PreHeroContent = null,
     PostHeroContent = null,
     NicknameInputConfig = null,
+    CardOverride = null,
+    LandingBackgroundAnimation = null,
 }) {
 
     // const {
@@ -62,6 +64,7 @@ export default function PageTemplateLandingPage({
 
     const darkMode = useStore(state => state.darkMode)
     const lobbyDetails = useStore(state => state.lobbyDetails)
+    const landingAnimation = useStore(state => state.landingAnimation)
 
     return (
 
@@ -70,13 +73,17 @@ export default function PageTemplateLandingPage({
             {AdditionalContent}
 
             <div className='background-wrap'>
-                <img
-                    src={backgroundImage}
-                    alt=""
-                    width="100%"
-                    height="100%"
-                    style={{ objectFit: 'cover', objectPosition: 'bottom' }}
-                />
+                {landingAnimation ?
+                    <LandingBackgroundAnimation />
+                    :
+                    <img
+                        src={backgroundImage}
+                        alt=""
+                        width="100%"
+                        height="100%"
+                        style={{ objectFit: 'cover', objectPosition: 'bottom' }}
+                    />
+                }
             </div>
 
             <div
@@ -110,132 +117,138 @@ export default function PageTemplateLandingPage({
 
                     {PostHeroContent}
 
-                    <div className="card card-articles mb-3">
+                    {CardOverride ?
+                        <>
+                            {CardOverride}
+                        </>
+                        :
+                        <div className="card card-articles mb-3">
 
-                        <div className="card-header">
+                            <div className="card-header">
 
-                            <NicknameInput
-                                useStore={useStore}
-                                config={NicknameInputConfig}
-                            />
-
-                        </div>
-
-                        {CardBodyOverride ?
-                            <CardBodyOverride />
-                            :
-                            <div className="card-body">
-
-                                {singlePlayerConfig &&
-                                    <Link
-                                        href="/play"
-                                        style={{
-                                            textDecoration: "none"
-                                        }}
-                                    >
-                                        <ArticlesButton
-                                            variant=""
-                                            className="d-flex justify-content-center align-items-center mb-3 w-100"
-                                            onClick={() => { }}
-                                        >
-                                            <i className='fad fa-play me-2'></i>
-                                            Single Player
-                                        </ArticlesButton>
-                                    </Link>
-                                }
-
-                                {multiplayerConfig &&
-                                    <>
-                                        <div className="fw-bold mb-1 small text-center">
-                                            {lobbyDetails?.players.length || 0} player{lobbyDetails?.players.length !== 1 && 's'} in the lobby.
-                                        </div>
-
-                                        <div className="servers">
-
-                                            {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
-
-                                                let lobbyLookup = lobbyDetails?.games?.find(lobby =>
-                                                    parseInt(lobby.server_id) == id
-                                                )
-
-                                                return (
-                                                    <div key={id} className="server">
-
-                                                        <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
-                                                            <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {id}</b></div>
-                                                            <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
-                                                        </div>
-
-                                                        <div className='d-flex justify-content-around w-100 mb-1'>
-                                                            {[1, 2, 3, 4].map(player_count => {
-
-                                                                let playerLookup = false
-
-                                                                if (lobbyLookup?.players?.length >= player_count) playerLookup = true
-
-                                                                return (
-                                                                    <div key={player_count} className="icon" style={{
-                                                                        width: '20px',
-                                                                        height: '20px',
-                                                                        ...(playerLookup ? {
-                                                                            backgroundColor: 'black',
-                                                                        } : {
-                                                                            backgroundColor: 'gray',
-                                                                        }),
-                                                                        border: '1px solid black'
-                                                                    }}>
-
-                                                                    </div>
-                                                                )
-                                                            })}
-                                                        </div>
-
-                                                        <Link
-                                                            className={``}
-                                                            href={{
-                                                                pathname: `/play`,
-                                                                query: {
-                                                                    server: id
-                                                                }
-                                                            }}
-                                                            style={{
-                                                                ...(multiplayerConfig?.comingSoon ? {
-                                                                    pointerEvents: "none"
-                                                                } : {
-
-                                                                })
-                                                            }}
-                                                        >
-                                                            <ArticlesButton
-                                                                small
-                                                                className="px-3"
-                                                                disabled={multiplayerConfig?.comingSoon}
-                                                            >
-                                                                {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
-                                                            </ArticlesButton>
-                                                        </Link>
-
-                                                    </div>
-                                                )
-                                            })}
-
-                                        </div>
-                                    </>
-                                }
+                                <NicknameInput
+                                    useStore={useStore}
+                                    config={NicknameInputConfig}
+                                />
 
                             </div>
-                        }
 
-                        <div className="card-footer d-flex flex-wrap justify-content-center">
+                            {CardBodyOverride ?
+                                <CardBodyOverride />
+                                :
+                                <div className="card-body">
 
-                            <GameMenuPrimaryButtonGroup
-                                useStore={useStore}
-                                type="Landing"
-                            />
+                                    {singlePlayerConfig &&
+                                        <Link
+                                            href="/play"
+                                            style={{
+                                                textDecoration: "none"
+                                            }}
+                                        >
+                                            <ArticlesButton
+                                                variant=""
+                                                className="d-flex justify-content-center align-items-center mb-3 w-100"
+                                                onClick={() => { }}
+                                            >
+                                                <i className='fad fa-play me-2'></i>
+                                                Single Player
+                                            </ArticlesButton>
+                                        </Link>
+                                    }
+
+                                    {multiplayerConfig &&
+                                        <>
+                                            <div className="fw-bold mb-1 small text-center">
+                                                {lobbyDetails?.players.length || 0} player{lobbyDetails?.players.length !== 1 && 's'} in the lobby.
+                                            </div>
+
+                                            <div className="servers">
+
+                                                {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
+
+                                                    let lobbyLookup = lobbyDetails?.games?.find(lobby =>
+                                                        parseInt(lobby.server_id) == id
+                                                    )
+
+                                                    return (
+                                                        <div key={id} className="server">
+
+                                                            <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
+                                                                <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {id}</b></div>
+                                                                <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
+                                                            </div>
+
+                                                            <div className='d-flex justify-content-around w-100 mb-1'>
+                                                                {[1, 2, 3, 4].map(player_count => {
+
+                                                                    let playerLookup = false
+
+                                                                    if (lobbyLookup?.players?.length >= player_count) playerLookup = true
+
+                                                                    return (
+                                                                        <div key={player_count} className="icon" style={{
+                                                                            width: '20px',
+                                                                            height: '20px',
+                                                                            ...(playerLookup ? {
+                                                                                backgroundColor: 'black',
+                                                                            } : {
+                                                                                backgroundColor: 'gray',
+                                                                            }),
+                                                                            border: '1px solid black'
+                                                                        }}>
+
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </div>
+
+                                                            <Link
+                                                                className={``}
+                                                                href={{
+                                                                    pathname: `/play`,
+                                                                    query: {
+                                                                        server: id
+                                                                    }
+                                                                }}
+                                                                style={{
+                                                                    ...(multiplayerConfig?.comingSoon ? {
+                                                                        pointerEvents: "none"
+                                                                    } : {
+
+                                                                    })
+                                                                }}
+                                                            >
+                                                                <ArticlesButton
+                                                                    small
+                                                                    className="px-3"
+                                                                    disabled={multiplayerConfig?.comingSoon}
+                                                                >
+                                                                    {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
+                                                                </ArticlesButton>
+                                                            </Link>
+
+                                                        </div>
+                                                    )
+                                                })}
+
+                                            </div>
+                                        </>
+                                    }
+
+                                </div>
+                            }
+
+                            <div className="card-footer d-flex flex-wrap justify-content-center">
+
+                                <GameMenuPrimaryButtonGroup
+                                    useStore={useStore}
+                                    type="Landing"
+                                />
+
+                            </div>
 
                         </div>
-
-                    </div>
+                    }
 
                     {PostCardContent}
 

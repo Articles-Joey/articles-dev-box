@@ -48,8 +48,8 @@ export default function AudioTab({
                             <Form.Label className="mb-0">
                                 <span>{slider_obj.label}</span>
                                 {audioSettings?.[slider_obj.key] && 
-                                    <span className="ms-2 text-muted">
-                                        {audioSettings[slider_obj.key]}%
+                                    <span className="ms-2">
+                                        - {audioSettings[slider_obj.key]}%
                                     </span>
                                 }
                             </Form.Label>

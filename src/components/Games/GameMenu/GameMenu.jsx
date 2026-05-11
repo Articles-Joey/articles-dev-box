@@ -70,6 +70,11 @@ export default function GameMenu(props) {
                         zIndex: 1,
                         height: "calc(100vh - 1rem)",
                         backgroundColor: "color-mix(in srgb, var(--bs-card-bg) 50%, transparent)",
+                    }),
+                    ...(sidebarConfig.centerContent && {
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        height: "fit-content",
                     })
                 }}
             >
