@@ -1,27 +1,24 @@
 import { useEffect, useState } from 'react'
 
-// import axios from 'axios'
-
 import Modal from 'react-bootstrap/Modal';
-
-// import { useHotkeys } from 'react-hotkeys-hook';
 
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal';
 import ArticlesSwitch from '#root/src/components/UI/ArticlesSwitch';
 import ArticlesButton from '#root/src/components/UI/Button';
 
-// import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
 import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
 
 import "#root/src/styles/components/GameScoreboard.scss";
 
-function GameScoreboard({ 
+function GameScoreboard({
     game,
     metric,
-    reloadScoreboard, 
+    metrics,
+    reloadScoreboard,
     setReloadScoreboard,
     prepend,
-    append
+    append,
+    append_score_text = '',
 }) {
 
     const [showSettings, setShowSettings] = useState(false)
@@ -30,6 +27,8 @@ function GameScoreboard({
 
     const [visible, setVisible] = useState(false)
 
+    const [activeMetric, setActiveMetric] = useState(false)
+
     const {
         data: scoreboard,
         isLoading: scoreboardIsLoading,
@@ -37,29 +36,6 @@ function GameScoreboard({
     } = useGameScoreboard({
         game: game
     })
-
-    // function loadScoreboard() {
-
-    //     axios.get('/api/community/games/scoreboard', {
-    //         params: {
-    //             game: game
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log(response.data)
-    //             setScoreboard(response.data)
-    //         })
-    //         .catch(response => {
-    //             console.log(response.data)
-    //         })
-
-    // }
-
-    useEffect(() => {
-
-        // loadScoreboard()
-
-    }, [])
 
     useEffect(() => {
 
@@ -140,7 +116,36 @@ function GameScoreboard({
 
                 <div className="card-body p-0">
 
-                    {(scoreboard?.length || 0) == 0 &&
+                    {metrics?.length > 1 &&
+                        <div className="metrics d-flex border-bottom p-2">
+                            {metrics.map((m, i) =>
+                                <div
+                                    key={i}
+                                    className="metric badge bg-black text-white me-2"
+                                    onClick={() => setActiveMetric(m?.label)}
+                                    style={{
+                                        opacity: activeMetric == m?.label ? 1 : 0.5,
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    {m?.label}
+                                </div>
+                            )}
+                        </div>
+                    }
+
+                    {scoreboardIsLoading &&
+                        <div className="d-flex align-items-center p-2">
+                            <i className="fad fa-spinner-third fa-spin fa-2x me-2"></i>
+                            <div>Loading...</div>
+                        </div>
+                    }
+
+                    {(
+                        (scoreboard?.length || 0) == 0
+                        &&
+                        !scoreboardIsLoading
+                    ) &&
                         <div className="small p-2">No scores yet</div>
                     }
 
@@ -164,7 +169,9 @@ function GameScoreboard({
 
                                 </div>
 
-                                <div><h5 className="mb-0">{doc.score || doc.total}</h5></div>
+                                <div><h5 className="mb-0">
+                                    {doc.score || doc.total}{append_score_text}
+                                </h5></div>
 
                             </div>
 
