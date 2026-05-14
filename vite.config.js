@@ -44,6 +44,8 @@ export default defineConfig({
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
         InviteModal: resolve(__dirname, 'src/components/Games/InviteModal.jsx'),
 
+        ReusedSocketLogicHandler: resolve(__dirname, 'src/components/Games/Socket/ReusedSocketLogicHandler.jsx'),
+
         useUserDetails: resolve(__dirname, 'src/hooks/User/useUserDetails.js'),
         useUserToken: resolve(__dirname, 'src/hooks/User/useUserToken.js'),
         useUserFriends: resolve(__dirname, 'src/hooks/User/useUserFriends.js'),

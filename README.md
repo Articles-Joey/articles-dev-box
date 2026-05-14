@@ -51,6 +51,9 @@ npm run dev
 | SettingsModal | All in one component to handle game settings UI across multiple games. | |
 | CreditsModal | All in one component to handle game credits UI across multiple games. | |
 | InfoModal | All in one component to handle game info modal across multiple games. | USA Tycoon |
+| FriendsList | List and Modal for showing friends. | Auto imported via GlobalClientModals |
+| InviteModal | Modal for showing FriendsList with allowInvite | Normally used via GlobalClientModals |
+| ReusedSocketLogicHandler | Sets up a lot of common websocket logic | Catching Game, Ocean Rings |
 | DarkModeHandler | Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element. | |
 | ToontownModeHandler | Handles setting zustand state from url params if toontownMode is passed. | |
 | SocketServerUrlHandler | Handles setting socket server state from url params if socketServerUrl is passed. | |

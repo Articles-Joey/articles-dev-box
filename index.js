@@ -22,6 +22,8 @@ import HasNoMouseHandler from '#root/src/components/Handlers/HasNoMouseHandler.j
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 import InviteModal from '#root/src/components/Games/InviteModal.jsx';
 
+import ReusedSocketLogicHandler from '#root/src/components/Games/Socket/ReusedSocketLogicHandler.jsx';
+
 import useUserDetails from '#root/src/hooks/User/useUserDetails';
 import useUserToken from '#root/src/hooks/User/useUserToken';
 import useUserFriends from '#root/src/hooks/User/useUserFriends';
@@ -61,6 +63,7 @@ export {
   CreditsModal,
   FriendsList,
   InviteModal,
+  ReusedSocketLogicHandler,
 
   useUserDetails,
   useUserToken,

@@ -164,15 +164,17 @@ export default function PageTemplateLandingPage({
 
                                                 {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
 
+                                                    const serverNumber = id + 1;
+
                                                     let lobbyLookup = lobbyDetails?.games?.find(lobby =>
-                                                        parseInt(lobby.server_id) == id
+                                                        parseInt(lobby.server_id) == serverNumber
                                                     )
 
                                                     return (
                                                         <div key={id} className="server">
 
                                                             <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
-                                                                <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {id}</b></div>
+                                                                <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {serverNumber}</b></div>
                                                                 <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
                                                             </div>
 
@@ -205,7 +207,7 @@ export default function PageTemplateLandingPage({
                                                                 href={{
                                                                     pathname: `/play`,
                                                                     query: {
-                                                                        server: id
+                                                                        server: serverNumber
                                                                     }
                                                                 }}
                                                                 style={{
