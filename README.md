@@ -63,6 +63,7 @@ npm run dev
 | useFullscreen | Hook for going fullscreen on the body or provided element | |
 | typicalZustandStoreExcludes | Array of strings that every game published by Articles Media would want to normally exclude from persisting in base game store. | Catching Game and School Run |
 | typicalZustandStoreStateSlice | Slice of zustand states that every game normally uses | Catching Game and School Run |
+| zustandSocketStoreSlice  | Slice of zustand states that every game normally uses for sockets | School Run
 | getSignOutRedirectUrl | Handles signout redirect api logic | Catching Game |
 | GlobalClientModals | Imports all global client modals like FriendsList, CreditsModal, SettingsModal, InfoModal, and so on | USA Tycoon |
 | generateRandomNickname | Reusable way of doing random nicknames from package | USA Tycoon |

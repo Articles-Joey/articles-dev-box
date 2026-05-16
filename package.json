@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -48,6 +48,8 @@
     "./useFullscreen": "./dist/useFullscreen.js",
     "./typicalZustandStoreExcludes": "./dist/typicalZustandStoreExcludes.js",
     "./typicalZustandStoreStateSlice": "./dist/typicalZustandStoreStateSlice.js",
+    "./zustandSocketStoreSlice": "./dist/zustandSocketStoreSlice.js",
+    "./useSocketStoreSlice": "./dist/useSocketStoreSlice.js",
     "./defaultGameNextConfig": "./dist/defaultGameNextConfig.js",
     "./defaultGameThemeConfig": "./dist/defaultGameThemeConfig.js",
     "./getSignOutRedirectUrl": "./dist/getSignOutRedirectUrl.js",

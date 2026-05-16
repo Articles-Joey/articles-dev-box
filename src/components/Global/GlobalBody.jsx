@@ -22,7 +22,11 @@ function GlobalBody({
         isLoading: mainSiteStatusLoading,
         mutate: mainSiteStatusMutate
     } = useMainSiteStatus({
-        disable: process.env.NODE_ENV !== "development"
+        disable: (
+            process.env.NODE_ENV !== "development"
+            ||
+            process.env.NEXT_PUBLIC_ENABLE_ARTICLES === "false"
+        )
     });
 
     const {
@@ -31,7 +35,11 @@ function GlobalBody({
         isLoading: authSiteStatusLoading,
         mutate: authSiteStatusMutate
     } = useAuthSiteStatus({
-        disable: process.env.NODE_ENV !== "development"
+        disable: (
+            process.env.NODE_ENV !== "development"
+            ||
+            process.env.NEXT_PUBLIC_ENABLE_ARTICLES === "false"
+        )
     });
 
     return (

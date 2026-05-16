@@ -53,6 +53,7 @@ export default defineConfig({
 
         typicalZustandStoreExcludes: resolve(__dirname, 'src/constants/typicalZustandStoreExcludes.js'),
         typicalZustandStoreStateSlice: resolve(__dirname, 'src/constants/typicalZustandStoreStateSlice.js'),
+        zustandSocketStoreSlice: resolve(__dirname, 'src/constants/zustandSocketStoreSlice.js'),
         defaultGameNextConfig: resolve(__dirname, 'src/constants/defaultGameNextConfig.js'),
         defaultGameThemeConfig: resolve(__dirname, 'src/constants/defaultGameThemeConfig.js'),
 

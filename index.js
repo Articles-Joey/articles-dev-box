@@ -31,6 +31,7 @@ import useFullscreen from '#root/src/hooks/useFullscreen';
 
 import typicalZustandStoreExcludes from '#root/src/constants/typicalZustandStoreExcludes';
 import typicalZustandStoreStateSlice from '#root/src/constants/typicalZustandStoreStateSlice';
+import zustandSocketStoreSlice from '#root/src/constants/zustandSocketStoreSlice';
 import defaultGameNextConfig from '#root/src/constants/defaultGameNextConfig';
 import defaultGameThemeConfig from '#root/src/constants/defaultGameThemeConfig';
 
@@ -73,6 +74,7 @@ export {
 
   typicalZustandStoreExcludes,
   typicalZustandStoreStateSlice,
+  zustandSocketStoreSlice,
   defaultGameNextConfig,
   defaultGameThemeConfig,
 
