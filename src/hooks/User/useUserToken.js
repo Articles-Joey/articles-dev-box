@@ -11,8 +11,11 @@ const fetcher = (url) =>
 const useUserToken = (port) => {
 
     const { data, error, isLoading, mutate } = useSWR(
-        // "http://localhost:3012/api/auth/session",
-        process.env.NODE_ENV === "development" ? `http://localhost:${port}/api/token` : "/api/token",
+        // Open source games should not attempt to fetch a token, doing this in a opt in way
+        process.env.NEXT_PUBLIC_ENABLE_ARTICLES !== "false" ?
+            process.env.NODE_ENV === "development" ? `http://localhost:${port}/api/token` : "/api/token"
+            :
+            false,
         fetcher,
         {
             revalidateOnFocus: false,

@@ -25,8 +25,10 @@ export default function PageTemplateLandingPage({
     multiplayerConfig,
     brandingTextClass,
     disableHero,
+    heroOverride,
     disableAd,
     disableGameScoreboard,
+    gameScoreboardConfig,
     maxInnerWidth = "20rem",
     AdditionalContent = null,
     PostCardContent = null,
@@ -97,7 +99,10 @@ export default function PageTemplateLandingPage({
 
                     {PreHeroContent && PreHeroContent}
 
-                    {!disableHero &&
+                    {heroOverride ?
+                        heroOverride
+                        :
+                        !disableHero &&
                         <div className='landing-hero text-center mb-2'>
 
                             <img
@@ -250,14 +255,15 @@ export default function PageTemplateLandingPage({
 
                     {PostCardContent && PostCardContent}
 
-                    <div className="extras">
+                    {/* On by default approach  */}
+                    {process.env.NEXT_PUBLIC_ENABLE_ARTICLES !== "false" && <div className="extras">
                         <SessionButton
                             port={process.env.NEXT_PUBLIC_GAME_PORT}
                             friendsButton={true}
                         />
 
                         <ReturnToLauncherButton />
-                    </div>
+                    </div>}
 
                     {PostExtrasContent && PostExtrasContent}
 
@@ -283,6 +289,7 @@ export default function PageTemplateLandingPage({
                                 </div>
                             </>
                         }
+                        {...gameScoreboardConfig}
                     />
                 }
 

@@ -61,7 +61,15 @@ export default function InfoModal({
 
                     <div className="p-3">
 
-                        <div className="">{packageInfo?.description}</div>
+                        <div className="">
+                            {packageInfo?.description}
+                        </div>
+
+                        {infoModalConfig?.appendContent &&
+                            <div className="mt-2">
+                                {infoModalConfig.appendContent}
+                            </div>
+                        }
 
                     </div>
 

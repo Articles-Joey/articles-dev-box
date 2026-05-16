@@ -5,7 +5,7 @@
 Shared code, functions, and components that are commonly used across Articles Media projects. 
 
 # Warning
-None of this is meant to work outside the Articles Media frontend React ecosystem. Breaking changes are being made in between patch releases until 1.1.0, when we switch to major release for breaking.
+A lot of this package is expected to be consumed in a Articles Media related React ecosystem. See Package Exports section for more details.
 
 ## Getting Started
 

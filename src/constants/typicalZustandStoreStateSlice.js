@@ -170,6 +170,10 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
     isTouchCapable: null,
     setIsTouchCapable: (value) => set({ isTouchCapable: value }),
 
+    // CDN or Local
+    modelSource: process.env.NEXT_PUBLIC_MODEL_SOURCE || "Local",
+    setModelSource: (value) => set({ modelSource: value }),
+
 })
 
 export default typicalZustandStoreStateSlice
