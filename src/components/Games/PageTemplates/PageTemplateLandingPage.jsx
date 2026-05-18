@@ -21,6 +21,8 @@ export default function PageTemplateLandingPage({
     logoImage,
     backgroundImage,
     CardBodyOverride,
+    CardBodyAppendContent,
+    CardBodyPrependContent,
     singlePlayerConfig,
     multiplayerConfig,
     brandingTextClass,
@@ -141,6 +143,8 @@ export default function PageTemplateLandingPage({
                                 :
                                 <div className="card-body">
 
+                                    {CardBodyPrependContent && CardBodyPrependContent}
+
                                     {singlePlayerConfig &&
                                         <Link
                                             href="/play"
@@ -161,9 +165,7 @@ export default function PageTemplateLandingPage({
 
                                     {multiplayerConfig &&
                                         <>
-                                            <div className="fw-bold mb-1 small text-center">
-                                                {lobbyDetails?.players.length || 0} player{lobbyDetails?.players.length !== 1 && 's'} in the lobby.
-                                            </div>
+                                            <OnlinePlayers useStore={useStore} />
 
                                             <div className="servers">
 
@@ -240,6 +242,8 @@ export default function PageTemplateLandingPage({
                                         </>
                                     }
 
+                                    {CardBodyAppendContent && CardBodyAppendContent}
+
                                 </div>
                             }
 
@@ -309,4 +313,20 @@ export default function PageTemplateLandingPage({
 
         </div>
     );
+}
+
+function OnlinePlayers({useStore}) {
+
+    const lobbyDetails = useStore(state => state.lobbyDetails)
+
+    return (
+        <div className="fw-bold mb-1 small text-center">
+            {(
+                lobbyDetails?.online_player_count
+                ||
+                lobbyDetails?.players?.length || 0
+            )} player{(lobbyDetails?.online_player_count || lobbyDetails?.players?.length !== 1) && 's'} in the lobby.
+        </div>
+    )
+
 }

@@ -191,6 +191,7 @@ export default function ReusedSocketLogicHandler({
         pathname,
     ]);
 
+    // Authentication Logic
     useEffect(() => {
 
         if (
@@ -199,6 +200,8 @@ export default function ReusedSocketLogicHandler({
             !authenticated
             &&
             userDetails?.user_id
+            &&
+            userToken
         ) {
 
             debugLog("Socket is now connected and not authenticated with a logged in user!")
@@ -215,6 +218,7 @@ export default function ReusedSocketLogicHandler({
         connected,
         authenticated,
         userDetails?.user_id,
+        userToken
     ]);
 
     useEffect(() => {
