@@ -20,6 +20,7 @@ export default function PrimaryButtonGroup({
     CreditsOverride,
     GithubOverride,
     FullscreenOverride,
+    useRouter = null,
 }) {
 
     if (!useStore) {
@@ -27,6 +28,7 @@ export default function PrimaryButtonGroup({
     }
 
     const { isFullscreen, requestFullscreen, exitFullscreen } = useFullscreen();
+    const router = useRouter ? useRouter() : null;
 
     const setShowSettingsModal = useStore((state) => state.setShowSettingsModal);
     const toggleDarkMode = useStore((state) => state.toggleDarkMode);
@@ -35,6 +37,10 @@ export default function PrimaryButtonGroup({
     const setShowCreditsModal = useStore((state) => state.setShowCreditsModal);
     const sidebar = useStore((state) => state.sidebar);
     const setSidebar = useStore((state) => state.setSidebar);
+
+    if (!router && type === "GameMenu") {
+        console.warn("GameMenuPrimaryButtonGroup: useRouter is needed for GameMenu type to avoid full reload navigation. Please provide a router instance from your framework (e.g. Next.js useRouter) as a prop.")
+    }
 
     switch (type) {
 
@@ -132,6 +138,15 @@ export default function PrimaryButtonGroup({
                         <a
                             href={'/'}
                             className="w-50"
+                            onClick={(e) => {
+
+                                if (router) {
+                                    e.preventDefault()
+                                    router.push('/')
+                                    return
+                                }
+
+                            }}
                         >
                             <ArticlesButton
                                 className='w-100'

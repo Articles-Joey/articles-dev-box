@@ -1,5 +1,5 @@
 "use client"
-import { lazy } from 'react';
+import { lazy, use } from 'react';
 
 import ArticlesButton from '../../UI/Button';
 import NicknameInput from '../NicknameInput';
@@ -40,6 +40,7 @@ export default function PageTemplateLandingPage({
     NicknameInputConfig = null,
     CardOverride = null,
     LandingBackgroundAnimation = null,
+    useRouter = null,
 }) {
 
     // const {
@@ -251,6 +252,7 @@ export default function PageTemplateLandingPage({
                                 <GameMenuPrimaryButtonGroup
                                     useStore={useStore}
                                     type="Landing"
+                                    useRouter={useRouter}
                                 />
                             </div>
 
