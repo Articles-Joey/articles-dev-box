@@ -166,80 +166,16 @@ export default function PageTemplateLandingPage({
 
                                     {multiplayerConfig &&
                                         <>
-                                            <OnlinePlayers useStore={useStore} />
+                                            <OnlinePlayers
+                                                useStore={useStore}
+                                                multiplayerConfig={multiplayerConfig}
+                                            />
 
-                                            <div className="servers">
-
-                                                {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
-
-                                                    const serverNumber = id + 1;
-
-                                                    let lobbyLookup = lobbyDetails?.games?.find(lobby =>
-                                                        parseInt(lobby.server_id) == serverNumber
-                                                    )
-
-                                                    return (
-                                                        <div key={id} className="server">
-
-                                                            <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
-                                                                <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {serverNumber}</b></div>
-                                                                <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
-                                                            </div>
-
-                                                            <div className='d-flex justify-content-around w-100 mb-1'>
-                                                                {[1, 2, 3, 4].map(player_count => {
-
-                                                                    let playerLookup = false
-
-                                                                    if (lobbyLookup?.players?.length >= player_count) playerLookup = true
-
-                                                                    return (
-                                                                        <div key={player_count} className="icon" style={{
-                                                                            width: '20px',
-                                                                            height: '20px',
-                                                                            ...(playerLookup ? {
-                                                                                backgroundColor: 'black',
-                                                                            } : {
-                                                                                backgroundColor: 'gray',
-                                                                            }),
-                                                                            border: '1px solid black'
-                                                                        }}>
-
-                                                                        </div>
-                                                                    )
-                                                                })}
-                                                            </div>
-
-                                                            <Link
-                                                                className={``}
-                                                                href={{
-                                                                    pathname: `/play`,
-                                                                    query: {
-                                                                        server: serverNumber
-                                                                    }
-                                                                }}
-                                                                style={{
-                                                                    ...(multiplayerConfig?.comingSoon ? {
-                                                                        pointerEvents: "none"
-                                                                    } : {
-
-                                                                    })
-                                                                }}
-                                                            >
-                                                                <ArticlesButton
-                                                                    small
-                                                                    className="px-3"
-                                                                    disabled={multiplayerConfig?.comingSoon}
-                                                                >
-                                                                    {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
-                                                                </ArticlesButton>
-                                                            </Link>
-
-                                                        </div>
-                                                    )
-                                                })}
-
-                                            </div>
+                                            <Servers
+                                                useStore={useStore}
+                                                multiplayerConfig={multiplayerConfig}
+                                                Link={Link}
+                                            />
                                         </>
                                     }
 
@@ -317,18 +253,138 @@ export default function PageTemplateLandingPage({
     );
 }
 
-function OnlinePlayers({useStore}) {
+function Servers({
+    useStore,
+    multiplayerConfig,
+    Link,
+}) {
 
     const lobbyDetails = useStore(state => state.lobbyDetails)
+    const online_player_count = useStore(state => state.lobbyDetails.online_player_count)
+    const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
 
     return (
-        <div className="fw-bold mb-1 small text-center">
-            {(
-                lobbyDetails?.online_player_count
-                ||
-                lobbyDetails?.players?.length || 0
-            )} player{(lobbyDetails?.online_player_count || lobbyDetails?.players?.length !== 1) && 's'} in the lobby.
+        <div className="servers">
+
+            {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
+
+                const serverNumber = id + 1;
+
+                let lobbyLookup = lobbyDetails?.games?.find(lobby =>
+                    parseInt(lobby.server_id) == serverNumber
+                )
+
+                return (
+                    <div key={id} className="server">
+
+                        <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
+                            <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {serverNumber}</b></div>
+                            <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
+                        </div>
+
+                        <div className='d-flex justify-content-around w-100 mb-1'>
+                            {[1, 2, 3, 4].map(player_count => {
+
+                                let playerLookup = false
+
+                                if (lobbyLookup?.players?.length >= player_count) playerLookup = true
+
+                                return (
+                                    <div key={player_count} className="icon" style={{
+                                        width: '20px',
+                                        height: '20px',
+                                        ...(playerLookup ? {
+                                            backgroundColor: 'black',
+                                        } : {
+                                            backgroundColor: 'gray',
+                                        }),
+                                        border: '1px solid black'
+                                    }}>
+
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        <Link
+                            className={``}
+                            href={{
+                                pathname: `/play`,
+                                query: {
+                                    server: serverNumber
+                                }
+                            }}
+                            style={{
+                                ...(multiplayerConfig?.comingSoon ? {
+                                    pointerEvents: "none"
+                                } : {
+
+                                })
+                            }}
+                        >
+                            <ArticlesButton
+                                small
+                                className="px-3"
+                                disabled={multiplayerConfig?.comingSoon}
+                            >
+                                {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
+                            </ArticlesButton>
+                        </Link>
+
+                    </div>
+                )
+            })}
+
         </div>
     )
+}
+
+function OnlinePlayers({
+    useStore,
+    multiplayerConfig
+}) {
+
+    const lobbyDetails = useStore(state => state.lobbyDetails)
+    const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
+    const online_player_count = useStore(state => state.lobbyDetails.online_player_count)
+
+    switch (multiplayerConfig.onlinePlayersTemplate) {
+
+        case "2.0":
+            return (
+                <div>
+
+                    <div className="fw-bold mb-0 small text-center">
+                        {(
+                            online_player_count || 0
+                        )} player{(online_player_count !== 1) && 's'} {online_player_count === 1 ? 'is' : 'are'} online.
+                    </div>
+
+                    <div className='d-flex justify-content-center mb-3'>
+                        <div className="badge bg-black text-white me-1">
+                            {(
+                                landing_player_count || 0
+                            )} in lobby
+                        </div>
+                        <div className="badge bg-black text-white">
+                            {(
+                                (online_player_count - landing_player_count) || 0
+                            )} in game
+                        </div>
+                    </div>
+
+                </div>
+            )
+        default:
+            return (
+                <div className="fw-bold mb-1 small text-center">
+                    {(
+                        lobbyDetails?.online_player_count
+                        ||
+                        lobbyDetails?.players?.length || 0
+                    )} player{(lobbyDetails?.online_player_count || lobbyDetails?.players?.length !== 1) && 's'} in the lobby.
+                </div>
+            )
+    }
 
 }
