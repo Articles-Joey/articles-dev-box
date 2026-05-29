@@ -360,7 +360,7 @@ function OnlinePlayers({
                         )} player{(online_player_count !== 1) && 's'} {online_player_count === 1 ? 'is' : 'are'} online.
                     </div>
 
-                    <div className='d-flex justify-content-center mb-3'>
+                    <div className='d-flex justify-content-center mb-2'>
                         <div className="badge bg-black text-white me-1">
                             {(
                                 landing_player_count || 0

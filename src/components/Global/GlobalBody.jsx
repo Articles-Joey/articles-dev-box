@@ -14,33 +14,7 @@ function GlobalBody({
     fontawesome = true,
 }) {
 
-    const [statusModal, setStatusModal] = useState(false);
-
-    const {
-        data: mainSiteStatus,
-        error: mainSiteStatusError,
-        isLoading: mainSiteStatusLoading,
-        mutate: mainSiteStatusMutate
-    } = useMainSiteStatus({
-        disable: (
-            process.env.NODE_ENV !== "development"
-            ||
-            process.env.NEXT_PUBLIC_ENABLE_ARTICLES === "false"
-        )
-    });
-
-    const {
-        data: authSiteStatus,
-        error: authSiteStatusError,
-        isLoading: authSiteStatusLoading,
-        mutate: authSiteStatusMutate
-    } = useAuthSiteStatus({
-        disable: (
-            process.env.NODE_ENV !== "development"
-            ||
-            process.env.NEXT_PUBLIC_ENABLE_ARTICLES === "false"
-        )
-    });
+    // const [statusModal, setStatusModal] = useState(false);
 
     return (
         <>
@@ -86,35 +60,7 @@ function GlobalBody({
                                 border-color: blue;
                             }  
                         `}
-                    </style>
-
-                    <div
-                        onClick={() => {
-                            setStatusModal(true)
-                        }}
-                        className={classNames(
-                            `articles-global-body`,
-                            {
-                                "main-connected": mainSiteStatus,
-                                "auth-connected": authSiteStatus
-                            }
-                        )}
-                    >
-
-                        <div className="content">
-                            <i className="fas fa-thumbs-up"></i>
-                        </div>
-
-                    </div>
-
-                    {statusModal &&
-                        <Suspense>
-                            <StatusModal
-                                show={statusModal}
-                                setShow={setStatusModal}
-                            />
-                        </Suspense>
-                    }
+                    </style>                                     
                 </>
             }
 

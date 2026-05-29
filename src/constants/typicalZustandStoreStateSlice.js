@@ -121,6 +121,13 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
         }))
     },
 
+    showDevStatusModal: false,
+    setShowDevStatusModal: (newValue) => {
+        set((prev) => ({
+            showDevStatusModal: newValue
+        }))
+    },
+
     graphicsQuality: "High",
     setGraphicsQuality: (value) => set({ graphicsQuality: value }),
 
