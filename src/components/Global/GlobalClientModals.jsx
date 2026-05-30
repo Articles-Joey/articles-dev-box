@@ -1,5 +1,6 @@
 "use client";
 import { lazy } from 'react';
+import ArticlesDevStatusBadge from './ArticlesDevStatusBadge';
 
 const InfoModal = lazy(() => import('../Games/InfoModal'));
 const CreditsModal = lazy(() => import('../Games/Credits/CreditsModal'));
@@ -7,13 +8,6 @@ const FriendsList = lazy(() => import('../Friends/FriendsList'));
 const SettingsModal = lazy(() => import('../Games/Settings/SettingsModal'));
 const InviteModal = lazy(() => import('../Games/InviteModal'));
 const StatusModal = lazy(() => import('./StatusModal'));
-
-// import useUserDetails from '../../hooks/User/useUserDetails';
-// import useUserToken from '../../hooks/User/useUserToken';
-
-import useMainSiteStatus from "#root/src/hooks/useMainSiteStatus";
-import useAuthSiteStatus from "#root/src/hooks/useAuthSiteStatus";
-import classNames from 'classnames';
 
 export default function GlobalClientModals({
     useStore,
@@ -44,54 +38,10 @@ export default function GlobalClientModals({
     const showDevStatusModal = useStore((state) => state.showDevStatusModal)
     const setShowDevStatusModal = useStore((state) => state.setShowDevStatusModal)
 
-    // const {
-    //     data: userToken,
-    //     error: userTokenError,
-    //     isLoading: userTokenLoading,
-    //     mutate: userTokenMutate
-    // } = useUserToken(
-    //     process.env.NEXT_PUBLIC_GAME_PORT
-    // );
-
-    // const {
-    //     data: userDetails,
-    //     error: userDetailsError,
-    //     isLoading: userDetailsLoading,
-    //     mutate: userDetailsMutate
-    // } = useUserDetails({
-    //     token: userToken
-    // });
-
     if (!settingsModalConfig) {
         console.error("GlobalClientModals: settingsModalConfig is not provided!");
         return
     }
-
-        const {
-        data: mainSiteStatus,
-        error: mainSiteStatusError,
-        isLoading: mainSiteStatusLoading,
-        mutate: mainSiteStatusMutate
-    } = useMainSiteStatus({
-        disable: (
-            process.env.NODE_ENV !== "development"
-            ||
-            process.env.NEXT_PUBLIC_ENABLE_ARTICLES === "false"
-        )
-    });
-
-    const {
-        data: authSiteStatus,
-        error: authSiteStatusError,
-        isLoading: authSiteStatusLoading,
-        mutate: authSiteStatusMutate
-    } = useAuthSiteStatus({
-        disable: (
-            process.env.NODE_ENV !== "development"
-            ||
-            process.env.NEXT_PUBLIC_ENABLE_ARTICLES === "false"
-        )
-    });
 
     return (
         <>
@@ -142,32 +92,24 @@ export default function GlobalClientModals({
                 />
             }
 
-            {showDevStatusModal &&
-                <StatusModal
-                    show={showDevStatusModal}
-                    setShow={setShowDevStatusModal}
-                    useSocketStore={useSocketStore}
-                />
-            }
+            {/* StatusModal & ArticlesDevStatusBadge */}
+            <>
+                {showDevStatusModal &&
+                    <StatusModal
+                        show={showDevStatusModal}
+                        setShow={setShowDevStatusModal}
+                        useSocketStore={useSocketStore}
+                    />
+                }
+    
+                {process.env.NODE_ENV === 'development' &&
+                    <ArticlesDevStatusBadge
+                        useStore={useStore}
+                    />
+                }
+            </>
 
-            <div
-                onClick={() => {
-                    setShowDevStatusModal(true)
-                }}
-                className={classNames(
-                    `articles-global-body`,
-                    {
-                        "main-connected": mainSiteStatus,
-                        "auth-connected": authSiteStatus
-                    }
-                )}
-            >
-
-                <div className="content">
-                    <i className="fas fa-thumbs-up"></i>
-                </div>
-
-            </div>
         </>
     )
 }
+

@@ -97,6 +97,7 @@ export default function FriendsList({
                             onClick={() => {
                                 // mutateFriends()
                                 console.log("View friend details for ", friend)
+                                window.open(`https://articles.media/settings/friends?friend_relationship_id=${friend?._id}`, '_blank')
                             }}
                         >
                             <i className="fad fa-info me-0"></i>
@@ -105,6 +106,7 @@ export default function FriendsList({
                             variant="articles"
                             onClick={() => {
                                 console.log("Start Message")
+                                window.open(`https://articles.media/messages?startMsg=${friend?.friend_id}`, '_blank')
                             }}
                         >
                             <i className="fad fa-envelope me-0"></i>
