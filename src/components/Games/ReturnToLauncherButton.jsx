@@ -1,10 +1,13 @@
 "use client";
 import ArticlesButton from "#root/src/components/UI/Button";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
+
+const GamesDropdown = lazy(() => import('#root/src/components/Games/GamesDropdown'));
 
 export default function ReturnToLauncherButton({
     className,
-    id
+    id,
+    hideGamesDropdown = false,
 }) {
 
     const [isMounted, setIsMounted] = useState(false);
@@ -30,23 +33,30 @@ export default function ReturnToLauncherButton({
 
     if (!launcher_mode) {
         return (
-            <ArticlesButton
-                // ref={el => elementsRef.current[6] = el}
-                className={`${className} w-100`}
-                small
-                id={id}
-                style={{
-                    zIndex: 10,
-                    position: "relative",
-                }}
-                onClick={() => {
-                    // window.history.back()
-                    window.location.href = `https://games.articles.media`
-                }}
-            >
-                <i className="fad fa-gamepad"></i>
-                View our other games
-            </ArticlesButton>
+            <div className="d-flex">
+                <ArticlesButton
+                    // ref={el => elementsRef.current[6] = el}
+                    className={`${className} w-100`}
+                    small
+                    id={id}
+                    style={{
+                        zIndex: 10,
+                        position: "relative",
+                    }}
+                    onClick={() => {
+                        // window.history.back()
+                        window.location.href = `https://games.articles.media?utm_source=${window.location.hostname}&utm_medium=GamesDropdown`
+                    }}
+                >
+                    <i className="fad fa-gamepad"></i>
+                    View our other games
+                </ArticlesButton>
+
+                {!hideGamesDropdown &&
+                    <GamesDropdown />
+                }
+
+            </div>
         )
     }
 
@@ -62,11 +72,11 @@ export default function ReturnToLauncherButton({
             }}
             onClick={() => {
                 // window.history.back()
-                window.location.href = `https://games.articles.media`
+                window.location.href = `https://games.articles.media?utm_source=${window.location.hostname}&utm_medium=GamesDropdown`
             }}
         >
             <i className="fad fa-gamepad"></i>
             Return to Games
         </ArticlesButton>
     );
-}   
+}
