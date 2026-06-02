@@ -51,27 +51,45 @@ export default function InfoModal({
 
                 <Modal.Body className="flex-column p-0">
 
-                    <div className="ratio ratio-16x9">
-                        {darkMode ?
-                            <img src={infoModalConfig?.previewImage}></img>
-                            :
-                            <img src={infoModalConfig?.previewImage}></img>
-                        }
-                    </div>
+                    {infoModalConfig?.contentOverride ?
+                        <>
+                            {infoModalConfig?.contentOverride}
+                        </>
+                        :
+                        <>
+                            {!infoModalConfig?.hidePreviewImage &&
+                                <div className="ratio ratio-16x9">
+                                    <img
+                                        src={infoModalConfig?.previewImage}
+                                        alt="Game Preview"
+                                        style={{ 
+                                            objectFit: infoModalConfig?.previewImageObjectFit || 'cover' 
+                                        }}
+                                    ></img>
+                                </div>
+                            }
 
-                    <div className="p-3">
+                            <div className="p-3">
 
-                        <div className="">
-                            {packageInfo?.description}
-                        </div>
+                                {infoModalConfig?.prependContent &&
+                                    <div className="mt-2">
+                                        {infoModalConfig.prependContent}
+                                    </div>
+                                }
 
-                        {infoModalConfig?.appendContent &&
-                            <div className="mt-2">
-                                {infoModalConfig.appendContent}
+                                <div className="">
+                                    {packageInfo?.description}
+                                </div>
+
+                                {infoModalConfig?.appendContent &&
+                                    <div className="mt-2">
+                                        {infoModalConfig.appendContent}
+                                    </div>
+                                }
+
                             </div>
-                        }
-
-                    </div>
+                        </>
+                    }
 
                 </Modal.Body>
 

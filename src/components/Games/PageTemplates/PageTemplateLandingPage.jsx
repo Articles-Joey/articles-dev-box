@@ -217,7 +217,8 @@ export default function PageTemplateLandingPage({
                         style="Default"
                         darkMode={darkMode ? true : false}
                         prepend={
-                            RotatingMascot && <>
+                            (typeof RotatingMascot === 'function' && RotatingMascot) ? 
+                            <>
                                 <div
                                     style={{
                                         width: '100%',
@@ -227,8 +228,12 @@ export default function PageTemplateLandingPage({
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <RotatingMascot />
+                                    {/* <RotatingMascot /> */}
                                 </div>
+                            </>
+                            :
+                            <>
+                                {RotatingMascot}
                             </>
                         }
                         {...gameScoreboardConfig}
