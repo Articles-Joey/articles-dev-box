@@ -19,6 +19,9 @@ export default function DebugTab({
     const showStats = useStore((state) => state?.debugConfig?.showStats);
     const setDebugConfigKey = useStore((state) => state?.setDebugConfigKey);
 
+    const modelSource = useStore((state) => state?.modelSource);
+    const setModelSource = useStore((state) => state?.setModelSource);
+
     return (
         <>
 
@@ -44,6 +47,33 @@ export default function DebugTab({
                                 {level ? "Enabled" : "Disabled"}
                             </ArticlesButton>
                         ))}
+                    </div>
+                </div>
+            }
+
+            {/* Not seeing any value of adding this in production, will only end up in snoopy users adding cost */}
+            {process.env.NODE_ENV === "development" &&
+                <div className='mb-3'>
+                    <div>Override Model Source</div>
+                    <div className="">
+                        <ArticlesButton
+                            active={modelSource === 'CDN'}
+                            onClick={() => {
+                                setModelSource("CDN");
+
+                            }}
+                        >
+                            CDN
+                        </ArticlesButton>
+                        <ArticlesButton
+                            active={modelSource === 'Local'}
+                            onClick={() => {
+                                setModelSource("Local");
+
+                            }}
+                        >
+                            Local
+                        </ArticlesButton>
                     </div>
                 </div>
             }

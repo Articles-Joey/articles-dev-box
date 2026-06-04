@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -54,6 +54,8 @@
     "./defaultGameThemeConfig": "./dist/defaultGameThemeConfig.js",
     "./getSignOutRedirectUrl": "./dist/getSignOutRedirectUrl.js",
     "./generateRandomNickname": "./dist/generateRandomNickname.js",
+    "./getAssetSource": "./dist/getAssetSource.js",
+    "./useAssetSource": "./dist/useAssetSource.js",
     "./dist/style.css": "./dist/articles-dev-box.css",
     "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
   },

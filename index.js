@@ -38,6 +38,9 @@ import defaultGameThemeConfig from '#root/src/constants/defaultGameThemeConfig';
 import getSignOutRedirectUrl from '#root/src/util/getSignOutRedirectUrl';
 import generateRandomNickname from '#root/src/util/generateRandomNickname';
 
+import getAssetSource from '#root/src/util/getAssetSource';
+import useAssetSource from '#root/src/hooks/useAssetSource';
+
 export {
   // helloWorld,
   ReturnToLauncherButton,
@@ -80,4 +83,7 @@ export {
 
   getSignOutRedirectUrl,
   generateRandomNickname,
+
+  getAssetSource,
+  useAssetSource,
 };

@@ -59,6 +59,9 @@ export default defineConfig({
 
         getSignOutRedirectUrl: resolve(__dirname, 'src/util/getSignOutRedirectUrl.js'),
         generateRandomNickname: resolve(__dirname, 'src/util/generateRandomNickname.js'),
+
+        getAssetSource: resolve(__dirname, 'src/util/getAssetSource.js'),
+        useAssetSource: resolve(__dirname, 'src/hooks/useAssetSource.js'),
       },
       formats: ['es'],
       fileName: (format, entryName) => `${entryName}.js`,
