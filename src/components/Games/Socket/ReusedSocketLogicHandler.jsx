@@ -239,6 +239,8 @@ export default function ReusedSocketLogicHandler({
     ) {
         return (
             <div
+                id="articles-dev-box-socket-debug-overlay"
+                className="test"
                 style={{
                     position: "fixed",
                     bottom: 0,

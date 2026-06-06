@@ -181,6 +181,11 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
     modelSource: process.env.NEXT_PUBLIC_MODEL_SOURCE || "Local",
     setModelSource: (value) => set({ modelSource: value }),
 
+    // TODO - Easier way to take screenshots for game store and branding purposes
+    screenshotMode: false,
+    setScreenshotMode: (value) => set({ screenshotMode: value }),
+    toggleScreenshotMode: () => set({ screenshotMode: !get().screenshotMode }),
+
 })
 
 export default typicalZustandStoreStateSlice

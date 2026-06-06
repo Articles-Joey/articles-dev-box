@@ -68,6 +68,7 @@ npm run dev
 | GlobalClientModals | Imports all global client modals like FriendsList, CreditsModal, SettingsModal, InfoModal, and so on | USA Tycoon |
 | generateRandomNickname | Reusable way of doing random nicknames from package | USA Tycoon |
 | getAssetSource | Gets an assets source location based on the NEXT_PUBLIC_MODEL_SOURCE env value, allows easier/cheaper open sourcing of games by serving public site assets as CDN and dev/cloned site assets locally | School Run |
+| useAssetSource | Like getAssetSource but gets an assets source location based on the useStore state of modelSource. Main difference is this can be changed in game. | School Run |
 | defaultGameNextConfig | Not usable, for reference | None |
 | defaultGameThemeConfig | Not usable, for reference | None |
 | useModalNavigation | Handles navigating a modal with controller | None |

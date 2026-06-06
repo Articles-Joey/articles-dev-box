@@ -13,6 +13,39 @@ const ReturnToLauncherButton = lazy(() => import('../ReturnToLauncherButton'));
 const GameScoreboard = lazy(() => import('../GameScoreboard'));
 const Ad = lazy(() => import('../../Ads/Ad'));
 
+/**
+ * Landing page template for a game with single/multiplayer options, scoreboard and ads.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.useStore - Zustand (or similar) store hook
+ * @param {Function} props.useSocketStore - Socket store hook
+ * @param {React.Component|Function|Node} props.RotatingMascot - Mascot component or node
+ * @param {Function} props.Link - Router Link component
+ * @param {string} props.logoImage - URL for the logo image
+ * @param {string} props.backgroundImage - URL for the background image
+ * @param {React.Node} [props.CardBodyOverride] - Overrides the default card body
+ * @param {React.Node} [props.CardBodyAppendContent] - Content appended to card body
+ * @param {React.Node} [props.CardBodyPrependContent] - Content prepended to card body
+ * @param {Object} [props.singlePlayerConfig] - Single player configuration
+ * @param {Object} [props.multiplayerConfig] - Multiplayer configuration
+ * @param {string} [props.brandingTextClass] - Extra class for branding text
+ * @param {boolean} [props.disableHero] - Disable hero section
+ * @param {React.Node} [props.heroOverride] - Override for hero area
+ * @param {boolean} [props.disableAd] - Disable ad slot
+ * @param {boolean} [props.disableGameScoreboard] - Disable scoreboard
+ * @param {Object} [props.gameScoreboardConfig] - Config for scoreboard
+ * @param {string|number} [props.maxInnerWidth] - Max inner width (CSS value)
+ * @param {React.Node} [props.AdditionalContent] - Additional top-level content
+ * @param {React.Node} [props.PostCardContent] - Content shown after the card
+ * @param {React.Node} [props.PostExtrasContent] - Content shown after extras
+ * @param {React.Node} [props.PreHeroContent] - Content shown before hero
+ * @param {React.Node} [props.PostHeroContent] - Content shown after hero
+ * @param {Object} [props.NicknameInputConfig] - Config for `NicknameInput`
+ * @param {React.Node} [props.CardOverride] - Completely override the card
+ * @param {React.Node} [props.LandingBackgroundAnimation] - Optional background animation node
+ * @param {Function} [props.useRouter] - Router hook (optional)
+ * @returns {React.Element} Landing page element
+ */
 export default function PageTemplateLandingPage({
     useStore,
     useSocketStore,
@@ -258,6 +291,15 @@ export default function PageTemplateLandingPage({
     );
 }
 
+/**
+ * Server list renderer used on the landing page. Shows available servers and join buttons.
+ *
+ * @param {Object} props
+ * @param {Function} props.useStore - Store hook to access lobby details
+ * @param {Object} props.multiplayerConfig - Multiplayer configuration (e.g. defaultServers)
+ * @param {Function|Component} props.Link - Router Link component
+ * @returns {React.Element}
+ */
 function Servers({
     useStore,
     multiplayerConfig,
@@ -344,6 +386,14 @@ function Servers({
     )
 }
 
+/**
+ * Online players summary component.
+ *
+ * @param {Object} props
+ * @param {Function} props.useStore - Store hook to access lobby/player counts
+ * @param {Object} props.multiplayerConfig - Multiplayer configuration defining templates
+ * @returns {React.Element}
+ */
 function OnlinePlayers({
     useStore,
     multiplayerConfig

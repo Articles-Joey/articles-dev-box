@@ -1,0 +1,12 @@
+body[data-articles-dev-box-screenshot-mode="enabled"] {
+    
+    .articles-dev-status,
+    .dev-box-game-menu,
+    .hide-in-screenshot-mode, 
+    #articles-dev-box-socket-debug-overlay, 
+    .show-sidebar .panel-left.dev-box-game-menu,
+    #devtools-indicator {
+        display: none!important;
+    }
+
+}

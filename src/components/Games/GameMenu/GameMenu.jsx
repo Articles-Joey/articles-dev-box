@@ -20,6 +20,7 @@ import { useEffect } from "react";
  * @param {React.ComponentType} [props.menuBarConfig.leftSlotChildren] - Content to render in the left slot of the menu bar.
  * @param {React.ComponentType} [props.menuBarConfig.centerSlotChildren] - Content to render in the center slot of the menu bar.
  * @param {React.ComponentType} [props.menuBarConfig.rightSlotChildren] - Content to render in the right slot of the menu bar.
+ * @param {React.ComponentType} [props.menuBarConfig.settingsWithMenuButton] - Show settings button inside the menu button.
  */
 export default function GameMenu(props) {
 

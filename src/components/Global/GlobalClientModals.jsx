@@ -1,6 +1,7 @@
 "use client";
 import { lazy } from 'react';
 import ArticlesDevStatusBadge from './ArticlesDevStatusBadge';
+import ScreenshotModeHandler from '#root/src/components/UI/ScreenshotModeHandler';
 
 const InfoModal = lazy(() => import('../Games/InfoModal'));
 const CreditsModal = lazy(() => import('../Games/Credits/CreditsModal'));
@@ -92,7 +93,8 @@ export default function GlobalClientModals({
                 />
             }
 
-            {/* StatusModal & ArticlesDevStatusBadge */}
+            {/* Dev related tools */}
+            {/* StatusModal & ArticlesDevStatusBadge && ScreenshotModeHandler */}
             <>
                 {showDevStatusModal &&
                     <StatusModal
@@ -107,6 +109,12 @@ export default function GlobalClientModals({
                         useStore={useStore}
                     />
                 }
+
+                {/* TODO - I need a new home :( */}
+                <ScreenshotModeHandler
+                    useStore={useStore}
+                />
+
             </>
 
         </>
