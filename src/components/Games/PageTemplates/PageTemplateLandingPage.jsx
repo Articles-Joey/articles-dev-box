@@ -1,17 +1,20 @@
 "use client"
 import { lazy, use } from 'react';
 
-import ArticlesButton from '../../UI/Button';
+import ArticlesButton from '#root/src/components/UI/Button';
 import NicknameInput from '../NicknameInput';
 import GameMenuPrimaryButtonGroup from '../GameMenuPrimaryButtonGroup';
 
-import useUserDetails from '../../../hooks/User/useUserDetails';
-import useUserToken from '../../../hooks/User/useUserToken';
+import useUserDetails from '#root/src/hooks/User/useUserDetails';
+import useUserToken from '#root/src/hooks/User/useUserToken';
 
-const SessionButton = lazy(() => import('../../User/SessionButton'));
-const ReturnToLauncherButton = lazy(() => import('../ReturnToLauncherButton'));
-const GameScoreboard = lazy(() => import('../GameScoreboard'));
-const Ad = lazy(() => import('../../Ads/Ad'));
+import OnlinePlayers from '#root/src/components/Games/PageTemplates/Landing/OnlinePlayers';
+import Servers from '#root/src/components/Games/PageTemplates/Landing/Servers';
+
+const SessionButton = lazy(() => import('#root/src/components/User/SessionButton'));
+const ReturnToLauncherButton = lazy(() => import('#root/src/components/Games/ReturnToLauncherButton'));
+const GameScoreboard = lazy(() => import('#root/src/components/Games/GameScoreboard'));
+const Ad = lazy(() => import('#root/src/components/Ads/Ad'));
 
 /**
  * Landing page template for a game with single/multiplayer options, scoreboard and ads.
@@ -56,6 +59,8 @@ export default function PageTemplateLandingPage({
     CardBodyOverride,
     CardBodyAppendContent,
     CardBodyPrependContent,
+    CardFooterAppendContent,
+    CardFooterPrependContent,
     singlePlayerConfig,
     multiplayerConfig,
     brandingTextClass,
@@ -103,6 +108,22 @@ export default function PageTemplateLandingPage({
     const darkMode = useStore(state => state.darkMode)
     const lobbyDetails = useStore(state => state.lobbyDetails)
     const landingAnimation = useStore(state => state.landingAnimation)
+
+    function finalSinglePlayerLink(singlePlayerConfig) {
+
+        if (singlePlayerConfig?.attachUrlParams) {
+            const url = new URL('/play', window.location.origin);
+
+            Object.entries(singlePlayerConfig.attachUrlParams).forEach(([key, value]) => {
+                url.searchParams.set(key, value);
+            });
+
+            return url.pathname + url.search;
+        } else {
+            return '/play';
+        }
+
+    }
 
     return (
 
@@ -181,7 +202,7 @@ export default function PageTemplateLandingPage({
 
                                     {singlePlayerConfig &&
                                         <Link
-                                            href="/play"
+                                            href={finalSinglePlayerLink(singlePlayerConfig)}
                                             style={{
                                                 textDecoration: "none"
                                             }}
@@ -218,11 +239,17 @@ export default function PageTemplateLandingPage({
                             }
 
                             <div className="card-footer d-flex flex-wrap justify-content-center">
+
+                                {CardFooterPrependContent && CardFooterPrependContent}
+
                                 <GameMenuPrimaryButtonGroup
                                     useStore={useStore}
                                     type="Landing"
                                     useRouter={useRouter}
                                 />
+
+                                {CardFooterAppendContent && CardFooterAppendContent}
+
                             </div>
 
                         </div>
@@ -250,24 +277,24 @@ export default function PageTemplateLandingPage({
                         style="Default"
                         darkMode={darkMode ? true : false}
                         prepend={
-                            (typeof RotatingMascot === 'function' && RotatingMascot) ? 
-                            <>
-                                <div
-                                    style={{
-                                        width: '100%',
-                                        height: '200px',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    {/* <RotatingMascot /> */}
-                                </div>
-                            </>
-                            :
-                            <>
-                                {RotatingMascot}
-                            </>
+                            (typeof RotatingMascot === 'function' && RotatingMascot) ?
+                                <>
+                                    <div
+                                        style={{
+                                            width: '100%',
+                                            height: '200px',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        {/* <RotatingMascot /> */}
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    {RotatingMascot}
+                                </>
                         }
                         {...gameScoreboardConfig}
                     />
@@ -289,157 +316,4 @@ export default function PageTemplateLandingPage({
 
         </div>
     );
-}
-
-/**
- * Server list renderer used on the landing page. Shows available servers and join buttons.
- *
- * @param {Object} props
- * @param {Function} props.useStore - Store hook to access lobby details
- * @param {Object} props.multiplayerConfig - Multiplayer configuration (e.g. defaultServers)
- * @param {Function|Component} props.Link - Router Link component
- * @returns {React.Element}
- */
-function Servers({
-    useStore,
-    multiplayerConfig,
-    Link,
-}) {
-
-    const lobbyDetails = useStore(state => state.lobbyDetails)
-    const online_player_count = useStore(state => state.lobbyDetails.online_player_count)
-    const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
-
-    return (
-        <div className="servers">
-
-            {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
-
-                const serverNumber = id + 1;
-
-                let lobbyLookup = lobbyDetails?.games?.find(lobby =>
-                    parseInt(lobby.server_id) == serverNumber
-                )
-
-                return (
-                    <div key={id} className="server">
-
-                        <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
-                            <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {serverNumber}</b></div>
-                            <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
-                        </div>
-
-                        <div className='d-flex justify-content-around w-100 mb-1'>
-                            {[1, 2, 3, 4].map(player_count => {
-
-                                let playerLookup = false
-
-                                if (lobbyLookup?.players?.length >= player_count) playerLookup = true
-
-                                return (
-                                    <div key={player_count} className="icon" style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        ...(playerLookup ? {
-                                            backgroundColor: 'black',
-                                        } : {
-                                            backgroundColor: 'gray',
-                                        }),
-                                        border: '1px solid black'
-                                    }}>
-
-                                    </div>
-                                )
-                            })}
-                        </div>
-
-                        <Link
-                            className={``}
-                            href={{
-                                pathname: `/play`,
-                                query: {
-                                    server: serverNumber
-                                }
-                            }}
-                            style={{
-                                ...(multiplayerConfig?.comingSoon ? {
-                                    pointerEvents: "none"
-                                } : {
-
-                                })
-                            }}
-                        >
-                            <ArticlesButton
-                                small
-                                className="px-3"
-                                disabled={multiplayerConfig?.comingSoon}
-                            >
-                                {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
-                            </ArticlesButton>
-                        </Link>
-
-                    </div>
-                )
-            })}
-
-        </div>
-    )
-}
-
-/**
- * Online players summary component.
- *
- * @param {Object} props
- * @param {Function} props.useStore - Store hook to access lobby/player counts
- * @param {Object} props.multiplayerConfig - Multiplayer configuration defining templates
- * @returns {React.Element}
- */
-function OnlinePlayers({
-    useStore,
-    multiplayerConfig
-}) {
-
-    const lobbyDetails = useStore(state => state.lobbyDetails)
-    const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
-    const online_player_count = useStore(state => state.lobbyDetails.online_player_count)
-
-    switch (multiplayerConfig.onlinePlayersTemplate) {
-
-        case "2.0":
-            return (
-                <div>
-
-                    <div className="fw-bold mb-0 small text-center">
-                        {(
-                            online_player_count || 0
-                        )} player{(online_player_count !== 1) && 's'} {online_player_count === 1 ? 'is' : 'are'} online.
-                    </div>
-
-                    <div className='d-flex justify-content-center mb-2'>
-                        <div className="badge bg-black text-white me-1">
-                            {(
-                                landing_player_count || 0
-                            )} in lobby
-                        </div>
-                        <div className="badge bg-black text-white">
-                            {(
-                                (online_player_count - landing_player_count) || 0
-                            )} in game
-                        </div>
-                    </div>
-
-                </div>
-            )
-        default:
-            return (
-                <div className="fw-bold mb-1 small text-center">
-                    {(
-                        lobbyDetails?.online_player_count
-                        ||
-                        lobbyDetails?.players?.length || 0
-                    )} player{(lobbyDetails?.online_player_count || lobbyDetails?.players?.length !== 1) && 's'} in the lobby.
-                </div>
-            )
-    }
-
 }
