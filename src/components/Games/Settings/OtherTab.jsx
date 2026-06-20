@@ -14,6 +14,9 @@ export default function OtherTab({
     const toontownMode = useStore((state) => state?.toontownMode);
     const setToontownMode = useStore((state) => state?.setToontownMode);
 
+    const screenshotMode = useStore((state) => state?.screenshotMode);
+    const setScreenshotMode = useStore((state) => state?.setScreenshotMode);
+
     return (
         <>
 
@@ -43,6 +46,30 @@ export default function OtherTab({
                                 active={toontownMode === level}
                                 onClick={() => {
                                     setToontownMode(level);
+                                }}
+                            >
+                                {level ? "On" : "Off"}
+                            </ArticlesButton>
+                        ))}
+                    </div>
+                </>
+            }
+
+            {(
+                config?.tabs?.Other?.screenshotMode !== false
+                &&
+                process.env.NODE_ENV !== "production"
+            ) &&
+                <>
+                    <div>Screenshot Mode</div>
+                    <div className="small mb-1">Enables screenshot mode for the game. (Default command is slash+/ss)</div>
+                    <div className="mb-3">
+                        {[false, true].map((level, i) => (
+                            <ArticlesButton
+                                key={i}
+                                active={screenshotMode === level}
+                                onClick={() => {
+                                    setScreenshotMode(level);
                                 }}
                             >
                                 {level ? "On" : "Off"}

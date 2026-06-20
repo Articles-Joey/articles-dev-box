@@ -1,5 +1,13 @@
 body[data-articles-dev-box-screenshot-mode="enabled"] {
+
+    // Landing Page
+    .dev-box-template-landing-page {
+        .container {
+            display: none!important;
+        }
+    }
     
+    // Game Page
     .articles-dev-status,
     .dev-box-game-menu,
     .hide-in-screenshot-mode, 

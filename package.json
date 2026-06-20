@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -39,6 +39,7 @@
     "./ToontownModeHandler": "./dist/ToontownModeHandler.js",
     "./SocketServerUrlHandler": "./dist/SocketServerUrlHandler.js",
     "./HasNoMouseHandler": "./dist/HasNoMouseHandler.js",
+    "./HotkeyHandler": "./dist/HotkeyHandler.js",
     "./FriendsList": "./dist/FriendsList.js",
     "./InviteModal": "./dist/InviteModal.js",
     "./ReusedSocketLogicHandler": "./dist/ReusedSocketLogicHandler.js",

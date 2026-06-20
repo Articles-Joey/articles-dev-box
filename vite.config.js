@@ -40,6 +40,7 @@ export default defineConfig({
         SocketServerUrlHandler: resolve(__dirname, 'src/components/Games/SocketServerUrlHandler.jsx'),
 
         HasNoMouseHandler: resolve(__dirname, 'src/components/Handlers/HasNoMouseHandler.jsx'),
+        HotkeyHandler: resolve(__dirname, 'src/components/Games/HotkeyHandler.jsx'),
 
         FriendsList: resolve(__dirname, 'src/components/Friends/FriendsList.jsx'),
         InviteModal: resolve(__dirname, 'src/components/Games/InviteModal.jsx'),

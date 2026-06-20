@@ -92,6 +92,11 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
             showSettingsModal: newValue
         }))
     },
+    toggleSettingsModal: () => {
+        set((prev) => ({
+            showSettingsModal: !prev.showSettingsModal
+        }))
+    },
 
     showInfoModal: false,
     setShowInfoModal: (newValue) => {

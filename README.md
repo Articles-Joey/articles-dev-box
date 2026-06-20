@@ -58,6 +58,7 @@ npm run dev
 | ToontownModeHandler | Handles setting zustand state from url params if toontownMode is passed. | |
 | SocketServerUrlHandler | Handles setting socket server state from url params if socketServerUrl is passed. | |
 | HasNoMouseHandler | Sets hasNoMouse and isTouchCapable on first load | |
+| HotkeyHandler | Handles all the common used game commands that modify game store data | Cannon Game |
 | useUserToken | Hook for getting the subdomain auth token. | |
 | useUserDetails | Hook for getting the details of the current user if a valid user token is found. | |
 | useFullscreen | Hook for going fullscreen on the body or provided element | |

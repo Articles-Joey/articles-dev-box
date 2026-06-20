@@ -18,6 +18,7 @@ import DarkModeHandler from '#root/src/components/UI/DarkModeHandler';
 import ToontownModeHandler from '#root/src/components/Games/ToontownModeHandler.jsx';
 import SocketServerUrlHandler from '#root/src/components/Games/SocketServerUrlHandler.jsx';
 import HasNoMouseHandler from '#root/src/components/Handlers/HasNoMouseHandler.jsx';
+import HotkeyHandler from '#root/src/components/Games/HotkeyHandler.jsx';
 
 import FriendsList from '#root/src/components/Friends/FriendsList.jsx';
 import InviteModal from '#root/src/components/Games/InviteModal.jsx';
@@ -67,6 +68,7 @@ export {
   CreditsModal,
   FriendsList,
   InviteModal,
+  HotkeyHandler,
   ReusedSocketLogicHandler,
 
   useUserDetails,
