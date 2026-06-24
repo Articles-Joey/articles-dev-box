@@ -40,7 +40,7 @@ export default function MobileMenu({
 
                     <div className="Left d-flex align-items-center">
                         {(menuBarConfig.menuBarButtonPosition == "Left" || !menuBarConfig.menuBarButtonPosition) &&
-                            <MenuButton 
+                            <MenuButton
                                 useStore={useStore}
                                 menuBarConfig={menuBarConfig}
                             />
@@ -51,7 +51,7 @@ export default function MobileMenu({
                     {/* Center */}
                     <div className="Center d-flex align-items-center">
                         {(menuBarConfig.menuBarButtonPosition == "Center") &&
-                            <MenuButton 
+                            <MenuButton
                                 useStore={useStore}
                                 menuBarConfig={menuBarConfig}
                             />
@@ -61,7 +61,7 @@ export default function MobileMenu({
 
                     <div className="Right d-flex align-items-center">
                         {(menuBarConfig.menuBarButtonPosition == "Right") &&
-                            <MenuButton 
+                            <MenuButton
                                 useStore={useStore}
                                 menuBarConfig={menuBarConfig}
                             />
@@ -114,6 +114,9 @@ function MenuButton({
     const setShowMenu = useStore(state => state.setShowMenu);
     const setShowSettingsModal = useStore(state => state.setShowSettingsModal);
 
+    const darkMode = useStore(state => state.darkMode);
+    const toggleDarkMode = useStore(state => state.toggleDarkMode);
+
     return (
         <>
             <ArticlesButton
@@ -130,12 +133,33 @@ function MenuButton({
             </ArticlesButton>
             {menuBarConfig?.settingsWithMenuButton &&
                 <ArticlesButton
-                    // active={showSettingsModal}
+                    className={`settingsButton ${menuBarConfig?.settingsButtonClassName}`}
+                    style={{
+                        minHeight: "30px"
+                    }}
                     onClick={() => {
                         setShowSettingsModal(true)
                     }}
                 >
                     <i className='fad fa-cog'></i>
+                </ArticlesButton>
+            }
+            {menuBarConfig?.darkModeButton &&
+                <ArticlesButton
+                    className={`darkModeButton ${menuBarConfig?.darkModeButtonClassName}`}
+                    style={{
+                        minHeight: "30px",
+                        // backgroundColor: "lightgray",
+                    }}
+                    onClick={() => {
+                        toggleDarkMode(true)
+                    }}
+                >
+                    {darkMode ?
+                        <i className='fad fa-sun'></i>
+                        :
+                        <i className='fad fa-moon'></i>
+                    }
                 </ArticlesButton>
             }
         </>
