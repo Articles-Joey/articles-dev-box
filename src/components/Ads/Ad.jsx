@@ -336,7 +336,12 @@ function Ad(props) {
 
         setAdsAvoidedLoading(true);
 
-        console.log("logAdAvoided called", user_ad_token)
+        if (process.env.NODE_ENV === "development") {
+            console.log(
+                "logAdAvoided called",
+                user_ad_token
+            );
+        }
 
         const url = process.env.NODE_ENV === "development" ?
             "http://localhost:3001/api/user/advertising/avoided"

@@ -62,7 +62,7 @@ export default function OtherTab({
             ) &&
                 <>
                     <div>Screenshot Mode</div>
-                    <div className="small mb-1">Enables screenshot mode for the game. (Default command is slash+/ss)</div>
+                    <div className="small mb-1">Enables screenshot mode for the game. (Default command is slash+/s)</div>
                     <div className="mb-3">
                         {[false, true].map((level, i) => (
                             <ArticlesButton

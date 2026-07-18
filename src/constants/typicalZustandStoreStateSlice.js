@@ -1,4 +1,4 @@
-const typicalZustandStoreStateSlice = (set, get, generateRandomNickname) => ({
+const typicalZustandStoreStateSlice = (set, get, generateRandomNickname = () => "") => ({
 
     _hasHydrated: false,
     setHasHydrated: (state) => {
