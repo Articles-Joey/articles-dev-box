@@ -7,6 +7,7 @@ import useFullscreen from '#root/src/hooks/useFullscreen';
  * @param {('Landing'|'GameMenu')} props.type Only "Landing" or "GameMenu" allowed
  * @param {string} [props.owner] Optional GitHub owner
  * @param {string} [props.repo] Optional GitHub repo
+ * @param {function} props.useRouter Optional router hook (e.g. Next.js useRouter) for navigation without full page reloads
  */
 export default function PrimaryButtonGroup({
     useStore,

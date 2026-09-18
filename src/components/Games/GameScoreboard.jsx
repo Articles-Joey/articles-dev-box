@@ -93,9 +93,11 @@ function GameScoreboard({
 
             </Modal>
 
-            <div className="prepend-container">
-                {prepend}
-            </div>
+            {prepend &&
+                <div className="prepend-container">
+                    {prepend}
+                </div>
+            }
 
             <div className="card card-articles card-sm mb-3 mb-lg-0">
 
