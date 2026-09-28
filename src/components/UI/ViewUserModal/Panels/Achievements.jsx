@@ -6,15 +6,19 @@
 
 // TODO
 const achievements = []
+import Box from '@mui/material/Box';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { ArticlesBadge, ArticlesCard, ArticlesCardBody } from '#root/src/components/UI/muiPrimitives';
 
 export default function Achievements({
     activeLayoutProposalSentiments
 }) {
     return (
-        <div>
+        <Box>
 
-            <div className='achievements card card-articles'>
-                <div className="card-body p-0">
+            <ArticlesCard className="achievements">
+                <ArticlesCardBody sx={{ p: 0 }}>
                     {achievements
                         // .filter(ach_obj => {
                         //     if (achievementFilter) {
@@ -31,37 +35,37 @@ export default function Achievements({
                         //     }
                         // })
                         .map(achievement =>
-                            <div key={achievement.name}>
+                            <Box key={achievement.name}>
 
-                                <div className='achievement w-100 d-flex align-items-center'>
+                                <Box className="achievement" sx={{ width: 1, display: 'flex', alignItems: 'center' }}>
 
-                                    <div className='icon' style={{ width: '50px' }}>
-                                        <i className={`fad ${achievement.icon} fa-lg`}></i>
-                                    </div>
+                                    <Box className="icon" sx={{ width: 50 }}>
+                                        <EmojiEventsIcon />
+                                    </Box>
 
-                                    <div className='details small me-auto'>
-                                        <b className='name'>{achievement.name}</b>
-                                        <div className='description mb-1'>{achievement.description}</div>
-                                        <div className="small">
-                                            {achievement.tags?.map(item => <span key={item} className="badge bg-dark border">{item}</span>)}
-                                        </div>
-                                    </div>
+                                    <Box className="details" sx={{ typography: 'body2', mr: 'auto' }}>
+                                        <Box component="b" className="name">{achievement.name}</Box>
+                                        <Box className="description" sx={{ mb: 1 }}>{achievement.description}</Box>
+                                        <Box sx={{ typography: 'body2' }}>
+                                            {achievement.tags?.map(item => <ArticlesBadge key={item} sx={{ bgcolor: 'grey.900', color: '#fff', border: 1 }}>{item}</ArticlesBadge>)}
+                                        </Box>
+                                    </Box>
 
-                                    <div className='icon border-end-0 border-start border-dark'>
+                                    <Box className="icon" sx={{ borderLeft: 1, borderColor: 'grey.900' }}>
 
-                                        <div className="text-center px-3">
-                                            <i className={`fad fa-square fa-lg me-0`}></i>
-                                        </div>
+                                        <Box sx={{ textAlign: 'center', px: 3 }}>
+                                            <CheckBoxOutlineBlankIcon />
+                                        </Box>
 
-                                    </div>
+                                    </Box>
 
-                                </div>
+                                </Box>
 
-                            </div>
+                            </Box>
                         )}
-                </div>
-            </div>
+                </ArticlesCardBody>
+            </ArticlesCard>
 
-        </div>
+        </Box>
     )
 }

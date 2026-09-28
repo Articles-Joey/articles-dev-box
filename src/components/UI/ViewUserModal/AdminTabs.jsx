@@ -6,6 +6,7 @@ import StripePanel from './AdminPanels/Stripe';
 import UserDetailsPanel from './AdminPanels/UserDetails';
 import ResetPasswordPanel from './AdminPanels/ResetPassword';
 import SessionsPanel from './AdminPanels/Sessions';
+import Box from '@mui/material/Box';
 
 export default function AdminTabs({
     adminMode,
@@ -19,29 +20,29 @@ export default function AdminTabs({
     setUserLastSocketLogin,
 }) {
     return (
-        <div className="tabs me-3">
+        <Box className="tabs" sx={{ mr: 3 }}>
 
             {adminMode?.tab == "User Details" &&
-                <div className="tab">
+                <Box className="tab">
                     <UserDetailsPanel
                         userData={userData}
                         setUserData={setUserData}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Verification" &&
-                <div className="tab">
+                <Box className="tab">
                     <VerificationPanel
                         userData={userData}
                         adminUserData={adminUserData?.user}
                         loadAdminUserData={loadAdminUserData}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Moderation" &&
-                <div className="tab">
+                <Box className="tab">
                     <ModerationPanel
                         userData={userData}
                         setAdminMode={setAdminMode}
@@ -49,55 +50,55 @@ export default function AdminTabs({
                         adminUserReports={adminUserReports}
                         loadAdminUserData={loadAdminUserData}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Bans" &&
-                <div className="tab">
+                <Box className="tab">
                     <BanPanel
                         userData={userData}
                         adminUserData={adminUserData}
                         loadAdminUserData={loadAdminUserData}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Sessions" &&
-                <div className="tab">
+                <Box className="tab">
                     <SessionsPanel
                         userData={userData}
                         loadAdminUserData={loadAdminUserData}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Reset Password" &&
-                <div className="tab">
+                <Box className="tab">
                     <ResetPasswordPanel
                         userData={userData}
                         loadAdminUserData={loadAdminUserData}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Layouts" &&
-                <div className="tab">
+                <Box className="tab">
                     <LayoutsPanel
                         userData={userData}
                         userLastSocketLogin={userLastSocketLogin}
                         setUserLastSocketLogin={setUserLastSocketLogin}
                     />
-                </div>
+                </Box>
             }
 
             {adminMode?.tab == "Stripe" &&
-                <div className="tab">
+                <Box className="tab">
                     <StripePanel
                         userData={userData}
                     />
-                </div>
+                </Box>
             }
 
-        </div>
+        </Box>
     );
 }

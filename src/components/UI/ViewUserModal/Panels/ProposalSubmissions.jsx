@@ -5,6 +5,10 @@ import { useState } from "react";
 import ArticlesButton from '#root/src/components/UI/Button';
 import Link from '#root/src/components/UI/Link';
 import { routes } from "#root/src/constants/routes";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { ArticlesCard, ArticlesCardBody, ArticlesCardFooter, articlesShadow } from '#root/src/components/UI/muiPrimitives';
 
 export default function ProposalSubmissions({
     activeLayoutProposalSentiments,
@@ -14,84 +18,63 @@ export default function ProposalSubmissions({
     const [viewAllProposalsSubmitted, setViewAllProposalsSubmitted] = useState(false);
 
     return (
-        <div>
+        <Box>
 
-            {/* <div className='mb-1 d-flex justify-content-between align-items-center'>
-
-                <span>
-                    <i className="fad fa-scroll me-1"></i>
-                    <span>
-                        <span>Political Submissions: </span>
-                        <span className='badge bg-dark'>
-                            {userProposalsSubmitted?.length || 0}
-                        </span>
-                    </span>
-                </span>
-
-                <span className='badge bg-articles-secondary'>
-                    <i className="fad fa-info me-1"></i>
-                    <span>Info</span>
-                </span>
-
-            </div> */}
-
-            <div className='mb-2'>
+            <Box sx={{ mb: 2 }}>
 
                 {userProposalsSubmitted?.slice(0, viewAllProposalsSubmitted ? 100 : 1).map(layout => {
 
                     return (
-                        <div key={layout._id} className="card card-articles card-sm shadow-articles">
-                            <div className="card-body p-2 lh-sm d-flex align-items-center">
+                        <ArticlesCard key={layout._id} sx={{ boxShadow: articlesShadow }}>
+                            <ArticlesCardBody sx={{ p: 2, lineHeight: 1.25, display: 'flex', alignItems: 'center' }}>
 
                                 {/* <img className='' src={layout?.logo?.Light?.location} width={'40px'} height={'40px'} alt="" /> */}
 
-                                <div className='ms-2'>
+                                <Box sx={{ ml: 2 }}>
 
-                                    <div>{layout.title}</div>
-                                    <div className='small'>{layout.type}{layout.fundamental && '  - Fundamental'}</div>
+                                    <Box>{layout.title}</Box>
+                                    <Typography variant="body2">{layout.type}{layout.fundamental && '  - Fundamental'}</Typography>
 
-                                </div>
+                                </Box>
 
-                            </div>
+                            </ArticlesCardBody>
 
-
-                            <div className='card-footer d-flex'>
+                            <ArticlesCardFooter sx={{ display: 'flex' }}>
                                 <Link
                                     href={`${routes.PROPOSALS_SUBMISSIONS_ALL}/${layout._id}`}
-                                    className=""
                                 >
 
                                     <ArticlesButton small>
-                                        <span>
-                                            <i className="fad fa-eye me-1"></i>
+                                        <Box component="span">
+                                            <VisibilityIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                             View
-                                        </span>
+                                        </Box>
                                     </ArticlesButton>
 
                                 </Link>
-                            </div>
+                            </ArticlesCardFooter>
 
-                        </div>
+                        </ArticlesCard>
                     );
 
                 })}
-            </div>
+            </Box>
 
             {userProposalsSubmitted?.length > 1 &&
                 <ArticlesButton
                     // small
                     onClick={() => setViewAllProposalsSubmitted(!viewAllProposalsSubmitted)}
-                    className="w-100"
+                    sx={{ width: 1 }}
                 >
                     {!viewAllProposalsSubmitted ? 'View All' : 'View Less'}
                 </ArticlesButton>
             }
 
             {userProposalsSubmitted?.length == 0 &&
-                <span className='small'>
+                <Typography component="span" variant="body2">
                     User has no proposal submissions
-                </span>
+                </Typography>
             }
-        </div>
+        </Box>
     )
 }

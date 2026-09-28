@@ -27,9 +27,9 @@ export default function DarkModeHandler({ useStore }) {
         }
 
         if (darkMode) {
-            document.body.setAttribute("data-bs-theme", 'dark');
+            document.documentElement.setAttribute("data-mui-color-scheme", 'dark');
         } else {
-            document.body.setAttribute("data-bs-theme", 'light');
+            document.documentElement.setAttribute("data-mui-color-scheme", 'light');
         }
 
     }, [darkMode, hasHydrated]);

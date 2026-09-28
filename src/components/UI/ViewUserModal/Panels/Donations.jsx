@@ -12,6 +12,10 @@ import { routes } from "#root/src/constants/routes";
 // import Link from "next/link"
 // import { useState } from "react";
 import numberWithCommas from "#root/src/util/numberWithCommas";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { ArticlesBadge, ArticlesCard, ArticlesCardBody, ArticlesCardFooter, ArticlesCardHeader } from '#root/src/components/UI/muiPrimitives';
 
 export default function Donations({
     activeLayoutProposalSentiments,
@@ -22,68 +26,65 @@ export default function Donations({
     const [viewAllDonations, setViewAllDonations] = useState(false);
 
     return (
-        <div className='card card-articles '>
+        <ArticlesCard>
 
+            <ArticlesCardHeader sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1 }}>
+                <Box component="span">Donations: </Box>
 
-            <div className='card-header d-flex justify-content-between align-items-center p-1'>
-                <span>Donations: </span>
-
-                <span className='badge bg-dark'>
+                <ArticlesBadge sx={{ bgcolor: 'grey.900', color: '#fff' }}>
                     {userDonations.count} - {`$${numberWithCommas((lifetimeContribution / 100 || 0).toFixed(2))}`}
-                </span>
-            </div>
+                </ArticlesBadge>
+            </ArticlesCardHeader>
 
-            <div className="card-body p-2">
+            <ArticlesCardBody sx={{ p: 2 }}>
 
                 {userDonations?.list?.length == 0 &&
-                    <span className='small'>
+                    <Typography component="span" variant="body2">
                         User has no donations
-                    </span>
+                    </Typography>
                 }
 
-                <div className='donations-wrap'>
+                <Box className="donations-wrap">
                     {userDonations?.list?.slice(0, viewAllDonations ? 100 : 3).map(layout => {
 
                         return (
-                            <div key={layout._id} className="border">
+                            <Box key={layout._id} sx={{ border: 1, borderColor: 'divider' }}>
 
                                 {/* <div className="small">Most Recent</div> */}
 
-                                <div className="card-body py-1 px-2 lh-sm d-flex align-items-center">
+                                <Box sx={{ py: 1, px: 2, lineHeight: 1.25, display: 'flex', alignItems: 'center' }}>
 
-                                    <div className="small">Most Recent</div>
+                                    <Typography variant="body2">Most Recent</Typography>
 
-                                    <div className='ms-2 d-flex align-items-center'>
+                                    <Box sx={{ ml: 2, display: 'flex', alignItems: 'center' }}>
 
-                                        <div className='h4 mb-0 me-2'>{`$${numberWithCommas((layout.amount / 100).toFixed(2))}`}</div>
-                                        <div className='small'>{format(new Date(layout.date), 'M/dd/yy')}</div>
+                                        <Typography variant="h4" sx={{ mb: 0, mr: 2 }}>{`$${numberWithCommas((layout.amount / 100).toFixed(2))}`}</Typography>
+                                        <Typography variant="body2">{format(new Date(layout.date), 'M/dd/yy')}</Typography>
 
-                                    </div>
+                                    </Box>
 
-                                </div>
+                                </Box>
 
-
-                                <div className='card-footer d-flex p-1'>
+                                <ArticlesCardFooter sx={{ display: 'flex', p: 1 }}>
                                     <Link href={`${routes.HOME}/${layout.url}`}>
                                         <ArticlesButton
-                                            className=""
                                             small
                                         >
-                                            <i className="fad fa-eye me-1"></i>
+                                            <VisibilityIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                             View
                                         </ArticlesButton>
                                     </Link>
-                                </div>
+                                </ArticlesCardFooter>
 
-                            </div>
+                            </Box>
                         );
 
                     })}
-                </div>
+                </Box>
 
-            </div>
+            </ArticlesCardBody>
 
-            <div className="card-footer p-1 d-flex justify-content-center">
+            <ArticlesCardFooter sx={{ p: 1, display: 'flex', justifyContent: 'center' }}>
 
                 {userDonations.count > 1 &&
                     <ArticlesButton
@@ -91,19 +92,19 @@ export default function Donations({
                             setViewAllDonations(!viewAllDonations)
                         }}
                         // small
-                        className="w-100"
+                        sx={{ width: 1 }}
                     >
                         {!viewAllDonations ? 'View All' : 'View Less'}
                     </ArticlesButton>
                 }
 
-            </div>
+            </ArticlesCardFooter>
 
             {/* <span className='badge bg-articles-secondary'>
                             <i className="fad fa-info me-1"></i>
                             <span>Info</span>
                         </span> */}
 
-        </div>
+        </ArticlesCard>
     )
 }

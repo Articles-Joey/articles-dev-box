@@ -15,6 +15,8 @@ For production use add the organization scooped package to your package.json.
 npm i @articles-media/articles-dev-box
 ```
 
+The component package uses Material UI v9 and Emotion. Consuming projects must provide the peer dependencies declared in `package.json` (`@mui/material`, `@mui/icons-material`, `@emotion/cache`, `@emotion/react`, and `@emotion/styled`). Bootstrap, React-Bootstrap, Sass, and package-level stylesheet imports are not required.
+
 For local development, navigate to this project and run this command.
 
 ```bash
@@ -46,7 +48,7 @@ npm run dev
 | GameMenuPrimaryButtonGroup | The common button groups for landing page and menu content across our games | Catching Game and Move Match |
 | NicknameInput | Handles nickname UI on landing page | Catching Game |
 | GlobalHead | Not used at this time, allows for head element related tags to be added to site without other logic. | |
-| GlobalBody | Easy way to add future logic and components to all projects with ease. For now handling the font awesome script. Also shows connection status to required servers in development. Will ping the main and auth server as they are needed for some dev-box features. | |
+| GlobalBody | Reserved for shared body-level behavior across Articles Media projects. | |
 | ViewUserModal | View user profile data and recent activity. | |
 | SettingsModal | All in one component to handle game settings UI across multiple games. | |
 | CreditsModal | All in one component to handle game credits UI across multiple games. | |
@@ -54,7 +56,7 @@ npm run dev
 | FriendsList | List and Modal for showing friends. | Auto imported via GlobalClientModals |
 | InviteModal | Modal for showing FriendsList with allowInvite | Normally used via GlobalClientModals |
 | ReusedSocketLogicHandler | Sets up a lot of common websocket logic | Catching Game, Ocean Rings |
-| DarkModeHandler | Consumes a Zustand store, detects prefers-color-scheme, sets data-bs-theme on body element. | |
+| DarkModeHandler | Consumes a Zustand store, detects prefers-color-scheme, and sets the MUI color-scheme attribute. | |
 | ToontownModeHandler | Handles setting zustand state from url params if toontownMode is passed. | |
 | SocketServerUrlHandler | Handles setting socket server state from url params if socketServerUrl is passed. | |
 | HasNoMouseHandler | Sets hasNoMouse and isTouchCapable on first load | |
@@ -78,10 +80,6 @@ npm run dev
 
 # Usage Examples
 For newly developed components I sometimes find myself trying to remember what repos used it. Here is a short list of recent components developed and what project is using it. Doing this until AMPM can search by imports or enough projects adopted the component.
-
-# Roadmap
-⏹️ Remove Bootstrap reliance?  
-⏹️ Figure out why this package does not work outside webpack, on Turbopack for example it fails. Bootstrap SASS related I think.  
 
 # TODO
 - Nothing major right now, search "TODO" in repo for minor stuff.

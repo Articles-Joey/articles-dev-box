@@ -1,13 +1,16 @@
+import MuiLink from '@mui/material/Link';
+
 export default function Link(props) {
-    const { href, children, newPage, ...rest } = props;
+    const { href, children, newPage, sx, ...rest } = props;
 
     return (
-        <a 
+        <MuiLink
             href={href} 
             {...rest}
             {...newPage && { target: '_blank', rel: 'noopener noreferrer' }}
+            sx={sx}
         >
             {children}
-        </a>
+        </MuiLink>
     );
 }

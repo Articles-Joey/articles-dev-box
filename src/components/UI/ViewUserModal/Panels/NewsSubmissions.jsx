@@ -5,6 +5,12 @@ import { useState } from "react";
 import ArticlesButton from '#root/src/components/UI/Button';
 import Link from '#root/src/components/UI/Link';
 import { routes } from "#root/src/constants/routes";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import InfoIcon from '@mui/icons-material/Info';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { ArticlesBadge, ArticlesCard, ArticlesCardBody, ArticlesCardFooter, articlesShadow } from '#root/src/components/UI/muiPrimitives';
 
 // import ArticlesButton from "@/components/Articles/Button"
 // import routes from "@/components/constants/routes"
@@ -18,69 +24,68 @@ export default function NewsSubmissions({
     const [viewAllNewsSubmitted, setViewAllNewsSubmitted] = useState(false);
 
     return (
-        <div>
-            <div className='mb-1 d-flex justify-content-between align-items-center'>
+        <Box>
+            <Box sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                <span>
-                    <i className="fad fa-newspaper me-1"></i>
-                    <span>
-                        <span>News Submissions: </span>
-                        <span className='badge bg-dark'>
+                <Box component="span" sx={{ display: 'flex', alignItems: 'center' }}>
+                    <NewspaperIcon fontSize="inherit" sx={{ mr: 0.5 }} />
+                    <Box component="span">
+                        <Box component="span">News Submissions: </Box>
+                        <ArticlesBadge sx={{ bgcolor: 'grey.900', color: '#fff' }}>
                             {/* {userSubmittedCount['user-public']} */}
                             {userNewsSubmitted?.length || 0}
-                        </span>
-                    </span>
-                </span>
+                        </ArticlesBadge>
+                    </Box>
+                </Box>
 
-                <span className='badge bg-articles-secondary'>
-                    <i className="fad fa-info me-1"></i>
-                    <span>Info</span>
-                </span>
+                <ArticlesBadge sx={{ bgcolor: 'var(--articles-secondary-color, #f9edcd)' }}>
+                    <InfoIcon fontSize="inherit" sx={{ mr: 0.5 }} />
+                    Info
+                </ArticlesBadge>
 
-            </div>
+            </Box>
 
-            <div className='mb-1'>
+            <Box sx={{ mb: 1 }}>
                 {userNewsSubmitted?.slice(0, viewAllNewsSubmitted ? 100 : 1).map(layout => {
 
                     return (
-                        <div key={layout._id} className="card card-articles shadow-articles">
-                            <div className="card-body py-1 px-2 lh-sm d-flex align-items-center">
+                        <ArticlesCard key={layout._id} sx={{ boxShadow: articlesShadow }}>
+                            <ArticlesCardBody sx={{ py: 1, px: 2, lineHeight: 1.25, display: 'flex', alignItems: 'center' }}>
 
-                                <img className='' src={layout?.featured_image?.location} width={'40px'} height={'40px'} style={{ objectFit: 'cover' }} alt="" />
+                                <Box component="img" src={layout?.featured_image?.location} width={40} height={40} sx={{ objectFit: 'cover' }} alt="" />
 
-                                <div className='ms-2'>
+                                <Box sx={{ ml: 2 }}>
 
-                                    <div>{layout.news_title}</div>
+                                    <Box>{layout.news_title}</Box>
                                     {/* <div className='small'>Last Viewed: Never</div> */}
 
-                                </div>
+                                </Box>
 
-                            </div>
+                            </ArticlesCardBody>
 
-
-                            <div className='card-footer d-flex p-1'>
+                            <ArticlesCardFooter sx={{ display: 'flex', p: 1 }}>
                                 <Link href={`${routes.HOME}/${layout.url}`}>
-                                    <ArticlesButton small className="">
-                                        <i className="fad fa-eye me-1"></i>View
+                                    <ArticlesButton small>
+                                        <VisibilityIcon fontSize="inherit" sx={{ mr: 0.5 }} />View
                                     </ArticlesButton>
                                 </Link>
-                            </div>
+                            </ArticlesCardFooter>
 
-                        </div>
+                        </ArticlesCard>
                     );
 
                 })}
-            </div>
+            </Box>
 
             {userNewsSubmitted?.length > 1 ?
-                <ArticlesButton onClick={() => setViewAllNewsSubmitted(!viewAllNewsSubmitted)} small className="">
+                <ArticlesButton onClick={() => setViewAllNewsSubmitted(!viewAllNewsSubmitted)} small>
                     {!viewAllNewsSubmitted ? 'View All' : 'View Less'}
                 </ArticlesButton>
                 :
-                <span className='small'>
+                <Typography component="span" variant="body2">
                     User has no news submissions
-                </span>
+                </Typography>
             }
-        </div>
+        </Box>
     )
 }

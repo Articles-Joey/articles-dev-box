@@ -10,6 +10,10 @@ import useUserToken from '#root/src/hooks/User/useUserToken';
 
 import OnlinePlayers from '#root/src/components/Games/PageTemplates/Landing/OnlinePlayers';
 import Servers from '#root/src/components/Games/PageTemplates/Landing/Servers';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { ArticlesCard, ArticlesCardBody, ArticlesCardFooter, ArticlesCardHeader } from '#root/src/components/UI/muiPrimitives';
 
 const SessionButton = lazy(() => import('#root/src/components/User/SessionButton'));
 const ReturnToLauncherButton = lazy(() => import('#root/src/components/Games/ReturnToLauncherButton'));
@@ -127,31 +131,57 @@ export default function PageTemplateLandingPage({
 
     return (
 
-        <div className="landing-page dev-box-template-landing-page">
+        <Box
+            className="landing-page dev-box-template-landing-page"
+            sx={{ 
+                position: 'relative', 
+                minHeight: '100vh', 
+                overflow: 'hidden',
+                flexGrow: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: 'calc(100vh - 0px)',
+            }}
+        >
 
             {AdditionalContent && AdditionalContent}
 
-            <div className='background-wrap'>
+            <Box className="background-wrap" sx={{ position: 'absolute', inset: 0, zIndex: -1 }}>
                 {(LandingBackgroundAnimation && landingAnimation) ?
                     LandingBackgroundAnimation
                     :
-                    <img
+                    <Box component="img"
                         src={backgroundImage}
                         alt=""
                         width="100%"
                         height="100%"
-                        style={{ objectFit: 'cover', objectPosition: 'bottom' }}
+                        sx={{ objectFit: 'cover', objectPosition: 'bottom' }}
                     />
                 }
-            </div>
+            </Box>
 
-            <div
-                className="container d-flex flex-column-reverse flex-lg-row justify-content-center align-items-center py-3"
+            <Box
+                data-hide-in-screenshot-mode="true"
+                sx={(theme) => ({
+                    width: 1,
+                    mx: 'auto',
+                    px: 1.5,
+                    py: 3,
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    [theme.breakpoints.up(576)]: { maxWidth: 540 },
+                    [theme.breakpoints.up(768)]: { maxWidth: 720 },
+                    [theme.breakpoints.up(992)]: { maxWidth: 960, flexDirection: 'row' },
+                    [theme.breakpoints.up(1200)]: { maxWidth: 1140 },
+                    [theme.breakpoints.up(1400)]: { maxWidth: 1320 },
+                })}
             >
 
-                <div
-                    className=''
-                    style={{ "width": maxInnerWidth }}
+                <Box
+                    sx={{ width: maxInnerWidth }}
                 >
 
                     {PreHeroContent && PreHeroContent}
@@ -160,21 +190,21 @@ export default function PageTemplateLandingPage({
                         heroOverride
                         :
                         !disableHero &&
-                        <div className='landing-hero text-center mb-2'>
+                        <Box className="landing-hero" sx={{ textAlign: 'center', mb: 2 }}>
 
-                            <img
+                            <Box component="img"
                                 src={logoImage}
                                 alt=""
                                 width="200"
                                 height="auto"
-                                style={{ objectFit: 'cover', objectPosition: 'bottom' }}
+                                sx={{ objectFit: 'cover', objectPosition: 'bottom' }}
                             />
 
-                            <h1 className={`text-center mb-0 ${brandingTextClass}`}>
+                            <Typography component="h1" variant="h2" className={brandingTextClass} sx={{ textAlign: 'center', mb: 0 }}>
                                 {process.env.NEXT_PUBLIC_GAME_NAME}
-                            </h1>
+                            </Typography>
 
-                        </div>
+                        </Box>
                     }
 
                     {PostHeroContent && PostHeroContent}
@@ -182,21 +212,21 @@ export default function PageTemplateLandingPage({
                     {CardOverride ?
                         CardOverride
                         :
-                        <div className="card card-articles mb-3">
+                        <ArticlesCard sx={{ mb: 3 }}>
 
-                            <div className="card-header">
+                            <ArticlesCardHeader>
 
                                 <NicknameInput
                                     useStore={useStore}
                                     config={NicknameInputConfig}
                                 />
 
-                            </div>
+                            </ArticlesCardHeader>
 
                             {CardBodyOverride ?
                                 CardBodyOverride
                                 :
-                                <div className="card-body">
+                                <ArticlesCardBody>
 
                                     {CardBodyPrependContent && CardBodyPrependContent}
 
@@ -209,10 +239,10 @@ export default function PageTemplateLandingPage({
                                         >
                                             <ArticlesButton
                                                 variant=""
-                                                className="d-flex justify-content-center align-items-center mb-3 w-100"
+                                                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3, width: 1 }}
                                                 onClick={() => { }}
                                             >
-                                                <i className='fad fa-play me-2'></i>
+                                                <PlayArrowIcon fontSize="inherit" sx={{ mr: 1 }} />
                                                 Single Player
                                             </ArticlesButton>
                                         </Link>
@@ -235,10 +265,10 @@ export default function PageTemplateLandingPage({
 
                                     {CardBodyAppendContent && CardBodyAppendContent}
 
-                                </div>
+                                </ArticlesCardBody>
                             }
 
-                            <div className="card-footer d-flex flex-wrap justify-content-center">
+                            <ArticlesCardFooter sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
 
                                 {CardFooterPrependContent && CardFooterPrependContent}
 
@@ -250,26 +280,26 @@ export default function PageTemplateLandingPage({
 
                                 {CardFooterAppendContent && CardFooterAppendContent}
 
-                            </div>
+                            </ArticlesCardFooter>
 
-                        </div>
+                        </ArticlesCard>
                     }
 
                     {PostCardContent && PostCardContent}
 
                     {/* On by default approach  */}
-                    {process.env.NEXT_PUBLIC_ENABLE_ARTICLES !== "false" && <div className="extras">
+                    {process.env.NEXT_PUBLIC_ENABLE_ARTICLES !== "false" && <Box className="extras">
                         <SessionButton
                             port={process.env.NEXT_PUBLIC_GAME_PORT}
                             friendsButton={true}
                         />
 
                         <ReturnToLauncherButton />
-                    </div>}
+                    </Box>}
 
                     {PostExtrasContent && PostExtrasContent}
 
-                </div>
+                </Box>
 
                 {!disableGameScoreboard &&
                     <GameScoreboard
@@ -279,8 +309,8 @@ export default function PageTemplateLandingPage({
                         prepend={
                             (typeof RotatingMascot === 'function' && RotatingMascot) ?
                                 <>
-                                    <div
-                                        style={{
+                                    <Box
+                                        sx={{
                                             width: '100%',
                                             height: '200px',
                                             display: 'flex',
@@ -289,7 +319,7 @@ export default function PageTemplateLandingPage({
                                         }}
                                     >
                                         {/* <RotatingMascot /> */}
-                                    </div>
+                                    </Box>
                                 </>
                                 :
                                 <>
@@ -309,11 +339,22 @@ export default function PageTemplateLandingPage({
                         user_ad_token={userToken}
                         userDetails={userDetails}
                         userDetailsLoading={userDetailsLoading}
+                        sx={(theme) => ({
+                            mt: '1rem',
+                            [theme.breakpoints.up(992)]: {
+                                mt: 0,
+                                display: 'block',
+                                position: 'absolute',
+                                right: '1rem',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                            },
+                        })}
                     />
                 }
 
-            </div>
+            </Box>
 
-        </div>
+        </Box>
     );
 }

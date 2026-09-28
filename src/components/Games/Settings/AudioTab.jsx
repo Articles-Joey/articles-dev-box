@@ -1,6 +1,8 @@
-import { Form } from "react-bootstrap"
-
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import FormLabel from '@mui/material/FormLabel';
+import Slider from '@mui/material/Slider';
+import Typography from '@mui/material/Typography';
 // import { useAudioStore } from "@/hooks/useAudioStore";
 
 export default function AudioTab({
@@ -12,10 +14,29 @@ export default function AudioTab({
     const setAudioSettings = useAudioStore((state) => state?.setAudioSettings);
 
     return (
-        <>
+        <Box
+            sx={{
+                '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                    color: '#fff',
+                    '& .MuiFormLabel-root, & .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused, & .MuiInputBase-input': {
+                        color: '#fff',
+                    },
+                    '& .MuiFormHelperText-root': {
+                        color: 'rgba(255, 255, 255, 0.7)',
+                    },
+                    '& .MuiInputBase-input::placeholder': {
+                        color: '#fff',
+                        opacity: 0.7,
+                    },
+                    '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255, 255, 255, 0.7)',
+                    },
+                },
+            }}
+        >
 
-            <div>Sound</div>
-            <div className="mb-3">
+            <Typography>Sound</Typography>
+            <Box sx={{ mb: 3 }}>
                 <ArticlesButton
                     active={!audioSettings?.enabled}
                     onClick={() => {
@@ -38,36 +59,46 @@ export default function AudioTab({
                 >
                     Enabled
                 </ArticlesButton>
-            </div>
+            </Box>
 
-            <div className="border mb-3 p-2">
+            <Box sx={{ border: 1, borderColor: 'divider', mb: 3, p: 2 }}>
                 {config?.tabs?.Audio?.sliders?.map((slider_obj, i) => {
                     return (
-                        <div key={slider_obj.key + '_' + i} className="mb-3">
+                        <Box key={slider_obj.key + '_' + i} sx={{ mb: 3 }}>
 
-                            <Form.Label className="mb-0">
+                            <FormLabel component="div" sx={{ mb: 0 }}>
                                 <span>{slider_obj.label}</span>
-                                {audioSettings?.[slider_obj.key] && 
-                                    <span className="ms-2">
+                                {audioSettings?.[slider_obj.key] != null &&
+                                    <Box component="span" sx={{ ml: 1 }}>
                                         - {audioSettings[slider_obj.key]}%
-                                    </span>
+                                    </Box>
                                 }
-                            </Form.Label>
+                            </FormLabel>
 
-                            <Form.Range
-                                value={audioSettings?.[slider_obj.key]}
-                                onChange={(value) => {
+                            <Slider
+                                value={Number(audioSettings?.[slider_obj.key] || 0)}
+                                min={slider_obj.min ?? 0}
+                                max={slider_obj.max ?? 100}
+                                onChange={(_event, value) => {
                                     setAudioSettings({
                                         ...audioSettings,
-                                        [slider_obj.key]: value.target.value
+                                        [slider_obj.key]: value
                                     });
+                                }}
+                                sx={{
+                                    color: 'var(--articles-secondary-color, #1976d2)',
+                                    '& .MuiSlider-rail, & .MuiSlider-track': { height: 8 },
+                                    '& .MuiSlider-thumb': { width: 16, height: 16, border: '1px solid #000' },
+                                    '[data-bs-theme="dark"] & .MuiSlider-thumb, [data-mui-color-scheme="dark"] & .MuiSlider-thumb': {
+                                        borderColor: '#fff',
+                                    },
                                 }}
                             />
     
-                        </div>
+                        </Box>
                     )
                 })}
-            </div>
+            </Box>
 
             {config?.tabs?.Audio?.children}
 
@@ -95,7 +126,7 @@ export default function AudioTab({
                 }}
             /> */}
 
-        </>
+        </Box>
     )
 
 }

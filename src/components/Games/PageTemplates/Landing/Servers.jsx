@@ -2,6 +2,8 @@
 import { lazy, use } from 'react';
 
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 /**
  * Server list renderer used on the landing page. Shows available servers and join buttons.
@@ -23,7 +25,7 @@ export default function Servers({
     const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
 
     return (
-        <div className="servers">
+        <Box className="servers" sx={{ display: 'grid', gap: 1 }}>
 
             {Array.from({ length: multiplayerConfig?.defaultServers }).map((_, id) => {
 
@@ -34,14 +36,14 @@ export default function Servers({
                 )
 
                 return (
-                    <div key={id} className="server">
+                    <Box key={id} className="server" sx={{ border: 1, borderColor: 'divider', borderRadius: 1, p: 1.5 }}>
 
-                        <div className='d-flex justify-content-between align-items-center w-100 mb-2'>
-                            <div className="mb-0" style={{ fontSize: '0.9rem' }}><b>Server {serverNumber}</b></div>
-                            <div className='mb-0'>{lobbyLookup?.players?.length || 0}/4</div>
-                        </div>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 1, mb: 2 }}>
+                            <Typography sx={{ mb: 0, fontSize: '0.9rem', fontWeight: 700 }}>Server {serverNumber}</Typography>
+                            <Box sx={{ mb: 0 }}>{lobbyLookup?.players?.length || 0}/4</Box>
+                        </Box>
 
-                        <div className='d-flex justify-content-around w-100 mb-1'>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-around', width: 1, mb: 1 }}>
                             {[1, 2, 3, 4].map(player_count => {
 
                                 let playerLookup = false
@@ -49,7 +51,7 @@ export default function Servers({
                                 if (lobbyLookup?.players?.length >= player_count) playerLookup = true
 
                                 return (
-                                    <div key={player_count} className="icon" style={{
+                                    <Box key={player_count} className="icon" sx={{
                                         width: '20px',
                                         height: '20px',
                                         ...(playerLookup ? {
@@ -60,13 +62,12 @@ export default function Servers({
                                         border: '1px solid black'
                                     }}>
 
-                                    </div>
+                                    </Box>
                                 )
                             })}
-                        </div>
+                        </Box>
 
                         <Link
-                            className={``}
                             href={{
                                 pathname: `/play`,
                                 query: {
@@ -83,17 +84,17 @@ export default function Servers({
                         >
                             <ArticlesButton
                                 small
-                                className="px-3"
+                                sx={{ px: 3 }}
                                 disabled={multiplayerConfig?.comingSoon}
                             >
                                 {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
                             </ArticlesButton>
                         </Link>
 
-                    </div>
+                    </Box>
                 )
             })}
 
-        </div>
+        </Box>
     )
 }

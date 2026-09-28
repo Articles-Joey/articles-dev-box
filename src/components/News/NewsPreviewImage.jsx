@@ -1,3 +1,5 @@
+import Box from '@mui/material/Box';
+
 export default function NewsPreviewImage(props) {
 
     const { featured_image, thumbnail_size } = props;
@@ -29,8 +31,8 @@ export default function NewsPreviewImage(props) {
                     {featured_image?.thumbnails?.length > 0 ?
                         <>
                             {(thumbnail_size && featured_image?.thumbnails?.find(thumb_obj => thumb_obj.width == thumbnail_size)) ?
-                                <img
-                                    style={{
+                                <Box component="img"
+                                    sx={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'cover',
@@ -44,11 +46,10 @@ export default function NewsPreviewImage(props) {
                                     }
                                     loading='lazy'
                                     alt=""
-                                    className='flex-shrink-0'
                                 />
                                 :
-                                <img
-                                    style={{
+                                <Box component="img"
+                                    sx={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'cover',
@@ -62,13 +63,12 @@ export default function NewsPreviewImage(props) {
                                     }
                                     loading='lazy'
                                     alt=""
-                                    className='flex-shrink-0'
                                 />
                             }
                         </>
                         :
-                        <img
-                            style={{
+                        <Box component="img"
+                            sx={{
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
@@ -76,7 +76,6 @@ export default function NewsPreviewImage(props) {
                             src={process.env.NEXT_PUBLIC_CDN + featured_image?.key}
                             loading='lazy'
                             alt=""
-                            className='flex-shrink-0'
                         />
                     }
                 </>
@@ -84,8 +83,8 @@ export default function NewsPreviewImage(props) {
 
             {/* Pre 2023 */}
             {(featured_image?.location && !featured_image?.image_type && (featured_image?.thumbnails?.length || 0) < 1) &&
-                <img
-                    style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                <Box component="img"
+                    sx={{ objectFit: 'cover', width: '100%', height: '100%' }}
                     // className="background"
                     src={`${process.env.NEXT_PUBLIC_CDN}${featured_image?.key}`}
                     alt=""

@@ -1,6 +1,8 @@
 "use client";
 import ArticlesButton from "#root/src/components/UI/Button";
 import { lazy, useEffect, useState } from "react";
+import Box from '@mui/material/Box';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const GamesDropdown = lazy(() => import('#root/src/components/Games/GamesDropdown'));
 
@@ -33,13 +35,14 @@ export default function ReturnToLauncherButton({
 
     if (!launcher_mode) {
         return (
-            <div className="d-flex">
+            <Box sx={{ display: 'flex' }}>
                 <ArticlesButton
                     // ref={el => elementsRef.current[6] = el}
-                    className={`${className} w-100`}
+                    className={className}
                     small
                     id={id}
-                    style={{
+                    sx={{
+                        width: 1,
                         zIndex: 10,
                         position: "relative",
                     }}
@@ -48,7 +51,7 @@ export default function ReturnToLauncherButton({
                         window.location.href = `https://games.articles.media?utm_source=${window.location.hostname}&utm_medium=GamesDropdown`
                     }}
                 >
-                    <i className="fad fa-gamepad"></i>
+                    <SportsEsportsIcon fontSize="inherit" sx={{ mr: 0.75 }} />
                     View our other games
                 </ArticlesButton>
 
@@ -56,17 +59,18 @@ export default function ReturnToLauncherButton({
                     <GamesDropdown />
                 }
 
-            </div>
+            </Box>
         )
     }
 
     return (
         <ArticlesButton
             // ref={el => elementsRef.current[6] = el}
-            className={`${className} w-100`}
+            className={className}
             id={id}
             small
-            style={{
+            sx={{
+                width: 1,
                 zIndex: 10,
                 position: "relative",
             }}
@@ -75,7 +79,7 @@ export default function ReturnToLauncherButton({
                 window.location.href = `https://games.articles.media?utm_source=${window.location.hostname}&utm_medium=GamesDropdown`
             }}
         >
-            <i className="fad fa-gamepad"></i>
+            <SportsEsportsIcon fontSize="inherit" sx={{ mr: 0.75 }} />
             Return to Games
         </ArticlesButton>
     );

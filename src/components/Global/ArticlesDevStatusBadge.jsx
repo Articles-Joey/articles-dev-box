@@ -1,6 +1,8 @@
 import useMainSiteStatus from "#root/src/hooks/useMainSiteStatus";
 import useAuthSiteStatus from "#root/src/hooks/useAuthSiteStatus";
 import classNames from 'classnames';
+import Box from '@mui/material/Box';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 export default function ArticlesDevStatusBadge({
     useStore
@@ -36,43 +38,7 @@ export default function ArticlesDevStatusBadge({
     const setShowDevStatusModal = useStore((state) => state.setShowDevStatusModal)
 
     return (
-        <>
-            <style>
-                {`                        
-                            @keyframes grow-shrink {
-                                0% { transform: translateY(-50px); }
-                                50% { transform: translateY(0px); }
-                                100% { transform: translateY(-50px); }
-                            }
-                            .articles-dev-status {
-                                transform: translateY(-40px);
-                                z-index: 1055!important;
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                width: 50px;
-                                height: 50px;
-                                margin: 0;
-                                padding: 0;
-                                background-color: yellow;
-                                color: #FFFFFF;
-                                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                                animation: grow-shrink 2s ease-in;
-                                border: 4px solid red;
-                                cursor: pointer;
-                            }
-                            .articles-dev-status.main-connected {
-                                background-color: green;
-                            }
-                            .articles-dev-status.auth-connected {
-                                border-color: blue;
-                            }  
-                        `}
-            </style>
-            <div
+        <Box
                 onClick={() => {
                     setShowDevStatusModal(true)
                 }}
@@ -83,14 +49,34 @@ export default function ArticlesDevStatusBadge({
                         "auth-connected": authSiteStatus
                     }
                 )}
+                sx={{
+                    '@keyframes grow-shrink': {
+                        '0%, 100%': { transform: 'translateY(-50px)' },
+                        '50%': { transform: 'translateY(0)' },
+                    },
+                    transform: 'translateY(-40px)',
+                    zIndex: (theme) => theme.zIndex.modal + 1,
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 50,
+                    height: 50,
+                    m: 0,
+                    p: 0,
+                    bgcolor: mainSiteStatus ? 'success.main' : 'warning.main',
+                    color: '#fff',
+                    fontFamily: (theme) => theme.typography.fontFamily,
+                    animation: 'grow-shrink 2s ease-in',
+                    border: '4px solid',
+                    borderColor: authSiteStatus ? 'primary.main' : 'error.main',
+                    cursor: 'pointer',
+                }}
             >
-
-                <div className="content">
-                    <i className="fas fa-thumbs-up"></i>
-                </div>
-
-            </div>
-        </>
+                <ThumbUpIcon />
+            </Box>
     )
 
 }

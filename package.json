@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "1.6.3",
+  "version": "2.0.0-beta.0",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -32,6 +32,7 @@
     "./GlobalBody": "./dist/GlobalBody.js",
     "./GlobalClientModals": "./dist/GlobalClientModals.js",
     "./ViewUserModal": "./dist/ViewUserModal.js",
+    "./Button": "./dist/Button.js",
     "./SettingsModal": "./dist/SettingsModal.js",
     "./CreditsModal": "./dist/CreditsModal.js",
     "./InfoModal": "./dist/InfoModal.js",
@@ -56,13 +57,11 @@
     "./getSignOutRedirectUrl": "./dist/getSignOutRedirectUrl.js",
     "./generateRandomNickname": "./dist/generateRandomNickname.js",
     "./getAssetSource": "./dist/getAssetSource.js",
-    "./useAssetSource": "./dist/useAssetSource.js",
-    "./dist/style.css": "./dist/articles-dev-box.css",
-    "./dist/articles-dev-box.css": "./dist/articles-dev-box.css"
+    "./useAssetSource": "./dist/useAssetSource.js"
   },
   "scripts": {
     "dev-unknown": "vite dev",
-    "dev": "nodemon --watch src --ext js,ts,css,scss,jsx,json --ignore dist --exec \"npm run build\"",
+    "dev": "nodemon --watch src --ext js,ts,jsx,json --ignore dist --exec \"npm run build\"",
     "build": "vite build",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -71,20 +70,21 @@
   "author": "Articles Media",
   "license": "ISC",
   "peerDependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.3.1",
+    "@mui/material": "^9.3.1",
+    "date-fns": "^4.4.0",
     "react": ">=19.2.3",
     "react-dom": ">=19.2.3",
-    "swr": "^2.5.1",
-    "date-fns": "^4.4.0",
     "react-intersection-observer": "^10.0.0",
-    "react-bootstrap": "^2.0.0"
+    "swr": "^2.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.3",
     "classnames": "^2.5.1",
     "nodemon": "^3.1.11",
-    "react-bootstrap": "^2.10.10",
-    "sass": "^1.101.0",
     "vite": "^8.1.4"
-  },
-  "dependencies": {}
+  }
 }

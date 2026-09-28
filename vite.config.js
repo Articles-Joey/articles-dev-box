@@ -25,6 +25,7 @@ export default defineConfig({
         GlobalClientModals: resolve(__dirname, 'src/components/Global/GlobalClientModals.jsx'),
 
         ViewUserModal: resolve(__dirname, 'src/components/UI/ViewUserModal/ViewUserModal.jsx'),
+        Button: resolve(__dirname, 'src/components/UI/Button.jsx'),
         DarkModeHandler: resolve(__dirname, 'src/components/UI/DarkModeHandler.jsx'),
 
         GameMenu: resolve(__dirname, 'src/components/Games/GameMenu/GameMenu.jsx'),
@@ -69,7 +70,7 @@ export default defineConfig({
     },
     minify: false,
     rollupOptions: {
-      external: (id) => /^(react|react-dom|react-bootstrap|swr)(\/|$)/.test(id),
+      external: (id) => /^(react|react-dom|swr|@mui\/material|@mui\/icons-material|@emotion\/react|@emotion\/styled|@emotion\/cache)(\/|$)/.test(id),
       output: {
         globals: {
           react: 'React',

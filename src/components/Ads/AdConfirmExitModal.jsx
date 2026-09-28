@@ -3,11 +3,14 @@ import { useEffect } from 'react';
 // import Link from 'next/link'
 import Link from '#root/src/components/UI/Link';
 
-import Modal from 'react-bootstrap/Modal';
-
 // import ROUTES from 'components/constants/routes';
 // import ArticlesButton from '../Articles/Button';
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import LinkIcon from '@mui/icons-material/Link';
+import { ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '#root/src/components/UI/muiPrimitives';
 
 export default function AdConfirmExitModal(props) {
 
@@ -26,48 +29,32 @@ export default function AdConfirmExitModal(props) {
 
     return (
 
-        <div>
+        <Box>
 
-            {/* <style jsx global>
-                {`
-                        .ad-details-modal-backdrop {
-                            z-index: 1055!important;
-                        }
-                    `}
-            </style> */}
-
-            <Modal
-                show={true}
-                backdropClassName="ad-details-modal-backdrop"
-                className="articles-modal"
-                centered
-                onHide={closeModal}
-                size='md'
+            <ArticlesDialog
+                open
+                onClose={closeModal}
             >
 
-                <Modal.Header className="align-items-center" closeButton>
-                    <Modal.Title>Confirm Exit</Modal.Title>
-                </Modal.Header>
+                <ArticlesDialogTitle onClose={closeModal}>Confirm Exit</ArticlesDialogTitle>
 
-                <Modal.Body
-                    className=''
-                >
+                <ArticlesDialogContent>
 
-                    <div className='ratio ratio-16x9 bg-black mb-2'>
+                    <Box sx={{ width: 1, aspectRatio: '16 / 9', bgcolor: '#000', mb: 2 }}>
 
-                    </div>
+                    </Box>
 
-                    <p className="mb-1">This advertiser has been approved and verified to display ads but always be cautious when interacting with ads. Any offsite interactions are at your own risk and should be approached with caution. We can not be held responsible for any issues that may arise.</p>
+                    <Typography component="p" sx={{ mb: 1 }}>This advertiser has been approved and verified to display ads but always be cautious when interacting with ads. Any offsite interactions are at your own risk and should be approached with caution. We can not be held responsible for any issues that may arise.</Typography>
 
-                </Modal.Body>
+                </ArticlesDialogContent>
 
-                <Modal.Footer className='d-flex justify-content-between'>
+                <ArticlesDialogActions>
 
                     <ArticlesButton
                         variant={'articles'}
                         onClick={closeModal}
                     >
-                        <i className='fad fa-times'></i>
+                        <CloseIcon fontSize="inherit" sx={{ mr: 0.75 }} />
                         Close
                     </ArticlesButton>
 
@@ -81,16 +68,16 @@ export default function AdConfirmExitModal(props) {
                             variant={'articles'}
                             onClick={closeModal}
                         >
-                            <i className='fad fa-link'></i>
+                            <LinkIcon fontSize="inherit" sx={{ mr: 0.75 }} />
                             Proceed
                         </ArticlesButton>
                     </Link>
 
-                </Modal.Footer>
+                </ArticlesDialogActions>
 
-            </Modal>
+            </ArticlesDialog>
 
-        </div>
+        </Box>
 
     );
 }

@@ -1,5 +1,11 @@
 import classNames from "classnames";
 import ArticlesButton from "#root/src/components/UI/Button";
+import Box from '@mui/material/Box';
+import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { articlesCardSx } from '#root/src/components/UI/muiPrimitives';
 
 export default function MobileMenu({
     useStore,
@@ -10,35 +16,54 @@ export default function MobileMenu({
 
     const showMenu = useStore(state => state.showMenu);
     const setShowMenu = useStore(state => state.setShowMenu);
+    const sidebar = useStore(state => state.sidebar);
+    const menuBarStyle = menuBarConfig.style || 'Bar';
 
     return (
         <>
-            <div
-                // className="menu-bar card card-articles p-1 justify-content-center"
+            <Box
+                data-hide-in-screenshot-mode="true"
                 className={
                     classNames(
                         `dev-box-game-menu menu-bar ${menuBarConfig.menuBarClassName || ''}`,
                         {
-                            'card card-articles p-1 justify-content-center': menuBarConfig.style == "Bar",
-                            [menuBarConfig.style.replaceAll(" ", "_")]: menuBarConfig.style,
+                            [menuBarStyle.replaceAll(" ", "_")]: menuBarStyle,
                             [menuBarConfig.menuBarButtonPosition]: menuBarConfig.menuBarButtonPosition,
                         }
                     )
                 }
-                style={{
+                sx={(theme) => ({
                     ...menuBarConfig.menuBarCssStyle,
-                    ...(menuBarConfig.style == "Bar" && {
-                        borderRadius: "0px",
+                    ...(menuBarStyle == "Bar" && {
+                        ...articlesCardSx,
+                        position: 'fixed',
+                        bottom: 0,
+                        left: 0,
+                        width: 1,
+                        height: 50,
+                        zIndex: theme.zIndex.appBar,
+                        borderRadius: 0,
+                        p: 1,
+                        justifyContent: 'center',
                     }),
-                    // ...(menuBarConfig.style == "Corner Button" && {
-                    //     bottom: "0px"
-                    // })
-                }}
+                    ...(menuBarStyle == "Corner Button" && {
+                        position: 'fixed',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        width: 1,
+                        height: 50,
+                        zIndex: theme.zIndex.appBar,
+                    }),
+                    ...(sidebar && {
+                        [theme.breakpoints.up(992)]: { display: 'none' },
+                    }),
+                })}
             >
 
-                <div className='menu-bar-container flex-header align-items-center'>
+                <Box className="menu-bar-container" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: 1 }}>
 
-                    <div className="Left d-flex align-items-center">
+                    <Box className="Left" sx={{ display: 'flex', alignItems: 'center' }}>
                         {(menuBarConfig.menuBarButtonPosition == "Left" || !menuBarConfig.menuBarButtonPosition) &&
                             <MenuButton
                                 useStore={useStore}
@@ -46,10 +71,19 @@ export default function MobileMenu({
                             />
                         }
                         {menuBarConfig.leftSlotChildren && menuBarConfig.leftSlotChildren}
-                    </div>
+                    </Box>
 
                     {/* Center */}
-                    <div className="Center d-flex align-items-center">
+                    <Box className="Center" sx={(theme) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        [theme.breakpoints.up(992)]: {
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                        },
+                    })}>
                         {(menuBarConfig.menuBarButtonPosition == "Center") &&
                             <MenuButton
                                 useStore={useStore}
@@ -57,9 +91,9 @@ export default function MobileMenu({
                             />
                         }
                         {menuBarConfig.centerSlotChildren && menuBarConfig.centerSlotChildren}
-                    </div>
+                    </Box>
 
-                    <div className="Right d-flex align-items-center">
+                    <Box className="Right" sx={{ display: 'flex', alignItems: 'center' }}>
                         {(menuBarConfig.menuBarButtonPosition == "Right") &&
                             <MenuButton
                                 useStore={useStore}
@@ -67,26 +101,39 @@ export default function MobileMenu({
                             />
                         }
                         {menuBarConfig.rightSlotChildren && menuBarConfig.rightSlotChildren}
-                    </div>
+                    </Box>
 
-                </div>
+                </Box>
 
-            </div>
+            </Box>
 
-            <div
+            <Box
+                data-hide-in-screenshot-mode="true"
                 className={`dev-box-game-menu mobile-menu ${showMenu && 'show'}`}
                 onClick={() => setShowMenu(false)}
-                style={{
-                    ...(menuBarConfig.style == "Bar" && {
+                sx={{
+                    position: 'fixed',
+                    left: 0,
+                    width: 1,
+                    top: 0,
+                    zIndex: (theme) => theme.zIndex.appBar - 1,
+                    bgcolor: 'rgba(0, 0, 0, 0.75)',
+                    transform: showMenu ? 'translateY(0)' : 'translateY(calc(100% + 50px))',
+                    transition: (theme) => theme.transitions.create('transform', { duration: 200 }),
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    ...(menuBarStyle == "Bar" && {
                         bottom: "50px"
                     }),
-                    ...(menuBarConfig.style == "Corner Button" && {
+                    ...(menuBarStyle == "Corner Button" && {
                         bottom: "0px"
                     })
                 }}
             >
-                <div
-                    style={{
+                <Box
+                    sx={{
                         maxWidth: '300px',
                         maxHeight: 'calc(100vh - 100px)',
                         overflowY: 'auto',
@@ -99,8 +146,8 @@ export default function MobileMenu({
                     // {...panelProps}
                     />}
 
-                </div>
-            </div>
+                </Box>
+            </Box>
         </>
     )
 }
@@ -126,28 +173,28 @@ function MenuButton({
                     console.log("Menu button clicked, toggling menu visibility");
                     setShowMenu(!showMenu)
                 }}
-                className={"d-flex"}
+                sx={{ display: 'flex' }}
             >
-                <i className="fad fa-bars"></i>
-                <span className="text">Menu</span>
+                <MenuIcon fontSize="small" sx={{ mr: 0.5 }} />
+                <Box component="span" className="text">Menu</Box>
             </ArticlesButton>
             {menuBarConfig?.settingsWithMenuButton &&
                 <ArticlesButton
                     className={`settingsButton ${menuBarConfig?.settingsButtonClassName}`}
-                    style={{
+                    sx={{
                         minHeight: "30px"
                     }}
                     onClick={() => {
                         setShowSettingsModal(true)
                     }}
                 >
-                    <i className='fad fa-cog'></i>
+                    <SettingsIcon fontSize="small" />
                 </ArticlesButton>
             }
             {menuBarConfig?.darkModeButton &&
                 <ArticlesButton
                     className={`darkModeButton ${menuBarConfig?.darkModeButtonClassName}`}
-                    style={{
+                    sx={{
                         minHeight: "30px",
                         // backgroundColor: "lightgray",
                     }}
@@ -156,9 +203,9 @@ function MenuButton({
                     }}
                 >
                     {darkMode ?
-                        <i className='fad fa-sun'></i>
+                        <LightModeIcon fontSize="small" />
                         :
-                        <i className='fad fa-moon'></i>
+                        <DarkModeIcon fontSize="small" />
                     }
                 </ArticlesButton>
             }

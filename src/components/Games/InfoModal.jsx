@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 
-import { Modal } from "react-bootstrap"
-
 // import packageInfo from '@/package.json';
 
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '#root/src/components/UI/muiPrimitives';
 // import { useModalNavigation } from "@/hooks/useModalNavigation";
 
 // import B from "@articles-media/articles-gamepad-helper/dist/img/Xbox UI/B.svg";
@@ -29,27 +30,19 @@ export default function InfoModal({
     return (
         <>
 
-            <Modal
-                className="articles-modal games-info-modal"
-                size='md'
-                show={showModal}
-                centered
-                scrollable
+            <ArticlesDialog
+                open={showModal}
                 onExited={() => {
                     setShow(false)
                 }}
-                onHide={() => {
+                onClose={() => {
                     setShowModal(false)
                 }}
             >
 
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        {process.env.NEXT_PUBLIC_GAME_NAME} Info
-                    </Modal.Title>
-                </Modal.Header>
+                <ArticlesDialogTitle onClose={() => setShowModal(false)}>{process.env.NEXT_PUBLIC_GAME_NAME} Info</ArticlesDialogTitle>
 
-                <Modal.Body className="flex-column p-0">
+                <ArticlesDialogContent sx={{ p: 0 }}>
 
                     {infoModalConfig?.contentOverride ?
                         <>
@@ -58,46 +51,46 @@ export default function InfoModal({
                         :
                         <>
                             {!infoModalConfig?.hidePreviewImage &&
-                                <div className="ratio ratio-16x9">
-                                    <img
+                                <Box sx={{ width: 1, aspectRatio: '16 / 9' }}>
+                                    <Box component="img"
                                         src={infoModalConfig?.previewImage}
                                         alt="Game Preview"
-                                        style={{ 
+                                        sx={{
+                                            width: 1,
+                                            height: 1,
                                             objectFit: infoModalConfig?.previewImageObjectFit || 'cover' 
                                         }}
-                                    ></img>
-                                </div>
+                                    />
+                                </Box>
                             }
 
-                            <div className="p-3">
+                            <Box sx={{ p: 3 }}>
 
                                 {infoModalConfig?.prependContent &&
-                                    <div className="mt-2">
+                                    <Box sx={{ mt: 2 }}>
                                         {infoModalConfig.prependContent}
-                                    </div>
+                                    </Box>
                                 }
 
-                                <div className="">
+                                <Box>
                                     {packageInfo?.description}
-                                </div>
+                                </Box>
 
                                 {infoModalConfig?.appendContent &&
-                                    <div className="mt-2">
+                                    <Box sx={{ mt: 2 }}>
                                         {infoModalConfig.appendContent}
-                                    </div>
+                                    </Box>
                                 }
 
-                            </div>
+                            </Box>
                         </>
                     }
 
-                </Modal.Body>
+                </ArticlesDialogContent>
 
-                <Modal.Footer className="justify-content-between">
+                <ArticlesDialogActions>
 
-                    <div>
-                        <div className="version small">Version: {packageInfo?.version}</div>
-                    </div>
+                    <Typography variant="body2">Version: {packageInfo?.version}</Typography>
 
                     <ArticlesButton
                         // ref={el => elementsRef.current[0] = el}
@@ -105,15 +98,15 @@ export default function InfoModal({
                         onClick={() => {
                             setShow(false)
                         }}
-                        className="d-flex align-items-center"
+                        sx={{ display: 'flex', alignItems: 'center' }}
                     >
                         {/* <img src={B.src} className="controller-only me-1" alt="Close" /> */}
                         Close
                     </ArticlesButton>
 
-                </Modal.Footer>
+                </ArticlesDialogActions>
 
-            </Modal>
+            </ArticlesDialog>
 
         </>
     )

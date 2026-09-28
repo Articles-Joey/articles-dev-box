@@ -1,42 +1,102 @@
 import articlesGames from "#root/src/constants/articlesGames.js";
+import ArticlesButton from "#root/src/components/UI/Button";
 import { useState } from "react";
-import { Dropdown } from "react-bootstrap";
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import CloseIcon from '@mui/icons-material/Close';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 export default function GamesDropdown({}) {
 
     const [gameSearch, setGameSearch] = useState("");
+    const [anchorEl, setAnchorEl] = useState(null);
 
     return (
-        <Dropdown
-            drop="up"
-        >
-            <Dropdown.Toggle variant="articles" size="sm" id="dropdown-basic">
-                <i className="fad fa-joystick"></i>
-            </Dropdown.Toggle>
+        <>
+            <ArticlesButton
+                small
+                active={Boolean(anchorEl)}
+                aria-label="Browse games"
+                aria-haspopup="menu"
+                aria-controls={anchorEl ? 'games-menu' : undefined}
+                aria-expanded={anchorEl ? 'true' : undefined}
+                onClick={(event) => setAnchorEl(event.currentTarget)}
+            >
+                <SportsEsportsIcon fontSize="inherit" />
+                <ArrowDropUpIcon fontSize="inherit" sx={{ ml: 0.25, mr: -0.25 }} />
+            </ArticlesButton>
 
-            <Dropdown.Menu>
+            <Menu
+                id="games-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                slotProps={{
+                    paper: {
+                        sx: {
+                            '--articles-games-menu-background-color': '#fff',
+                            '--articles-games-menu-font-color': '#212529',
+                            '--articles-games-menu-muted-color': 'rgba(33, 37, 41, 0.7)',
+                            '--articles-games-menu-border-color': 'rgba(0, 0, 0, 0.35)',
+                            '--articles-games-menu-hover-color': 'rgba(0, 0, 0, 0.08)',
+                            width: 280,
+                            maxWidth: 'calc(100vw - 32px)',
+                            bgcolor: 'var(--articles-games-menu-background-color)',
+                            color: 'var(--articles-games-menu-font-color)',
+                            backgroundImage: 'none',
+                            '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                                '--articles-games-menu-background-color': '#212529',
+                                '--articles-games-menu-font-color': '#fff',
+                                '--articles-games-menu-muted-color': 'rgba(255, 255, 255, 0.7)',
+                                '--articles-games-menu-border-color': 'rgba(255, 255, 255, 0.7)',
+                                '--articles-games-menu-hover-color': 'rgba(255, 255, 255, 0.1)',
+                            },
+                        },
+                    },
+                }}
+            >
 
-                <div className="px-2 mb-2 d-flex align-items-center">
-                    <input
+                <Box sx={{ px: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
+                    <TextField
                         type="text"
                         placeholder="Search Games"
-                        className="form-control form-control-sm"
+                        size="small"
+                        fullWidth
                         value={gameSearch}
                         onChange={(e) => {
                             setGameSearch(e.target.value);
                         }}
+                        sx={{
+                            '& .MuiInputBase-input': {
+                                color: 'var(--articles-games-menu-font-color)',
+                            },
+                            '& .MuiInputBase-input::placeholder': {
+                                color: 'var(--articles-games-menu-muted-color)',
+                                opacity: 1,
+                            },
+                            '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'var(--articles-games-menu-border-color)',
+                            },
+                        }}
                     />
                     {gameSearch && (
-                        <i
-                            className="fad fa-times-circle ms-2"
-                            style={{ cursor: "pointer" }}
+                        <IconButton
+                            aria-label="Clear game search"
+                            size="small"
+                            sx={{ ml: 1, color: 'inherit' }}
                             onClick={() => setGameSearch("")}
-                        ></i>
+                        ><CloseIcon fontSize="small" /></IconButton>
                     )}
-                </div>
+                </Box>
 
-                <div
-                    style={{
+                <Box
+                    sx={{
                         maxHeight: "200px",
                         overflowY: "auto",
                     }}
@@ -50,35 +110,42 @@ export default function GamesDropdown({}) {
                                 game.name.toLowerCase().includes(gameSearch.toLowerCase())
                             )
                             .map((game, index) => (
-                                <Dropdown.Item
+                                <MenuItem
                                     key={index}
-                                    // target="_blank"
+                                    component="a"
                                     rel="noopener noreferrer"
                                     href={`${game.link}?utm_source=${window.location.hostname}&utm_medium=GamesDropdown`}
-                                    className="d-flex align-items-center"
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        color: 'inherit',
+                                        '&:hover, &.Mui-focusVisible': {
+                                            bgcolor: 'var(--articles-games-menu-hover-color)',
+                                        },
+                                    }}
                                 >
-                                    <img
+                                    <Box component="img"
                                         src={game.image}
                                         alt={game.name}
                                         loading="lazy"
-                                        style={{
+                                        sx={{
                                             width: "30px",
                                             height: "30px",
                                             objectFit: "cover",
                                             marginRight: "10px",
                                         }}
-                                    ></img>
+                                    />
                                     {game.name}
-                                </Dropdown.Item>
+                                </MenuItem>
                             ))
                     ) : (
-                        <div className="px-3 py-1 small text-center text-muted">
+                        <Box sx={{ px: 3, py: 1, typography: 'body2', textAlign: 'center', color: 'var(--articles-games-menu-muted-color)' }}>
                             No results found
-                        </div>
+                        </Box>
                     )}
-                </div>
+                </Box>
 
-            </Dropdown.Menu>
-        </Dropdown>
+            </Menu>
+        </>
     )
 }

@@ -1,4 +1,6 @@
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 export default function ControlsTab({
     useTouchControlsStore,
@@ -6,7 +8,7 @@ export default function ControlsTab({
 }) {
 
     return (
-        <div className="">
+        <Box>
 
             {config?.tabs?.Controls?.ControlsPanel &&
                 <>
@@ -26,7 +28,7 @@ export default function ControlsTab({
 
             {config?.tabs?.Controls?.children}
 
-        </div>
+        </Box>
     )
 }
 
@@ -41,11 +43,11 @@ function TouchControls({
     const setEnabled = useTouchControlsStore((state) => state?.setEnabled);
 
     return (
-        <div className="mb-3">
+        <Box sx={{ mb: 3 }}>
 
-            <div>Touch Controls</div>
-            <div className="small mb-1">Adds on screen controls for touch devices.</div>
-            <div className="mb-3">
+            <Typography>Touch Controls</Typography>
+            <Typography variant="body2" sx={{ mb: 1 }}>Adds on screen controls for touch devices.</Typography>
+            <Box sx={{ mb: 3 }}>
                 {[false, true].map((level, i) => (
                     <ArticlesButton
                         key={i}
@@ -57,7 +59,7 @@ function TouchControls({
                         {level ? "On" : "Off"}
                     </ArticlesButton>
                 ))}
-            </div>
+            </Box>
 
             {/* {[false, true].map((level, i) => (
                 <ArticlesButton
@@ -71,6 +73,6 @@ function TouchControls({
                 </ArticlesButton>
             ))} */}
 
-        </div>
+        </Box>
     )
 }

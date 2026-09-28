@@ -4,6 +4,9 @@
 import ArticlesButton from '#root/src/components/UI/Button';
 
 import packageJson from "../../../../package.json";
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 export default function DebugTab({
     useStore,
@@ -25,16 +28,16 @@ export default function DebugTab({
     return (
         <>
 
-            <div className='mb-3'>
+            <Box sx={{ mb: 3 }}>
                 dev-box version: {packageJson.version}
-            </div>
+            </Box>
 
             {/* Note - This is opt out as most games will be using pmndrs/drei */}
             {/* This was only done for blackjack at this time */}
             {config?.tabs?.Debug?.showStats !== false &&
-                <div className='mb-3'>
-                    <div>Show Debug Stats</div>
-                    <div className="">
+                <Box sx={{ mb: 3 }}>
+                    <Typography>Show Debug Stats</Typography>
+                    <Box>
                         {[false, true].map((level, i) => (
                             <ArticlesButton
                                 key={i}
@@ -47,15 +50,15 @@ export default function DebugTab({
                                 {level ? "Enabled" : "Disabled"}
                             </ArticlesButton>
                         ))}
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             }
 
             {/* Not seeing any value of adding this in production, will only end up in snoopy users adding cost */}
             {process.env.NODE_ENV === "development" &&
-                <div className='mb-3'>
-                    <div>Override Model Source</div>
-                    <div className="">
+                <Box sx={{ mb: 3 }}>
+                    <Typography>Override Model Source</Typography>
+                    <Box>
                         <ArticlesButton
                             active={modelSource === 'CDN'}
                             onClick={() => {
@@ -74,13 +77,13 @@ export default function DebugTab({
                         >
                             Local
                         </ArticlesButton>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             }
 
             {config?.tabs?.Debug?.children &&
                 <>
-                    <hr />
+                    <Divider />
                     {config?.tabs?.Debug?.children}
                 </>
             }

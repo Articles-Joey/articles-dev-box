@@ -1,21 +1,8 @@
 "use client"
-import { lazy, memo, useState } from "react";
-import React, { Suspense } from 'react';
+import { memo } from "react";
 
-function GlobalBody({
-    fontawesome = true,
-}) {
-
-    return (
-        <>
-
-            {fontawesome && <link
-                rel="stylesheet"
-                href={`https://cdn.articles.media/fonts/fontawesome/css/all.min.css`}
-            />}
-
-        </>
-    );
+function GlobalBody() {
+    return null;
 
 }
 

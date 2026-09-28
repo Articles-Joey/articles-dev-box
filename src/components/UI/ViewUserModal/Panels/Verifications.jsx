@@ -12,52 +12,56 @@ import ArticlesDate from '#root/src/components/UI/ArticlesDate';
 // import routes from "@/components/constants/routes"
 // import Link from "next/link"
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesCard, ArticlesCardBody, ArticlesCardHeader } from '#root/src/components/UI/muiPrimitives';
 
 export default function Verifications({
     activeLayoutProposalSentiments,
     userData
 }) {
     return (
-        <div>
+        <Box>
 
-            <div className=''>
+            <Box>
                 {userData?.verified?.verified_methods?.map((item, item_i) => {
 
                     if (Object.keys(item)?.length > 0) {
                         return (
-                            <div
+                            <ArticlesCard
                                 key={item_i}
-                                className='card card-articles card-sm object mb-2'
+                                className="object"
+                                sx={{ mb: 2 }}
                             >
-                                <div className="card-header">
+                                <ArticlesCardHeader>
                                     {item?.method_name}
-                                </div>
-                                <div className="card-body p-2">
-                                    <div className="small">
-                                        <div className="d-flex align-items-center">
-                                            <span className="me-2">Approved On: </span><ArticlesDate date={item.approved_date} />
-                                        </div>
-                                        <div className="d-flex align-items-center">
-                                            <span className="me-2">Approved By: </span><ViewUserModal user_id={item.approved_by} dangerousPopulate />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </ArticlesCardHeader>
+                                <ArticlesCardBody sx={{ p: 2 }}>
+                                    <Box sx={{ typography: 'body2' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <Box component="span" sx={{ mr: 2 }}>Approved On: </Box><ArticlesDate date={item.approved_date} />
+                                        </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <Box component="span" sx={{ mr: 2 }}>Approved By: </Box><ViewUserModal user_id={item.approved_by} dangerousPopulate />
+                                        </Box>
+                                    </Box>
+                                </ArticlesCardBody>
+                            </ArticlesCard>
                         )
                     } else {
                         return (
-                            <div
+                            <Box
                                 key={item_i}
                                 className='single'
                             >
                                 {item}
-                            </div>
+                            </Box>
                         )
                     }
 
                 })}
-            </div>
+            </Box>
 
-        </div>
+        </Box>
     )
 }

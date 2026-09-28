@@ -1,11 +1,18 @@
 // import useUserFriends from "@/hooks/Friends/useUserFriends";
 import useUserFriends from "#root/src/hooks/User/useUserFriends";
-import { Modal } from "react-bootstrap";
 import ArticlesButton from "../UI/Button";
 
 import useUserToken from "#root/src/hooks/User/useUserToken.js";
 import useUserDetails from "#root/src/hooks/User/useUserDetails.js";
 import { useMemo } from "react";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import CloseIcon from '@mui/icons-material/Close';
+import EmailIcon from '@mui/icons-material/Email';
+import InfoIcon from '@mui/icons-material/Info';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SendIcon from '@mui/icons-material/Send';
+import { ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '../UI/muiPrimitives';
 
 export default function FriendsList({
     show,
@@ -60,28 +67,28 @@ export default function FriendsList({
 
     const friendsWrapped = useMemo(() => {
 
-        return <div>
+        return <Box>
             {friends?.map((friend) => (
-                <div
+                <Box
                     key={friend.friend_id}
-                    className="d-flex align-items-center justify-content-between border p-1"
+                    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, border: 1, borderColor: 'divider', p: 1 }}
                 >
 
-                    <div>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
-                        <img
+                        <Box component="img"
                             src={friend?.populated_user?.photo_url}
                             alt={`${friend?.populated_user?.username}'s avatar`}
                             width={32}
                             height={32}
-                            className="me-2"
+                            sx={{ mr: 1 }}
                         />
 
                         {friend?.populated_user?.username} - {friend?.populated_user?.display_name || 'No Display Name'}
 
-                    </div>
+                    </Box>
 
-                    <div>
+                    <Box sx={{ display: 'flex', gap: 0.5 }}>
                         {allowInvite && <ArticlesButton
                             variant="articles"
                             onClick={() => {
@@ -89,7 +96,7 @@ export default function FriendsList({
                                 allowInvite(friend)
                             }}
                         >
-                            <i className="fad fa-paper-plane me-2"></i>
+                            <SendIcon fontSize="inherit" sx={{ mr: 1 }} />
                             <span>Invite</span>
                         </ArticlesButton>}
                         <ArticlesButton
@@ -100,7 +107,7 @@ export default function FriendsList({
                                 window.open(`https://articles.media/settings/friends?friend_relationship_id=${friend?._id}`, '_blank')
                             }}
                         >
-                            <i className="fad fa-info me-0"></i>
+                            <InfoIcon fontSize="inherit" />
                         </ArticlesButton>
                         <ArticlesButton
                             variant="articles"
@@ -109,77 +116,60 @@ export default function FriendsList({
                                 window.open(`https://articles.media/messages?startMsg=${friend?.friend_id}`, '_blank')
                             }}
                         >
-                            <i className="fad fa-envelope me-0"></i>
+                            <EmailIcon fontSize="inherit" />
                         </ArticlesButton>
-                    </div>
+                    </Box>
 
-                </div>
+                </Box>
             ))}
-        </div>
+        </Box>
 
-    }, [friends])
+    }, [friends, allowInvite])
 
     if (!componentType || componentType == 'list') {
 
         if (!friendsLoading && friends && friends.length > 0) {
 
             return friendsWrapped
-
-            return (
-                <ul className={className} style={style}>
-                    {friends.map((friend) => (
-                        <li key={friend.friend_id}>
-                            {friend?.populated_user?.username} - {friend?.populated_user?.display_name || 'No Display Name'}
-                        </li>
-                    ))}
-                </ul>
-            )
         }
 
     }
 
-    if (componentType.toLowerCase() == 'modal') {
+    if (componentType?.toLowerCase() == 'modal') {
         return (
-            <Modal
-                show={show}
-                size={'md'}
-                className={`articles-modal ${className}`}
-                // modalBackdropClassName={modalBackdropClassName}
+            <ArticlesDialog
+                open={show}
+                className={className}
                 backdropClassName={modalBackdropClassName}
-                centered
-                onHide={() => setShow(false)}
-                style={style}
+                onClose={() => setShow(false)}
+                sx={style}
                 id={id}
             >
 
-                <Modal.Header>
-                    <Modal.Title>
-                        Friends
-                    </Modal.Title>
-                </Modal.Header>
+                <ArticlesDialogTitle>Friends</ArticlesDialogTitle>
 
-                <Modal.Body>
+                <ArticlesDialogContent>
 
                     {friendsLoading &&
-                        <div className="d-flex align-items-center">
-                            <i className="fad fa-spinner-third fa-spin fa-2x"></i>
-                            <div>Loading...</div>
-                        </div>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <CircularProgress size={28} />
+                            <Box>Loading...</Box>
+                        </Box>
                     }
 
                     {!friendsLoading && friends && friends.length == 0 &&
-                        <div>
+                        <Box>
                             No friends to show.
-                        </div>
+                        </Box>
                     }
 
                     {!friendsLoading && friends && friends.length > 0 &&
                         friendsWrapped
                     }
 
-                </Modal.Body>
+                </ArticlesDialogContent>
 
-                <Modal.Footer className="justify-content-between">
+                <ArticlesDialogActions>
 
                     <ArticlesButton
                         variant="articles"
@@ -187,7 +177,7 @@ export default function FriendsList({
                             mutateFriends()
                         }}
                     >
-                        <i className="fad fa-redo me-2"></i>
+                        <RefreshIcon fontSize="inherit" sx={{ mr: 1 }} />
                         <span>Refresh</span>
                     </ArticlesButton>
 
@@ -197,13 +187,13 @@ export default function FriendsList({
                             setShow(false)
                         }}
                     >
-                        <i className="fad fa-times me-2"></i>
+                        <CloseIcon fontSize="inherit" sx={{ mr: 1 }} />
                         Close
                     </ArticlesButton>
 
-                </Modal.Footer>
+                </ArticlesDialogActions>
 
-            </Modal>
+            </ArticlesDialog>
         )
     }
 

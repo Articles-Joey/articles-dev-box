@@ -10,6 +10,9 @@ import ArticlesButton from "#root/src/components/UI/Button";
 
 import FriendsList from "#root/src/components/Friends/FriendsList";
 import SignOutModal from "#root/src/components/User/SignOutModal";
+import Box from '@mui/material/Box';
+import GroupsIcon from '@mui/icons-material/Groups';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Textfit = lazy(() => import('../UI/Textfit').then(module => ({ default: module.Textfit })));
 
@@ -45,16 +48,16 @@ export default function SessionButton({
     return (
         <>
             {!userDetails ?
-                <SignInButton className={"mb-2"} size={size} />
+                <Box sx={{ mb: 1 }}><SignInButton size={size} /></Box>
                 :
-                <div className='SessionButton w-100 d-flex align-items-stretch mb-2'>
+                <Box className="SessionButton" sx={{ width: 1, display: 'flex', alignItems: 'stretch', mb: 1 }}>
 
                     <ViewUserModal
                         buttonType="Link"
-                        className={"w-100"}
+                        sx={{ width: 1 }}
                     >
                         <ArticlesButton
-                            className={"w-100 h-100"}
+                            sx={{ width: 1, height: 1 }}
                             // small
                             size={size}
                             onClick={() => {
@@ -69,12 +72,12 @@ export default function SessionButton({
                                     minFontSize={6}
                                     justifyContent="center"
                                 >
-                                    <i className="fad fa-sign-out"></i>
+                                    <LogoutIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                     Logged in as {userDetails?.display_name || "Unknown User"}
                                 </Textfit>
                                 :
                                 <>
-                                    <i className="fad fa-sign-out"></i>
+                                    <LogoutIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                     Logged in as {userDetails?.display_name || "Unknown User"}
                                 </>
                             }
@@ -115,7 +118,7 @@ export default function SessionButton({
                                 setShowFriendsModal(true)
                             }}
                         >
-                            <i className="fad fa-users"></i>
+                            <GroupsIcon fontSize="inherit" />
                         </ArticlesButton>
                     }
 
@@ -127,10 +130,10 @@ export default function SessionButton({
                             setConfirmSignOut(true)
                         }}
                     >
-                        <i className="fad fa-sign-out"></i>
+                        <LogoutIcon fontSize="inherit" />
                     </ArticlesButton>
 
-                </div>
+                </Box>
             }
         </>
     )

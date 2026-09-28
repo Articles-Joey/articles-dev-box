@@ -2,35 +2,38 @@ import { format } from "date-fns"
 
 import ArticlesButton from '#root/src/components/UI/Button';
 import Link from '#root/src/components/UI/Link';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesBadge, ArticlesCard, ArticlesCardBody, ArticlesCardFooter, ArticlesCardHeader, articlesShadow } from '#root/src/components/UI/muiPrimitives';
 
 export default function ProposalSentiments({
     activeLayoutProposalSentiments
 }) {
     return (
-        <div>
+        <Box>
             {activeLayoutProposalSentiments.user_sentiments?.map(obj => {
                 return (
-                    <div key={obj._id} className="card card-articles card-sm border mb-2">
+                    <ArticlesCard key={obj._id} sx={{ mb: 2 }}>
 
-                        <div className="card-header small">
+                        <ArticlesCardHeader sx={{ typography: 'body2' }}>
                             Gave their sentiment on <b>{obj.populated_proposal.title}</b>
-                        </div>
+                        </ArticlesCardHeader>
 
-                        <div className="card-body small p-2">
+                        <ArticlesCardBody sx={{ typography: 'body2', p: 2 }}>
 
-                            <div className='d-flex align-items-center border-bottom pb-1'>
-                                {obj.sentiment_status == 'Agree' && <div className="badge shadow-articles bg-success">Agree</div>}
-                                {obj.sentiment_status == 'Needs Work' && <div className="badge shadow-articles bg-warning text-dark">Needs Work</div>}
-                                {obj.sentiment_status == 'Disagree' && <div className="badge shadow-articles bg-danger">Disagree</div>}
+                            <Box sx={{ display: 'flex', alignItems: 'center', borderBottom: 1, borderColor: 'divider', pb: 1 }}>
+                                {obj.sentiment_status == 'Agree' && <ArticlesBadge sx={{ boxShadow: articlesShadow, bgcolor: 'success.main', color: '#fff' }}>Agree</ArticlesBadge>}
+                                {obj.sentiment_status == 'Needs Work' && <ArticlesBadge sx={{ boxShadow: articlesShadow, bgcolor: 'warning.main', color: 'warning.contrastText' }}>Needs Work</ArticlesBadge>}
+                                {obj.sentiment_status == 'Disagree' && <ArticlesBadge sx={{ boxShadow: articlesShadow, bgcolor: 'error.main', color: '#fff' }}>Disagree</ArticlesBadge>}
 
-                                <span className="small ms-2">{format(new Date(obj.date), 'M/dd/yy')}</span>
-                            </div>
+                                <Typography component="span" variant="body2" sx={{ ml: 2 }}>{format(new Date(obj.date), 'M/dd/yy')}</Typography>
+                            </Box>
 
-                            <div className='mt-1'>{obj.comment}</div>
+                            <Box sx={{ mt: 1 }}>{obj.comment}</Box>
 
-                        </div>
+                        </ArticlesCardBody>
 
-                        <div className="card-footer">
+                        <ArticlesCardFooter>
                             <Link
                                 prefetch={false}
                                 // href={`${routes.PROPOSALS}/${obj.populated_proposal.url}?interaction_id=${obj._id}`}
@@ -42,11 +45,11 @@ export default function ProposalSentiments({
                                     View
                                 </ArticlesButton>
                             </Link>
-                        </div>
+                        </ArticlesCardFooter>
 
-                    </div>
+                    </ArticlesCard>
                 )
             })}
-        </div>
+        </Box>
     )
 }

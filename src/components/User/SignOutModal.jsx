@@ -1,5 +1,13 @@
-import { Modal } from "react-bootstrap";
 import ArticlesButton from "../UI/Button";
+import Box from '@mui/material/Box';
+import ReplayIcon from '@mui/icons-material/Replay';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+    ArticlesDialog,
+    ArticlesDialogActions,
+    ArticlesDialogContent,
+    ArticlesDialogTitle,
+} from '../UI/muiPrimitives';
 
 export default function SignOutModal({
     show,
@@ -8,30 +16,19 @@ export default function SignOutModal({
 }) {
 
     return (
-        <Modal
-            show={show}
-            size={'md'}
-            className={`articles-modal`}
-            // modalBackdropClassName={modalBackdropClassName}
-            centered
-            onHide={() => setShow(false)}
-        // style={style}
-        // id={id}
+        <ArticlesDialog
+            open={show}
+            onClose={() => setShow(false)}
         >
+            <ArticlesDialogTitle>Confirm Sign Out</ArticlesDialogTitle>
 
-            <Modal.Header>
-                <Modal.Title>
-                    Confirm Sign Out
-                </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
+            <ArticlesDialogContent>
 
                 Are you sure you want to sign out? This will also sign you out on https://articles.media and other Articles Media services.
 
-            </Modal.Body>
+            </ArticlesDialogContent>
 
-            <Modal.Footer className="justify-content-between">
+            <ArticlesDialogActions>
 
                 <ArticlesButton
                     variant="articles"
@@ -39,8 +36,8 @@ export default function SignOutModal({
                         setShow(false)
                     }}
                 >
-                    <i className="fad fa-redo me-2"></i>
-                    <span>Cancel</span>
+                    <ReplayIcon fontSize="inherit" sx={{ mr: 1 }} />
+                    <Box component="span">Cancel</Box>
                 </ArticlesButton>
 
                 <ArticlesButton
@@ -50,12 +47,12 @@ export default function SignOutModal({
                         setShow(false)
                     }}
                 >
-                    <i className="fad fa-times me-2"></i>
+                    <CloseIcon fontSize="inherit" sx={{ mr: 1 }} />
                     Confirm
                 </ArticlesButton>
 
-            </Modal.Footer>
+            </ArticlesDialogActions>
 
-        </Modal>
+        </ArticlesDialog>
     )
 }

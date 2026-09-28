@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 
 import useUserDetails from "#root/src/hooks/User/useUserDetails.js"
 import useUserToken from "#root/src/hooks/User/useUserToken.js"
+import Box from '@mui/material/Box';
 
 export default function ReusedSocketLogicHandler({
     pathname,
@@ -238,10 +239,10 @@ export default function ReusedSocketLogicHandler({
         process.env.NODE_ENV !== 'production'
     ) {
         return (
-            <div
+            <Box
                 id="articles-dev-box-socket-debug-overlay"
-                // className="test"
-                style={{
+                data-hide-in-screenshot-mode="true"
+                sx={{
                     position: "fixed",
                     bottom: 0,
                     left: 0,
@@ -254,11 +255,11 @@ export default function ReusedSocketLogicHandler({
                     gap: "8px",
                 }}
             >
-                <div>Connected: {connected ? "Yes" : "No"}</div>
-                <div>Authenticated: {authenticated ? "Yes" : "No"}</div>
-                <div>ID: {socket.id}</div>
-                <div>Host: {socket.io.uri}</div>
-            </div>
+                <Box>Connected: {connected ? "Yes" : "No"}</Box>
+                <Box>Authenticated: {authenticated ? "Yes" : "No"}</Box>
+                <Box>ID: {socket.id}</Box>
+                <Box>Host: {socket.io.uri}</Box>
+            </Box>
         )
     }
 }

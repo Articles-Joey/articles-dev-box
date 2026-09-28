@@ -1,5 +1,10 @@
-import { Modal } from "react-bootstrap"
 import { useState } from "react";
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import ArticlesButton from '#root/src/components/UI/Button';
 import GraphicsTab from "#root/src/components/Games/Settings/GraphicsTab.jsx";
@@ -8,8 +13,7 @@ import MultiplayerTab from "#root/src/components/Games/Settings/MultiplayerTab.j
 import ControlsTab from "#root/src/components/Games/Settings/ControlsTab.jsx";
 import OtherTab from "#root/src/components/Games/Settings/OtherTab";
 import DebugTab from "./DebugTab";
-
-import "#root/src/styles/components/SettingsModal.scss";
+import { ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '#root/src/components/UI/muiPrimitives';
 
 // import packageJson from "../../../../package.json";
 
@@ -26,20 +30,10 @@ export default function SettingsModal({
     const [showModal, setShowModal] = useState(false);
 
     return (
-        <Modal
-            className="articles-modal articles-settings-modal"
-            size='md'
-            show={show}
-            // To much jumping with little content for now
-            centered
-            scrollable
-            onExited={() => {
-                // setShow(false)
-            }}
-            onHide={() => {
-                // setShowModal(false)
-                setShow(false)
-            }}
+        <ArticlesDialog
+            open={show}
+            onClose={() => setShow(false)}
+            paperSx={{ maxHeight: 'min(780px, calc(100% - 32px))' }}
         >
 
             {/* Note - If not done like this then I get "Rendered fewer hooks than expected." whenever I try to consume useStore content. Doing it this way prevents that issue for now until I can figure out."  */}
@@ -55,7 +49,7 @@ export default function SettingsModal({
                 />
             }
 
-        </Modal>
+        </ArticlesDialog>
     );
 }
 
@@ -69,6 +63,7 @@ function ModalContent({
 }) {
 
     const [tab, setTab] = useState(localStorage.getItem('articles_settings_tab') || 'Graphics');
+    const [tabMenuAnchor, setTabMenuAnchor] = useState(null);
 
     const handleTabChange = (newTab) => {
         setTab(newTab);
@@ -80,38 +75,130 @@ function ModalContent({
     // const arcadeMode = store((state) => state.arcadeMode);
     // const setArcadeMode = store((state) => state.setArcadeMode);
     const debug = useStore((state) => state.debug);
+    const settingsTabs = [
+        'Graphics',
+        'Controls',
+        'Audio',
+        'Multiplayer',
+        'Other',
+        ...((debug) ? ['Debug'] : [])
+    ];
+    const alphabeticalSettingsTabs = [...settingsTabs].sort((a, b) => a.localeCompare(b));
 
     return (
         <>
-            <Modal.Header closeButton>
-                <Modal.Title>Game Settings</Modal.Title>
-            </Modal.Header>
+            <ArticlesDialogTitle onClose={() => setShow(false)}>Game Settings</ArticlesDialogTitle>
 
-            <Modal.Body className="flex-column p-0">
+            <ArticlesDialogContent sx={{ p: 0 }}>
 
-                <div className='p-2'>
-                    {[
-                        'Graphics',
-                        'Controls',
-                        'Audio',
-                        'Multiplayer',
-                        // 'Chat',
-                        'Other',
-                        ...((debug) ? ['Debug'] : [])
-                    ].map(item =>
-                        <ArticlesButton
+                <Box
+                    sx={{
+                        '--articles-settings-tabs-border-color': 'rgba(0, 0, 0, 0.45)',
+                        '--articles-settings-tab-color': '#212529',
+                        display: 'flex',
+                        alignItems: 'stretch',
+                        minWidth: 0,
+                        borderBottom: '2px solid var(--articles-settings-tabs-border-color)',
+                        '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                            '--articles-settings-tabs-border-color': 'rgba(0, 0, 0, 0.8)',
+                            '--articles-settings-tab-color': '#fff',
+                        },
+                    }}
+                >
+                    <ArticlesButton
+                        id="settings-tab-menu-button"
+                        aria-controls={tabMenuAnchor ? 'settings-tab-menu' : undefined}
+                        aria-expanded={tabMenuAnchor ? 'true' : undefined}
+                        aria-haspopup="menu"
+                        title="Choose a settings section"
+                        onClick={(event) => setTabMenuAnchor(event.currentTarget)}
+                        sx={{
+                            flexShrink: 0,
+                            px: 1.5,
+                            borderBottom: '2px solid var(--articles-settings-tabs-border-color)',
+                            '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                                color: '#fff',
+                            },
+                        }}
+                    >
+                        Tabs
+                        <ArrowDropDownIcon fontSize="small" sx={{ ml: 0.5 }} />
+                    </ArticlesButton>
+
+                    <Tabs
+                        value={tab}
+                        onChange={(_event, newTab) => handleTabChange(newTab)}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        aria-label="Game settings sections"
+                        sx={{
+                            px: 1,
+                            flex: 1,
+                            minWidth: 0,
+                            color: 'var(--articles-settings-tab-color)',
+                            '& .MuiTab-root, & .MuiTab-root.Mui-selected, & .MuiTabs-scrollButtons': {
+                                color: 'var(--articles-settings-tab-color)',
+                            },
+                        }}
+                    >
+                        {settingsTabs.map(item => <Tab key={item} value={item} label={item} />)}
+                    </Tabs>
+                </Box>
+
+                <Menu
+                    id="settings-tab-menu"
+                    anchorEl={tabMenuAnchor}
+                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                    transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+                    open={Boolean(tabMenuAnchor)}
+                    onClose={() => setTabMenuAnchor(null)}
+                    slotProps={{
+                        list: {
+                            'aria-labelledby': 'settings-tab-menu-button',
+                        },
+                        paper: {
+                            sx: {
+                                '--articles-settings-menu-background-color': '#fff',
+                                '--articles-settings-menu-font-color': '#212529',
+                                '--articles-settings-menu-hover-color': 'rgba(0, 0, 0, 0.08)',
+                                '--articles-settings-menu-selected-color': 'rgba(0, 0, 0, 0.12)',
+                                bgcolor: 'var(--articles-settings-menu-background-color)',
+                                color: 'var(--articles-settings-menu-font-color)',
+                                backgroundImage: 'none',
+                                '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                                    '--articles-settings-menu-background-color': '#212529',
+                                    '--articles-settings-menu-font-color': '#fff',
+                                    '--articles-settings-menu-hover-color': 'rgba(255, 255, 255, 0.1)',
+                                    '--articles-settings-menu-selected-color': 'rgba(255, 255, 255, 0.16)',
+                                },
+                            },
+                        },
+                    }}
+                >
+                    {alphabeticalSettingsTabs.map(item => (
+                        <MenuItem
                             key={item}
-                            active={tab == item}
-                            onClick={() => { handleTabChange(item) }}
+                            selected={tab === item}
+                            sx={{
+                                color: 'inherit',
+                                '&:hover': {
+                                    bgcolor: 'var(--articles-settings-menu-hover-color)',
+                                },
+                                '&.Mui-selected, &.Mui-selected:hover': {
+                                    bgcolor: 'var(--articles-settings-menu-selected-color)',
+                                },
+                            }}
+                            onClick={() => {
+                                handleTabChange(item);
+                                setTabMenuAnchor(null);
+                            }}
                         >
                             {item}
-                        </ArticlesButton>
-                    )}
-                </div>
+                        </MenuItem>
+                    ))}
+                </Menu>
 
-                <hr className="my-0" />
-
-                <div className="p-3">
+                <Box sx={{ p: 3 }}>
 
                     {tab == 'Controls' &&
                         <ControlsTab
@@ -156,13 +243,13 @@ function ModalContent({
                         />
                     }
 
-                </div>
+                </Box>
 
-            </Modal.Body>
+            </ArticlesDialogContent>
 
-            <Modal.Footer className="justify-content-between">
+            <ArticlesDialogActions>
 
-                <div>
+                <Box sx={{ display: 'flex', gap: 1.5 }}>
 
                     <ArticlesButton
                         variant="outline-dark"
@@ -174,7 +261,7 @@ function ModalContent({
                     </ArticlesButton>
 
                     {config?.reset && <ArticlesButton
-                        variant="outline-danger ms-3"
+                        variant="danger"
                         onClick={() => {
                             config.reset()
                             // setShow(false)
@@ -183,9 +270,9 @@ function ModalContent({
                         Reset
                     </ArticlesButton>}
 
-                </div>
+                </Box>
 
-            </Modal.Footer>
+            </ArticlesDialogActions>
         </>
     )
 

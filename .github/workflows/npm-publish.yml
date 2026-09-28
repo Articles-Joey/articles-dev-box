@@ -1,36 +1,98 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
 name: NPM Publish
 
 on:
+  # Runs whenever a GitHub release or prerelease is actually published.
   release:
-    types: [created]
+    types: [published]
+
+  # Also allows publishing manually from the Actions page.
   workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: npm distribution tag
+        required: true
+        default: beta
+        type: choice
+        options:
+          - beta
+          - latest
 
 permissions:
-  id-token: write  # Required for OIDC
+  # Allows npm trusted publishing through GitHub OIDC.
+  id-token: write
+
+  # Allows the workflow to check out the repository.
   contents: read
 
 jobs:
-  build:
+  publish:
+    name: Build and publish package
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-      - run: npm ci
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v6
+      - name: Check out release source
+        uses: actions/checkout@v6
+
+      - name: Configure Node and npm
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish --verbose
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Determine npm distribution tag
+        id: dist-tag
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_IS_PRERELEASE: ${{ github.event.release.prerelease }}
+          MANUAL_NPM_TAG: ${{ inputs.npm_tag }}
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            echo "value=$MANUAL_NPM_TAG" >> "$GITHUB_OUTPUT"
+          elif [[ "$RELEASE_IS_PRERELEASE" == "true" ]]; then
+            echo "value=beta" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate package version and release
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          NPM_TAG: ${{ steps.dist-tag.outputs.value }}
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+
+          echo "Package version: $PACKAGE_VERSION"
+          echo "npm distribution tag: $NPM_TAG"
+
+          if [[ "$EVENT_NAME" == "release" && "$RELEASE_TAG" != "v$PACKAGE_VERSION" ]]; then
+            echo "GitHub release tag '$RELEASE_TAG' must match package version 'v$PACKAGE_VERSION'."
+            exit 1
+          fi
+
+          if [[ "$NPM_TAG" == "beta" && "$PACKAGE_VERSION" != *-beta.* ]]; then
+            echo "The beta npm tag requires a version such as 2.0.0-beta.0."
+            exit 1
+          fi
+
+          if [[ "$NPM_TAG" == "latest" && "$PACKAGE_VERSION" == *-* ]]; then
+            echo "A prerelease version must not be published using the latest npm tag."
+            exit 1
+          fi
+
+      - name: Preview published package contents
+        run: npm pack --dry-run
+
+      - name: Publish package
+        env:
+          NPM_TAG: ${{ steps.dist-tag.outputs.value }}
+        run: npm publish --tag "$NPM_TAG" --access public --verbose

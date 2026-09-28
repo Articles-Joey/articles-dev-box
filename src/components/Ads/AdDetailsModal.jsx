@@ -3,11 +3,13 @@ import { useEffect } from 'react';
 // import Link from 'next/link'
 import Link from '#root/src/components/UI/Link';
 
-import Modal from 'react-bootstrap/Modal';
-
 // import ROUTES from 'components/constants/routes';
 // import ArticlesButton from '../Articles/Button';
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import { ArticlesBadge, ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle, articlesShadow } from '#root/src/components/UI/muiPrimitives';
 
 export default function AdDetailsModal(props) {
 
@@ -26,83 +28,64 @@ export default function AdDetailsModal(props) {
 
     return (
 
-        <div>
+        <Box>
 
-            {/* <style jsx global>
-                {`
-                        .ad-details-modal-backdrop {
-                            z-index: 1055!important;
-                        }
-                    `}
-            </style> */}
-
-            <Modal
-                show={true}
-                backdropClassName="ad-details-modal-backdrop"
-                className="articles-modal"
-                centered
-                onHide={closeModal}
-                size='md'
+            <ArticlesDialog
+                open
+                onClose={closeModal}
             >
 
-                <Modal.Header className="align-items-center" closeButton>
-                    <Modal.Title>Ad Details</Modal.Title>
-                </Modal.Header>
+                <ArticlesDialogTitle onClose={closeModal}>Ad Details</ArticlesDialogTitle>
 
-                <Modal.Body
-                    className=''
-                >
+                <ArticlesDialogContent>
 
-                    <p className="mb-1">Advertiser: <b>{ad?.business}</b></p>
-                    <p className="mb-0">Ad ID: <b>{previewData?._id || ad._id}</b></p>
+                    <Typography component="p" sx={{ mb: 1 }}>Advertiser: <b>{ad?.business}</b></Typography>
+                    <Typography component="p" sx={{ mb: 0 }}>Ad ID: <b>{previewData?._id || ad._id}</b></Typography>
 
-                    <hr />
+                    <Divider sx={{ my: 2 }} />
 
-                    <div className='mb-1'>This ad is being shown to you for the following reasons</div>
+                    <Box sx={{ mb: 1 }}>This ad is being shown to you for the following reasons</Box>
 
                     {/* <hr className="border w-100 border-white" /> */}
 
                     {ad.city ?
-                        <div>
+                        <Box>
 
-                            <div className="h4 mb-1">
+                            <Typography variant="h4" sx={{ mb: 1 }}>
                                 {ad.business}
-                            </div>
+                            </Typography>
 
-                            <div>Is advertising to all zip codes within a</div>
-                            <span><div className="badge bg-black shadow-articles">15 Mile Radius</div></span>
-                            <div>of it&apos;s business</div>
+                            <Box>Is advertising to all zip codes within a</Box>
+                            <ArticlesBadge sx={{ bgcolor: '#000', color: '#fff', boxShadow: articlesShadow }}>15 Mile Radius</ArticlesBadge>
+                            <Box>of it&apos;s business</Box>
 
-                            <hr className="border w-50 border-white" />
+                            <Divider sx={{ my: 2, width: 0.5 }} />
 
-                            <div className="d-flex align-items-center">
-                                <div>Your Zip code</div>
-                                <div className="badge bg-black shadow-articles ms-2">00000</div>
-                                <div className="ms-2">is</div>
-                                <div className="badge bg-black shadow-articles ms-2">4.2 miles away</div>
-                            </div>
-                        </div>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Box>Your Zip code</Box>
+                                <ArticlesBadge sx={{ bgcolor: '#000', color: '#fff', boxShadow: articlesShadow }}>00000</ArticlesBadge>
+                                <Box>is</Box>
+                                <ArticlesBadge sx={{ bgcolor: '#000', color: '#fff', boxShadow: articlesShadow }}>4.2 miles away</ArticlesBadge>
+                            </Box>
+                        </Box>
                         :
-                        <div>
+                        <Box>
 
-                            <div className="h4 mb-1">
+                            <Typography variant="h4" sx={{ mb: 1 }}>
                                 {ad.business}
-                            </div>
+                            </Typography>
 
-                            <div>Is advertising to all users</div>
+                            <Box>Is advertising to all users</Box>
 
-                        </div>
+                        </Box>
                     }
 
-                    <div className="grow"></div>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Divider sx={{ my: 2, width: 1 }} />
 
-                    <hr className="w-100" />
+                    <Box sx={{ lineHeight: 1.25, mb: 2 }}>Ads we display to you will always be transparent as to why you are seeing them.</Box>
 
-                    {/* <div className="reason">Details about this ads financial impact can be found <Link>Here</Link>.</div> */}
-
-                    <div className="reason lh-sm mb-2">Ads we display to you will always be transparent as to why you are seeing them.</div>
-
-                    <Link href={'https://articles.media/settings/account'} newPage className="">
+                    <Link href={'https://articles.media/settings/account'} newPage>
                     
                         <ArticlesButton
                             small
@@ -111,27 +94,20 @@ export default function AdDetailsModal(props) {
                         </ArticlesButton>
                        
                     </Link>
+                </ArticlesDialogContent>
 
-
-
-                    {/* <div onClick={() => adDetailsExpandedToggle()} className="explanation">
-        Ad Details
-    </div> */}
-
-                </Modal.Body>
-
-                <Modal.Footer className='d-flex justify-content-center'>
+                <ArticlesDialogActions sx={{ justifyContent: 'center' }}>
                     <ArticlesButton
                         variant={'articles'}
                         onClick={closeModal}
                     >
                         Close
                     </ArticlesButton>
-                </Modal.Footer>
+                </ArticlesDialogActions>
 
-            </Modal>
+            </ArticlesDialog>
 
-        </div>
+        </Box>
 
     );
 }

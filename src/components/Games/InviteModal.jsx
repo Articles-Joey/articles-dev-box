@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, lazy } from "react";
 
-import { Modal } from "react-bootstrap"
-
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import { ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '#root/src/components/UI/muiPrimitives';
 
 const FriendsList = lazy(() => import('../Friends/FriendsList'));
 
@@ -20,29 +20,21 @@ export default function InviteModal({
     return (
         <>
 
-            <Modal
-                className="articles-modal games-invite-modal"
-                size='md'
-                show={showModal}
-                centered
-                scrollable
+            <ArticlesDialog
+                open={showModal}
                 onExited={() => {
                     setShow(false)
                 }}
-                onHide={() => {
+                onClose={() => {
                     setShowModal(false)
                 }}
             >
 
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        Invite Players
-                    </Modal.Title>
-                </Modal.Header>
+                <ArticlesDialogTitle onClose={() => setShowModal(false)}>Invite Players</ArticlesDialogTitle>
 
-                <Modal.Body className="flex-column p-0">
+                <ArticlesDialogContent sx={{ p: 0 }}>
 
-                    <div className="p-3">
+                    <Box sx={{ p: 3 }}>
 
                         <FriendsList
                             componentType="list"
@@ -55,15 +47,13 @@ export default function InviteModal({
                             }}
                         />
 
-                    </div>
+                    </Box>
 
-                </Modal.Body>
+                </ArticlesDialogContent>
 
-                <Modal.Footer className="justify-content-between">
+                <ArticlesDialogActions>
 
-                    <div>
-
-                    </div>
+                    <Box />
 
                     <ArticlesButton
                         // ref={el => elementsRef.current[0] = el}
@@ -71,15 +61,15 @@ export default function InviteModal({
                         onClick={() => {
                             setShow(false)
                         }}
-                        className="d-flex align-items-center"
+                        sx={{ display: 'flex', alignItems: 'center' }}
                     >
                         {/* <img src={B.src} className="controller-only me-1" alt="Close" /> */}
                         Close
                     </ArticlesButton>
 
-                </Modal.Footer>
+                </ArticlesDialogActions>
 
-            </Modal>
+            </ArticlesDialog>
 
         </>
     )

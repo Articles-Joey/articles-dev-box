@@ -1,4 +1,5 @@
 import classNames from "classnames"
+import Box from '@mui/material/Box';
 
 export default function UserProfilePhoto(props) {
 
@@ -7,61 +8,53 @@ export default function UserProfilePhoto(props) {
     if (profile_photo?.key) {
 
         return (
-            <div
+            <Box
                 data-using-react-profile-photo="true"
-                className={`profile-photo-wrap ${!width ? "w-100 h-100" : ''}`}
-                style={{
-                    ...(width && {
-                        width: width,
-                        height: width
-                    })
-                }}
+                className={classNames('profile-photo-wrap')}
+                sx={{ position: 'relative', width: width || 1, height: width || 1 }}
             >
                 <ActivityStatus
                     activityStatus={activityStatus}
                     user_id={user_id}
                 />
-                <img className="w-100 h-100"
+                <Box component="img"
                     src={`${process.env.NEXT_PUBLIC_CDN}${profile_photo.key}`}
-                    style={{ objectFit: 'contain' }}
+                    sx={{ width: 1, height: 1, objectFit: 'contain' }}
                     // width="55px"
                     // height="55px"
                     alt={alt || 'Profile photo of a user'}
                 />
-            </div>
+            </Box>
         )
 
     } else {
 
         return (
-            <div
+            <Box
                 data-using-react-profile-photo="true"
                 className={classNames(
                     'profile-photo-wrap',
-                    {
-                        "w-100 h-100": !width,
-                        'd-none': hideDefault
-                    })
+                    { 'profile-photo-hidden': hideDefault })
                 }
-                style={{
-                    ...(width && {
-                        width: width,
-                        height: width
-                    })
+                sx={{
+                    position: 'relative',
+                    width: width || 1,
+                    height: width || 1,
+                    display: hideDefault ? 'none' : 'block',
                 }}
             >
                 <ActivityStatus
                     activityStatus={activityStatus}
                     user_id={user_id}
                 />
-                <img className="w-100 h-100"
+                <Box component="img"
                     src={`${process.env.NEXT_PUBLIC_CDN}profile_photos/starter/articles.jpg`}
-                    style={{ objectFit: 'contain' }}
+                    sx={{ width: 1, height: 1, objectFit: 'contain' }}
                     // width="55px"
                     // height="55px"
                     alt={alt || 'Profile photo of a user'}
                 />
-            </div>
+            </Box>
         )
 
     }
@@ -78,10 +71,10 @@ function ActivityStatus({
     }
 
     return (
-        <div
+        <Box
             data-user_id={user_id}
             className={classNames(
-                `online-status`,
+                'online-status',
                 {
                     'status-online': (activityStatus?.status == 'Online' || user_id == "630f0b337c52851e754b03f7"),
                     'status-offline': activityStatus?.status == 'Offline',
@@ -90,8 +83,19 @@ function ActivityStatus({
                     'activity-active': false,
                 }
             )}
+            sx={{
+                position: 'absolute',
+                width: 10,
+                height: 10,
+                bgcolor: (activityStatus?.status === 'Online' || user_id === '630f0b337c52851e754b03f7') ? 'success.main' : 'grey.500',
+                bottom: 1,
+                right: 1,
+                border: '2px solid',
+                borderColor: (activityStatus?.status === 'Online' || user_id === '630f0b337c52851e754b03f7') ? '#009b22' : '#000',
+                zIndex: 1,
+            }}
         >
 
-        </div>
+        </Box>
     )
 }

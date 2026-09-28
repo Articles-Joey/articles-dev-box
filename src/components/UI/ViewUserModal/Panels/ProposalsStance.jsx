@@ -1,9 +1,64 @@
-import { ProgressBar } from "react-bootstrap";
-// import { useSelector } from "react-redux";
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 
 import ArticlesButton from '#root/src/components/UI/Button';
 import Link from '#root/src/components/UI/Link';
-import { routes } from "#root/src/constants/routes";
+import { routes } from '#root/src/constants/routes';
+import {
+    ArticlesBadge,
+    ArticlesCard,
+    ArticlesCardBody,
+    ArticlesCardFooter,
+    ArticlesCardHeader,
+    articlesShadow,
+} from '#root/src/components/UI/muiPrimitives';
+
+const percentage = (value, total) => total ? Math.min(100, Math.max(0, (value / total) * 100)) : 0;
+
+function ProgressWithLabel({ value, animated = false }) {
+    return (
+        <Box sx={{ position: 'relative', mb: 2, boxShadow: articlesShadow, borderRadius: 1, overflow: 'hidden' }}>
+            <LinearProgress
+                variant="determinate"
+                value={value}
+                sx={{
+                    height: 20,
+                    bgcolor: 'action.disabledBackground',
+                    '& .MuiLinearProgress-bar': {
+                        bgcolor: 'grey.900',
+                        ...(animated && {
+                            backgroundImage: 'linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent)',
+                            backgroundSize: '1rem 1rem',
+                            animation: 'articles-progress-stripes 1s linear infinite',
+                        }),
+                    },
+                    '@keyframes articles-progress-stripes': {
+                        from: { backgroundPositionX: '1rem' },
+                        to: { backgroundPositionX: 0 },
+                    },
+                }}
+            />
+            <Typography
+                variant="caption"
+                sx={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', color: '#fff', fontWeight: 700 }}
+            >
+                {value.toFixed(2)}%
+            </Typography>
+        </Box>
+    );
+}
+
+function SegmentedProgress({ disagree, needsWork, agree }) {
+    return (
+        <Box sx={{ display: 'flex', height: 10, mb: 2, boxShadow: articlesShadow, overflow: 'hidden', bgcolor: 'action.disabledBackground' }}>
+            <Box sx={{ width: `${disagree}%`, bgcolor: 'error.main' }} />
+            <Box sx={{ width: `${needsWork}%`, bgcolor: 'warning.main' }} />
+            <Box sx={{ width: `${agree}%`, bgcolor: 'success.main' }} />
+        </Box>
+    );
+}
 
 export default function ProposalsStance({
     activeLayoutProposalSentiments,
@@ -13,13 +68,18 @@ export default function ProposalsStance({
     showFullStanceDetails,
     userData
 }) {
-
-    // const userReduxState = useSelector((state) => state.auth.user_details)
     const userReduxState = null;
 
     return (
-        <div className="row mx-0 mb-2">
-
+        <Box
+            sx={(theme) => ({
+                display: 'grid',
+                gridTemplateColumns: '1fr',
+                gap: 1,
+                mb: 2,
+                [theme.breakpoints.up(992)]: { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' },
+            })}
+        >
             {[
                 {
                     name: `${populated_user?.display_name || userData.display_name}`,
@@ -30,216 +90,99 @@ export default function ProposalsStance({
                     data: usersProposalSentiments || {}
                 }
             ].map(item => {
-
-                if (item.name == 'You' && !userReduxState?._id) {
+                if (item.name === 'You' && !userReduxState?._id) {
                     return (
-                        <div key={item.name} className="col-lg-6 px-1">
-
-                            <div className="card card-articles card-sm h-100">
-
-                                <div className="card-header">
-                                    <b>{item.name}</b>
-                                </div>
-
-                                <div className="card-body p-2">
-                                    <small>Login or create an account to compare your political stance with this user!</small>
-                                </div>
-
-                                <div className="card-footer">
-
-                                    <Link href={routes.SIGN_IN}>
-                                        <ArticlesButton small className="">Sign In</ArticlesButton>
-                                    </Link>
-
-                                    <Link href={routes.SIGN_UP}>
-                                        <ArticlesButton small className="">Sign Up</ArticlesButton>
-                                    </Link>
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                        <ArticlesCard key={item.name} sx={{ height: 1 }}>
+                            <ArticlesCardHeader><b>{item.name}</b></ArticlesCardHeader>
+                            <ArticlesCardBody sx={{ p: 2 }}>
+                                <Typography variant="body2">Login or create an account to compare your political stance with this user!</Typography>
+                            </ArticlesCardBody>
+                            <ArticlesCardFooter sx={{ display: 'flex', gap: 1 }}>
+                                <Link href={routes.SIGN_IN}><ArticlesButton small>Sign In</ArticlesButton></Link>
+                                <Link href={routes.SIGN_UP}><ArticlesButton small>Sign Up</ArticlesButton></Link>
+                            </ArticlesCardFooter>
+                        </ArticlesCard>
                     );
                 }
 
+                const sentiments = item.data?.user_sentiments || [];
+                const fundamentals = item.data?.fundamental || [];
+                const fundamentalSentiments = sentiments.filter((sentiment) =>
+                    fundamentals.some((proposal) => proposal._id === sentiment.proposal_id)
+                );
+                const fundamentalAnswered = fundamentals.filter((proposal) =>
+                    sentiments.some((sentiment) => sentiment.proposal_id === proposal._id)
+                ).length;
+                const count = (status, source = sentiments) => source.filter((sentiment) => sentiment.sentiment_status === status).length;
+                const fundamentalTotal = fundamentals.length;
+                const total = item.data?.total || 0;
+
                 return (
-                    <div key={item.name} className="col-lg-6 px-1">
+                    <ArticlesCard key={item.name}>
+                        <ArticlesCardHeader onClick={() => console.log(item.data)} sx={{ cursor: 'pointer' }}>
+                            <b>{item.name}</b>
+                        </ArticlesCardHeader>
 
-                        <div className="card card-articles card-sm">
+                        <ArticlesCardBody sx={{ py: 2, px: 2, typography: 'body2' }}>
+                            <Typography variant="body2">Fundamental: {fundamentalAnswered}/{fundamentalTotal}</Typography>
 
-                            <div
-                                className="card-header"
-                                onClick={() => {
-                                    console.log(item.data)
-                                }}
-                            >
-                                <b>{item.name}</b>
-                            </div>
+                            <ProgressWithLabel value={percentage(fundamentalAnswered, fundamentalTotal)} />
+                            <SegmentedProgress
+                                disagree={percentage(count('Disagree', fundamentalSentiments), fundamentalTotal)}
+                                needsWork={percentage(count('Needs Work', fundamentalSentiments), fundamentalTotal)}
+                                agree={percentage(count('Agree', fundamentalSentiments), fundamentalTotal)}
+                            />
 
-                            <div className="card-body py-2 px-2 small">
+                            <Box>Disagree: {count('Disagree', fundamentalSentiments)}</Box>
+                            <Box>Needs Work: {count('Needs Work', fundamentalSentiments)}</Box>
+                            <Box sx={{ mb: 2 }}>Agree: {count('Agree', fundamentalSentiments)}</Box>
 
-                                <div className=''>
+                            {!showFullStanceDetails && (
+                                <ArticlesBadge
+                                    onClick={() => setShowFullStanceDetails(true)}
+                                    sx={{
+                                        bgcolor: 'var(--articles-secondary-color, #f9edcd)',
+                                        boxShadow: articlesShadow,
+                                        cursor: 'pointer',
+                                        '&:hover': { filter: 'brightness(0.95)' },
+                                    }}
+                                >
+                                    View More
+                                </ArticlesBadge>
+                            )}
 
-                                    <div className='small'>Fundamental: {item?.data?.fundamental?.filter(obj => {
+                            {showFullStanceDetails && (
+                                <>
+                                    <Divider sx={{ my: 2 }} />
 
-                                        if (item.data?.user_sentiments?.find(sen => sen.proposal_id == obj._id)) {
-                                            return obj
-                                        } else {
-                                            return null
-                                        }
+                                    <Box sx={{ mb: 2 }}>
+                                        <Typography variant="body2">All: {sentiments.length}/{total}</Typography>
+                                        <ProgressWithLabel value={percentage(sentiments.length, total)} animated />
+                                        <SegmentedProgress
+                                            disagree={percentage(count('Disagree'), total)}
+                                            needsWork={percentage(count('Needs Work'), total)}
+                                            agree={percentage(count('Agree'), total)}
+                                        />
 
-                                    }).length}/{item?.data?.fundamental?.length}</div>
+                                        <Box>Disagree: {count('Disagree')}</Box>
+                                        <Box>Needs Work: {count('Needs Work')}</Box>
+                                        <Box sx={{ mb: 2 }}>Agree: {count('Agree')}</Box>
+                                    </Box>
 
-                                    <ProgressBar striped={true} variant="dark" className='shadow-articles mb-2' now={
+                                    <Divider sx={{ my: 2 }} />
 
-                                        (item.data?.fundamental?.filter(obj => {
-
-                                            if (item.data?.user_sentiments?.find(sen => sen.proposal_id == obj._id)) {
-                                                return obj
-                                            } else {
-                                                return null
-                                            }
-
-                                        }).length / item.data?.fundamental?.length * 100).toFixed(2)
-
-                                    } label={`${(item.data?.fundamental?.filter(obj => {
-
-                                        if (item.data?.user_sentiments?.find(sen => sen.proposal_id == obj._id)) {
-                                            return obj
-                                        } else {
-                                            return null
-                                        }
-
-                                    }).length / item.data?.fundamental?.length * 100).toFixed(2)}%`} />
-
-                                    <ProgressBar className='shadow-articles mb-2' style={{ height: '10px' }}>
-                                        <ProgressBar striped={true} variant="danger" now={((item.data?.user_sentiments?.filter(sen => sen.sentiment_status == "Disagree" && sen.populated_proposal.fundamental)?.length / item.data?.fundamental?.length) * 100).toFixed(2)} />
-                                        <ProgressBar striped={true} variant="warning" now={((item.data?.user_sentiments?.filter(sen => sen.sentiment_status == "Needs Work" && sen.populated_proposal.fundamental)?.length / item.data?.fundamental?.length) * 100).toFixed(2)} />
-                                        <ProgressBar striped={true} variant="success" now={((item.data?.user_sentiments?.filter(sen => sen.sentiment_status == "Agree" && sen.populated_proposal.fundamental)?.length / item.data?.fundamental?.length) * 100).toFixed(2)} />
-                                    </ProgressBar>
-
-                                    <div className=''>
-                                        Disagree: {item.data?.user_sentiments?.filter(sen => {
-
-                                            let isFundamental = item.data?.fundamental.find(obj => obj._id == sen.proposal_id)
-
-                                            return sen.sentiment_status == "Disagree" && isFundamental
-
-                                        })?.length || 0}
-                                    </div>
-
-                                    <div className=''>
-                                        Needs Work: {item.data?.user_sentiments?.filter(sen => {
-
-                                            let isFundamental = item.data?.fundamental.find(obj => obj._id == sen.proposal_id)
-
-                                            return sen.sentiment_status == "Needs Work" && isFundamental
-
-                                        })?.length || 0}
-                                    </div>
-
-                                    <div className='mb-2'>
-                                        Agree: {item.data?.user_sentiments?.filter(sen => {
-
-                                            let isFundamental = item.data?.fundamental.find(obj => obj._id == sen.proposal_id)
-
-                                            return sen.sentiment_status == "Agree" && isFundamental
-
-                                        })?.length || 0}
-                                    </div>
-
-                                </div>
-
-                                {!showFullStanceDetails &&
-                                    <span onClick={() => setShowFullStanceDetails(true)} className='badge bg-articles-secondary shadow-articles badge-hover'>View More</span>
-                                }
-
-                                {showFullStanceDetails &&
-
-                                    <>
-                                        <hr />
-
-                                        <div className='mb-2'>
-
-                                            <div className='small'>All: {item.data?.user_sentiments?.length}/{item.data?.total}</div>
-
-                                            <ProgressBar striped={true} animated={true} variant="dark" className='shadow-articles mb-1' now={
-                                                (item.data?.user_sentiments?.length / item.data?.total * 100).toFixed(2)
-                                            } label={
-                                                `${(item.data?.user_sentiments?.length / item.data?.total * 100).toFixed(2)}%`
-                                            } />
-
-
-                                            <ProgressBar className='shadow-articles mb-2' style={{ height: '10px' }}>
-                                                <ProgressBar striped={true} animated={true} variant="danger" now={((item.data?.user_sentiments?.filter(sen => sen.sentiment_status == "Disagree")?.length / item.data?.total) * 100).toFixed(2)} />
-                                                <ProgressBar striped={true} animated={true} variant="warning" now={((item.data?.user_sentiments?.filter(sen => sen.sentiment_status == "Needs Work")?.length / item.data?.total) * 100).toFixed(2)} />
-                                                <ProgressBar striped={true} animated={true} variant="success" now={((item.data?.user_sentiments?.filter(sen => sen.sentiment_status == "Agree")?.length / item.data?.total) * 100).toFixed(2)} />
-                                            </ProgressBar>
-
-                                            <div className=''>
-                                                Disagree: {item.data?.user_sentiments?.filter(sen => {
-
-                                                    // let isFundamental = item.data?.fundamental.find(obj => obj._id == sen.proposal_id)
-
-                                                    return sen.sentiment_status == "Disagree"
-
-                                                })?.length || 0}
-                                            </div>
-
-                                            <div className=''>
-                                                Needs Work: {item.data?.user_sentiments?.filter(sen => {
-
-                                                    // let isFundamental = item.data?.fundamental.find(obj => obj._id == sen.proposal_id)
-
-                                                    return sen.sentiment_status == "Needs Work"
-
-                                                })?.length || 0}
-                                            </div>
-
-                                            <div className='mb-2'>
-                                                Agree: {item.data?.user_sentiments?.filter(sen => {
-
-                                                    // let isFundamental = item.data?.fundamental.find(obj => obj._id == sen.proposal_id)
-
-                                                    return sen.sentiment_status == "Agree"
-
-                                                })?.length || 0}
-                                            </div>
-
-
-                                            {/* <div className='lh-sm'>
-    <small>Share your sentiment on all proposals!</small>
-    </div> */}
-
-                                        </div>
-
-                                        <hr />
-
-                                        <p className='mb-0'>
-                                            <div className="row">
-
-                                                <div className='col-9'>Comments</div>
-                                                <div className='col-3'><b>{item.data?.user_comments?.length || 0}</b></div>
-
-                                                <div className='col-9'>Submissions</div>
-                                                <div className='col-3'><b>{item.data?.user_submissions}</b></div>
-
-                                            </div>
-                                        </p>
-                                    </>
-
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                )
-
+                                    <Box sx={{ display: 'grid', gridTemplateColumns: '3fr 1fr', rowGap: 0.5 }}>
+                                        <Box>Comments</Box>
+                                        <Box component="b">{item.data?.user_comments?.length || 0}</Box>
+                                        <Box>Submissions</Box>
+                                        <Box component="b">{item.data?.user_submissions || 0}</Box>
+                                    </Box>
+                                </>
+                            )}
+                        </ArticlesCardBody>
+                    </ArticlesCard>
+                );
             })}
-
-        </div>
-    )
+        </Box>
+    );
 }

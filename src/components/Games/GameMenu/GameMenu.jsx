@@ -1,8 +1,7 @@
 import MobileMenu from "./MobileMenu";
-
-import "#root/src/styles/components/GameMenu.scss";
-
 import { useEffect } from "react";
+import Box from '@mui/material/Box';
+import { articlesCardSx } from '#root/src/components/UI/muiPrimitives';
 
 /**
   * @param {Object} props - The component props.
@@ -47,7 +46,7 @@ export default function GameMenu(props) {
 
     }, [sidebar])
 
-    const convertedSidebarStyle = (sidebarConfig?.style).replaceAll(" ", "_");
+    const convertedSidebarStyle = (sidebarConfig?.style || 'Static Panel').replaceAll(" ", "_");
 
     if (!useStore) {
         console.error("GameMenu: useStore is required");
@@ -65,9 +64,20 @@ export default function GameMenu(props) {
                 }}
             />
 
-            <div 
-                className={`dev-box-game-menu panel-left card rounded-0 ${convertedSidebarStyle} ${sidebarConfig?.className || ''}`}
-                style={{
+            <Box
+                data-hide-in-screenshot-mode="true"
+                className={`dev-box-game-menu panel-left ${convertedSidebarStyle} ${sidebarConfig?.className || ''}`}
+                sx={(theme) => ({
+                    ...articlesCardSx,
+                    borderRadius: 0,
+                    width: 300,
+                    height: '100vh',
+                    overflowY: 'auto',
+                    flexShrink: 0,
+                    display: 'none',
+                    ...(sidebar && {
+                        [theme.breakpoints.up(992)]: { display: 'flex' },
+                    }),
                     ...sidebarConfig?.cssStyle,
                     ...(convertedSidebarStyle == "Floating_Panel" && {
                         position: "absolute",
@@ -75,19 +85,19 @@ export default function GameMenu(props) {
                         left: "0.5rem",
                         zIndex: 1,
                         height: "calc(100vh - 1rem)",
-                        backgroundColor: "color-mix(in srgb, var(--bs-card-bg) 50%, transparent)",
+                        backgroundColor: "color-mix(in srgb, var(--articles-card-background-color, #fff) 50%, transparent)",
                     }),
                     ...(sidebarConfig.centerContent && {
                         top: "50%",
                         transform: "translateY(-50%)",
                         height: "fit-content",
                     })
-                }}
+                })}
             >
 
                 <LeftPanelContent />
 
-            </div>
+            </Box>
             
         </>
     )

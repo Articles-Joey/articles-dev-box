@@ -1,7 +1,11 @@
-import { Modal } from "react-bootstrap"
 import { useState } from "react";
 
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LanguageIcon from '@mui/icons-material/Language';
+import { ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '#root/src/components/UI/muiPrimitives';
 
 /**
  * A modal component that displays game credits and links to a GitHub repository.
@@ -36,80 +40,63 @@ export default function CreditsModal({
     // const [tab, setTab] = useState('Graphics');
 
     return (
-        <Modal
-            className="articles-modal"
-            size='md'
-            show={show}
-            // To much jumping with little content for now
-            centered
-            scrollable
-            onExited={() => {
-                // setShow(false)
-            }}
-            onHide={() => {
-                // setShowModal(false)
-                setShow(false)
-            }}
+        <ArticlesDialog
+            open={show}
+            onClose={() => setShow(false)}
         >
 
-            <Modal.Header closeButton>
-                <Modal.Title>Game Credits</Modal.Title>
-            </Modal.Header>
+            <ArticlesDialogTitle onClose={() => setShow(false)}>Game Credits</ArticlesDialogTitle>
 
-            <Modal.Body className="flex-column p-3">
+            <ArticlesDialogContent sx={{ p: 3 }}>
 
                 {introText &&
-                    <div className="mb-3">{introText}</div>
+                    <Box sx={{ mb: 3 }}>{introText}</Box>
                 }
 
                 {developers ?
-                    <div></div>
+                    <Box />
                     :
-                    <div>
-                        <h6 className="mb-2">
+                    <Box>
+                        <Typography variant="subtitle1" sx={{ mb: 2 }}>
                             Developer: Articles Joey
-                        </h6>
+                        </Typography>
 
-                        <a
+                        <Box component="a"
                             href="https://github.com/articles-joey"
                             target="_blank"
                             rel="noopener noreferrer"
+                            sx={{ display: 'inline-block', mb: 4, textDecoration: 'none' }}
                         >
                             <ArticlesButton
-                                // ref={el => elementsRef.current[0] = el}
                                 size=""
-                                className="mb-4"
                             >
-                                <i className="fab fa-github me-2"></i>
-                                <span>View on Github</span>
+                                <GitHubIcon fontSize="inherit" sx={{ mr: 1 }} />
+                                <Box component="span">View on Github</Box>
                             </ArticlesButton>
-                        </a>
-                    </div>
+                        </Box>
+                    </Box>
                 }
 
                 {publisher ?
-                    <div></div>
+                    <Box />
                     :
-                    <div>
-                        <h6 className="mb-2">
+                    <Box>
+                        <Typography variant="subtitle1" sx={{ mb: 2 }}>
                             Publisher: Articles Media
-                        </h6>
+                        </Typography>
 
-                        <a
+                        <Box component="a"
                             href="https://github.com/Articles-Media"
                             target="_blank"
                             rel="noopener noreferrer"
+                            sx={{ display: 'inline-block', mb: 4, textDecoration: 'none' }}
                         >
-                            <ArticlesButton
-                                // ref={el => elementsRef.current[1] = el}
-                                size=""
-                                className="mb-4"
-                            >
-                                <i className="fad fa-browser me-2"></i>
-                                <span>View Website</span>
+                            <ArticlesButton size="">
+                                <LanguageIcon fontSize="inherit" sx={{ mr: 1 }} />
+                                <Box component="span">View Website</Box>
                             </ArticlesButton>
-                        </a>
-                    </div>
+                        </Box>
+                    </Box>
                 }
 
                 {(
@@ -117,36 +104,36 @@ export default function CreditsModal({
                     ||
                     (process.env.NEXT_PUBLIC_OWNER && process.env.NEXT_PUBLIC_REPO)
                 ) &&
-                    <div className="mb-3">
+                    <Box sx={{ mb: 3 }}>
 
-                        {/* <div>Attributions:</div> */}
-                        <h6 className="mb-2">
+                        <Typography variant="subtitle1" sx={{ mb: 2 }}>
                             Attributions:
-                        </h6>
+                        </Typography>
 
-                        <a
+                        <Box component="a"
                             href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}/blob/main/README.md#attributions`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            sx={{ textDecoration: 'none' }}
                         >
                             {/* View on GitHub */}
                             <ArticlesButton>
-                                <i className="fab fa-github"></i>
+                                <GitHubIcon fontSize="inherit" sx={{ mr: 0.75 }} />
                                 View on GitHub
                             </ArticlesButton>
-                        </a>
-                    </div>
+                        </Box>
+                    </Box>
                 }
 
                 {outroText &&
-                    <div className="mb-3">{outroText}</div>
+                    <Box sx={{ mb: 3 }}>{outroText}</Box>
                 }
 
-            </Modal.Body>
+            </ArticlesDialogContent>
 
-            <Modal.Footer className="justify-content-between">
+            <ArticlesDialogActions>
 
-                <div>
+                <Box>
 
                     {/* <ArticlesButton
                         variant="outline-dark"
@@ -157,7 +144,7 @@ export default function CreditsModal({
                         Close
                     </ArticlesButton> */}
 
-                </div>
+                </Box>
 
                 <ArticlesButton
                     variant="outline-dark"
@@ -168,8 +155,8 @@ export default function CreditsModal({
                     Close
                 </ArticlesButton>
 
-            </Modal.Footer>
+            </ArticlesDialogActions>
 
-        </Modal>
+        </ArticlesDialog>
     );
 }

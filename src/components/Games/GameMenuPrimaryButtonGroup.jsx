@@ -1,5 +1,14 @@
 import ArticlesButton from "../UI/Button";
 import useFullscreen from '#root/src/hooks/useFullscreen';
+import Box from '@mui/material/Box';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import InfoIcon from '@mui/icons-material/Info';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import GroupsIcon from '@mui/icons-material/Groups';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
 
 /**
  * @param {Object} props
@@ -51,29 +60,28 @@ export default function PrimaryButtonGroup({
                     {SettingsOverride ?
                         SettingsOverride
                         :
-                        <div className='w-50 d-flex'>
+                        <Box sx={{ width: 0.5, display: 'flex' }}>
                             <ArticlesButton
                                 // ref={el => elementsRef.current[2] = el}
-                                className={`w-100`}
+                                sx={{ width: 1 }}
                                 small
                                 onClick={() => {
                                     setShowSettingsModal(true)
                                 }}
                             >
-                                <i className="fad fa-cog"></i>
+                                <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                 Settings
                             </ArticlesButton>
                             <ArticlesButton
                                 // ref={el => elementsRef.current[2] = el}
-                                className={``}
                                 small
                                 onClick={() => {
                                     toggleDarkMode()
                                 }}
                             >
-                                {darkMode ? <i className="fad fa-sun"></i> : <i className="fad fa-moon"></i>}
+                                {darkMode ? <LightModeIcon fontSize="inherit" /> : <DarkModeIcon fontSize="inherit" />}
                             </ArticlesButton>
-                        </div>
+                        </Box>
                     }
 
                     {InfoOverride ?
@@ -81,50 +89,51 @@ export default function PrimaryButtonGroup({
                         :
                         <ArticlesButton
                             // ref={el => elementsRef.current[3] = el}
-                            className={`w-50`}
+                            sx={{ width: 0.5 }}
                             small
                             onClick={() => {
                                 setShowInfoModal(true)
                             }}
                         >
-                            <i className="fad fa-info-square"></i>
+                            <InfoIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                             Info
                         </ArticlesButton>}
 
                     {GithubOverride ?
                         GithubOverride
                         :
-                        <a
+                        <Box
+                            component="a"
                             href={`https://github.com/${owner || process.env.NEXT_PUBLIC_OWNER}/${repo || process.env.NEXT_PUBLIC_REPO}`}
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='w-50'
+                            sx={{ width: 0.5, textDecoration: 'none' }}
                         >
                             <ArticlesButton
                                 // ref={el => elementsRef.current[4] = el}
-                                className={`w-100`}
+                                sx={{ width: 1 }}
                                 small
                                 onClick={() => {
 
                                 }}
                             >
-                                <i className="fab fa-github"></i>
+                                <GitHubIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                 Github
                             </ArticlesButton>
-                        </a>}
+                        </Box>}
 
                     {CreditsOverride ?
                         CreditsOverride
                         :
                         <ArticlesButton
                             // ref={el => elementsRef.current[5] = el}
-                            className={`w-50`}
+                            sx={{ width: 0.5 }}
                             small
                             onClick={() => {
                                 setShowCreditsModal(true)
                             }}
                         >
-                            <i className="fad fa-users"></i>
+                            <GroupsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                             Credits
                         </ArticlesButton>
                     }
@@ -136,9 +145,10 @@ export default function PrimaryButtonGroup({
                     {LeaveGameOverride ?
                         LeaveGameOverride
                         :
-                        <a
+                        <Box
+                            component="a"
                             href={'/'}
-                            className="w-50"
+                            sx={{ width: 0.5, textDecoration: 'none' }}
                             onClick={(e) => {
 
                                 if (router) {
@@ -150,13 +160,13 @@ export default function PrimaryButtonGroup({
                             }}
                         >
                             <ArticlesButton
-                                className='w-100'
+                                sx={{ width: 1 }}
                                 small
                             >
-                                <i className="fad fa-arrow-alt-square-left"></i>
-                                <span>Leave Game</span>
+                                <ExitToAppIcon fontSize="inherit" sx={{ mr: 0.5 }} />
+                                <Box component="span">Leave Game</Box>
                             </ArticlesButton>
-                        </a>
+                        </Box>
                     }
 
                     {FullscreenOverride ?
@@ -164,7 +174,7 @@ export default function PrimaryButtonGroup({
                         :
                         <ArticlesButton
                             small
-                            className="w-50"
+                            sx={{ width: 0.5 }}
                             active={isFullscreen}
                             onClick={() => {
                                 if (isFullscreen) {
@@ -174,37 +184,36 @@ export default function PrimaryButtonGroup({
                                 }
                             }}
                         >
-                            {isFullscreen && <span>Exit </span>}
-                            {!isFullscreen && <span><i className='fad fa-expand'></i></span>}
-                            <span>Fullscreen</span>
+                            {isFullscreen && <Box component="span">Exit&nbsp;</Box>}
+                            {!isFullscreen && <FullscreenIcon fontSize="inherit" sx={{ mr: 0.5 }} />}
+                            <Box component="span">Fullscreen</Box>
                         </ArticlesButton>}
 
                     {SettingsOverride ?
                         SettingsOverride
                         :
-                        <div className='w-50 d-flex'>
+                        <Box sx={{ width: 0.5, display: 'flex' }}>
                             <ArticlesButton
                                 // ref={el => elementsRef.current[2] = el}
-                                className={`w-100`}
+                                sx={{ width: 1 }}
                                 small
                                 onClick={() => {
                                     setShowSettingsModal(true)
                                 }}
                             >
-                                <i className="fad fa-cog"></i>
+                                <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                                 Settings
                             </ArticlesButton>
                             <ArticlesButton
                                 // ref={el => elementsRef.current[2] = el}
-                                className={``}
                                 small
                                 onClick={() => {
                                     toggleDarkMode()
                                 }}
                             >
-                                {darkMode ? <i className="fad fa-sun"></i> : <i className="fad fa-moon"></i>}
+                                {darkMode ? <LightModeIcon fontSize="inherit" /> : <DarkModeIcon fontSize="inherit" />}
                             </ArticlesButton>
-                        </div>
+                        </Box>
                     }
 
                     {SidebarOverride ?
@@ -212,14 +221,14 @@ export default function PrimaryButtonGroup({
                         :
                         <ArticlesButton
                             // ref={el => elementsRef.current[2] = el}
-                            className={`w-50`}
+                            sx={{ width: 0.5 }}
                             small
                             active={sidebar}
                             onClick={() => {
                                 setSidebar(!sidebar)
                             }}
                         >
-                            <i className="fad fa-cog"></i>
+                            <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                             Sidebar
                         </ArticlesButton>
                     }

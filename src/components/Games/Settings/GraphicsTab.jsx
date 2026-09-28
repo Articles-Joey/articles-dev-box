@@ -2,6 +2,8 @@
 
 // import ArticlesButton from "../Button";
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 export default function GraphicsTab({
     useStore,
@@ -20,8 +22,8 @@ export default function GraphicsTab({
     return (
         <>
 
-            <div>Dark Mode</div>
-            <div className="mb-3">
+            <Typography>Dark Mode</Typography>
+            <Box sx={{ mb: 3 }}>
                 {[false, true].map((level, i) => (
                     <ArticlesButton
                         key={i}
@@ -33,10 +35,10 @@ export default function GraphicsTab({
                         {level ? "On" : "Off"}
                     </ArticlesButton>
                 ))}
-            </div>
+            </Box>
 
-            <div>Graphics Quality</div>
-            <div className="mb-3">
+            <Typography>Graphics Quality</Typography>
+            <Box sx={{ mb: 3 }}>
                 {['Low', 'Medium', 'High'].map(level => (
                     <ArticlesButton
                         key={level}
@@ -48,10 +50,10 @@ export default function GraphicsTab({
                         {level}
                     </ArticlesButton>
                 ))}
-            </div>
+            </Box>
 
-            <div>Landing Animation</div>
-            <div className="mb-3">
+            <Typography>Landing Animation</Typography>
+            <Box sx={{ mb: 3 }}>
                 <ArticlesButton
                     active={landingAnimation === false}
                     onClick={() => {
@@ -68,7 +70,7 @@ export default function GraphicsTab({
                 >
                     Enabled
                 </ArticlesButton>
-            </div>
+            </Box>
 
             {config?.tabs?.Graphics?.children}
 

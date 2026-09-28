@@ -1,11 +1,13 @@
+import Box from '@mui/material/Box';
+
 export default function PageTemplateGamePage({}) {
 
     
 
     return (
-        <div>
+        <Box>
 
-        </div>
+        </Box>
     )
 
 }

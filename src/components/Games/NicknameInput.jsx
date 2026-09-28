@@ -1,4 +1,8 @@
 import ArticlesButton from "../UI/Button";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 /**
  * NicknameInput component for managing and displaying the user's nickname.
@@ -22,45 +26,69 @@ export default function NicknameInput({
     }
 
     return (
-        <div className="d-flex w-100">
+        <Box sx={{ display: 'flex', width: 1 }}>
             {config?.PreComponent &&
                 <>
                     {config.PreComponent}
                 </>
             }
-            <div className="flex-grow-1">
+            <Box sx={{ flexGrow: 1 }}>
 
-                <div className="form-group articles mb-0">
-                    <label htmlFor="nickname">Nickname</label>
-                    <div className="d-flex align-items-center">
-                        <input
+                <Box sx={{ mb: 0, mt: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <TextField
                             type="text"
                             value={_hasHydrated ? nickname : ''}
                             disabled={!_hasHydrated}
                             id="nickname"
                             name="nickname"
                             placeholder="Enter your nickname"
+                            label="Nickname"
+                            size="small"
+                            fullWidth
+                            sx={{
+                                '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                                    '& .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused': {
+                                        color: '#fff !important',
+                                    },
+                                    '& .MuiOutlinedInput-root': {
+                                        color: '#fff !important',
+                                    },
+                                    '& .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: '#fff !important',
+                                    },
+                                    '& .MuiInputBase-input': {
+                                        color: '#fff !important',
+                                        caretColor: '#fff',
+                                        WebkitTextFillColor: '#fff !important',
+                                        '&::placeholder': {
+                                            color: '#fff !important',
+                                            opacity: 1,
+                                            WebkitTextFillColor: '#fff !important',
+                                        },
+                                    },
+                                },
+                            }}
                             onChange={(e) => {
                                 setNickname(e.target.value)
                             }}
-                            className={`form-control form-control-sm`}
                         />
                         <ArticlesButton
                             small
-                            className=""
+                            sx={{ ml: 0.5, alignSelf: 'stretch' }}
                             onClick={() => {
                                 randomNickname()
                             }}
                         >
-                            <i className="fad fa-random"></i>
+                            <ShuffleIcon fontSize="small" />
                         </ArticlesButton>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
 
-                <div className='mt-1' style={{ fontSize: '0.8rem' }}>Visible to all players</div>
+                <Typography sx={{ mt: 0, fontSize: '0.8rem' }}>Visible to all players</Typography>
 
-            </div>
-        </div>
+            </Box>
+        </Box>
     )
 
 }

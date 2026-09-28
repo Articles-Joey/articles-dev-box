@@ -11,6 +11,7 @@ import PageTemplateLandingPage from '#root/src/components/Games/PageTemplates/Pa
 import GlobalHead from '#root/src/components/Global/GlobalHead.jsx';
 import GlobalBody from '#root/src/components/Global/GlobalBody.jsx';
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal.jsx';
+import ArticlesButton from '#root/src/components/UI/Button.jsx';
 import SettingsModal from '#root/src/components/Games/Settings/SettingsModal.jsx';
 import CreditsModal from '#root/src/components/Games/Credits/CreditsModal.jsx';
 import InfoModal from '#root/src/components/Games/InfoModal.jsx';
@@ -59,6 +60,7 @@ export {
   GlobalHead,
   GlobalBody,
   ViewUserModal,
+  ArticlesButton,
   SettingsModal,
   InfoModal,
   DarkModeHandler,

@@ -12,6 +12,7 @@ import React from 'react';
 
 // import Script from "next/script";
 import { useEffect } from "react";
+import Box from '@mui/material/Box';
 // import { useStore } from "@/hooks/useStore";
 
 // Non typescript version, if copying consider using the typescript version instead from a repo like amcot or battle-trap
@@ -42,7 +43,7 @@ export default function ArticlesAd({
     }, []);
 
     return (
-        <div className="">
+        <Box>
 
             {/* <script
                 src={process.env.NODE_ENV === "development" ?
@@ -67,10 +68,10 @@ export default function ArticlesAd({
             // }
             /> */}
 
-            <div className={"articles-media-ad"}>
+            <Box className="articles-media-ad">
 
-            </div>
+            </Box>
 
-        </div>
+        </Box>
     );
 }

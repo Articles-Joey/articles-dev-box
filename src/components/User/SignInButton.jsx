@@ -1,6 +1,8 @@
 "use client";
 import ArticlesButton from "#root/src/components/UI/Button";
 import { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function SignInButton({
     className,
@@ -24,18 +26,18 @@ export default function SignInButton({
     }, [baseLink]);
 
     return (
-        <a
+        <Box
+            component="a"
             href={finalLink}
-            // target="_blank"
             rel="noopener noreferrer"
+            sx={{ display: 'block', width: 1, textDecoration: 'none' }}
         >
             <ArticlesButton
-                // ref={el => elementsRef.current[6] = el}
-                className={`${className} w-100`}
+                className={className}
                 id={id}
-                // small
                 size={size}
-                style={{
+                sx={{
+                    width: 1,
                     zIndex: 10,
                     position: "relative",
                 }}
@@ -43,9 +45,9 @@ export default function SignInButton({
     
                 }}
             >
-                <i className="fad fa-user"></i>
+                <PersonIcon fontSize="inherit" sx={{ mr: 0.75 }} />
                 {text || "Sign In"}
             </ArticlesButton>
-        </a>
+        </Box>
     );
-}   
+}

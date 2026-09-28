@@ -1,8 +1,10 @@
-import { Modal } from "react-bootstrap"
 import { useState } from "react";
 import ArticlesButton from "../UI/Button"
 import useMainSiteStatus from "#root/src/hooks/useMainSiteStatus";
 import useAuthSiteStatus from "#root/src/hooks/useAuthSiteStatus";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesBadge, ArticlesDialog, ArticlesDialogActions, ArticlesDialogContent, ArticlesDialogTitle } from '../UI/muiPrimitives';
 
 export default function StatusModal({
     show,
@@ -53,28 +55,24 @@ export default function StatusModal({
     }
 
     return (
-        <Modal show={show} size={'md'} className="articles-modal" centered onHide={() => setShow(false)}>
+        <ArticlesDialog open={show} onClose={() => setShow(false)}>
 
-            <Modal.Header>
-                <Modal.Title>
-                    Status Details
-                </Modal.Title>
-            </Modal.Header>
+            <ArticlesDialogTitle>Status Details</ArticlesDialogTitle>
 
-            <Modal.Body>
+            <ArticlesDialogContent>
 
-                <div className="d-flex align-items-center mb-2">
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, mb: 1 }}>
 
-                    <h5 className="mb-0 me-2">Main Site Status: <span className={`badge ${mainSiteStatus ? 'bg-success' : 'bg-danger'}`}>{getStatusCode(mainSiteStatus, mainSiteStatusError, mainSiteStatusLoading)}</span></h5>
+                    <Typography variant="h6">Main Site Status: <ArticlesBadge sx={{ color: '#fff', bgcolor: mainSiteStatus ? 'success.main' : 'error.main' }}>{getStatusCode(mainSiteStatus, mainSiteStatusError, mainSiteStatusLoading)}</ArticlesBadge></Typography>
 
-                    <ArticlesButton variant="link" size="sm" className="p-0" onClick={() => setShowMainDetails(!showMainDetails)}>
+                    <ArticlesButton variant="link" size="sm" sx={{ p: 0 }} onClick={() => setShowMainDetails(!showMainDetails)}>
                         {showMainDetails ? 'Hide' : 'View'} More
                     </ArticlesButton>
 
                     <ArticlesButton
                         variant="link"
                         size="sm"
-                        className="p-0 d-inline-block ms-2"
+                        sx={{ p: 0, display: 'inline-flex', ml: 1 }}
                         onClick={() => {
                             openFolder("articles.media")
                         }}
@@ -82,27 +80,27 @@ export default function StatusModal({
                         Open Folder
                     </ArticlesButton>
 
-                </div>
+                </Box>
                 {showMainDetails && (
-                    <pre>
+                    <Box component="pre" sx={{ whiteSpace: 'pre-wrap', overflowX: 'auto' }}>
                         {mainSiteStatusLoading && 'Loading...'}
                         {mainSiteStatusError && `Error: ${mainSiteStatusError.message}`}
                         {mainSiteStatus && JSON.stringify(mainSiteStatus, null, 2)}
-                    </pre>
+                    </Box>
                 )}
 
-                <div className="d-flex align-items-center mb-2">
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, mb: 1 }}>
 
-                    <h5 className="mb-0 me-2">Auth Site Status: <span className={`badge ${authSiteStatus ? 'bg-success' : 'bg-danger'}`}>{getStatusCode(authSiteStatus, authSiteStatusError, authSiteStatusLoading)}</span></h5>
+                    <Typography variant="h6">Auth Site Status: <ArticlesBadge sx={{ color: '#fff', bgcolor: authSiteStatus ? 'success.main' : 'error.main' }}>{getStatusCode(authSiteStatus, authSiteStatusError, authSiteStatusLoading)}</ArticlesBadge></Typography>
 
-                    <ArticlesButton variant="link" size="sm" className="p-0" onClick={() => setShowAuthDetails(!showAuthDetails)}>
+                    <ArticlesButton variant="link" size="sm" sx={{ p: 0 }} onClick={() => setShowAuthDetails(!showAuthDetails)}>
                         {showAuthDetails ? 'Hide' : 'View'} More
                     </ArticlesButton>
 
                     <ArticlesButton
                         variant="link"
                         size="sm"
-                        className="p-0 d-inline-block ms-2"
+                        sx={{ p: 0, display: 'inline-flex', ml: 1 }}
                         onClick={() => {
                             openFolder("accounts.articles.media")
                         }}
@@ -110,18 +108,18 @@ export default function StatusModal({
                         Open Folder
                     </ArticlesButton>
 
-                </div>
+                </Box>
                 {showAuthDetails && (
-                    <pre>
+                    <Box component="pre" sx={{ whiteSpace: 'pre-wrap', overflowX: 'auto' }}>
                         {authSiteStatusLoading && 'Loading...'}
                         {authSiteStatusError && `Error: ${authSiteStatusError.message}`}
                         {authSiteStatus && JSON.stringify(authSiteStatus, null, 2)}
-                    </pre>
+                    </Box>
                 )}
 
-            </Modal.Body>
+            </ArticlesDialogContent>
 
-            <Modal.Footer className="justify-content-between">
+            <ArticlesDialogActions>
 
                 <ArticlesButton
                     variant="articles"
@@ -132,9 +130,9 @@ export default function StatusModal({
                     Close
                 </ArticlesButton>
 
-            </Modal.Footer>
+            </ArticlesDialogActions>
 
-        </Modal>
+        </ArticlesDialog>
     )
 
 }

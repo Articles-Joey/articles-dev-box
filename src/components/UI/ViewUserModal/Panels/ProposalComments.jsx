@@ -3,32 +3,35 @@ import { format } from "date-fns"
 import ArticlesButton from '#root/src/components/UI/Button';
 import Link from '#root/src/components/UI/Link';
 import { routes } from "#root/src/constants/routes";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesCard, ArticlesCardBody, ArticlesCardFooter, ArticlesCardHeader } from '#root/src/components/UI/muiPrimitives';
 
 export default function ProposalComments({
     activeLayoutProposalSentiments
 }) {
     return (
-        <div>
+        <Box>
             {activeLayoutProposalSentiments.user_comments?.filter(obj => !obj.parent_id).map(obj => {
                 return (
-                    <div key={obj._id} className="card card-articles card-sm border mb-2">
+                    <ArticlesCard key={obj._id} sx={{ mb: 2 }}>
 
-                        <div className="card-header small">
+                        <ArticlesCardHeader sx={{ typography: 'body2' }}>
                             Commented on <b>{obj.populated_proposal.title}</b>
-                        </div>
+                        </ArticlesCardHeader>
 
-                        <div className="card-body small p-2">
+                        <ArticlesCardBody sx={{ typography: 'body2', p: 2 }}>
 
-                            <div>
-                                <span className="small">{format(new Date(obj.date), 'M/dd/yy')}</span>
+                            <Box>
+                                <Typography component="span" variant="body2">{format(new Date(obj.date), 'M/dd/yy')}</Typography>
 
-                                <div>{obj.comment}</div>
-                            </div>
+                                <Box>{obj.comment}</Box>
+                            </Box>
 
-                        </div>
+                        </ArticlesCardBody>
 
                         {/* TODO */}
-                        <div className="card-footer">
+                        <ArticlesCardFooter>
                             <Link prefetch={false} href={`${routes.PROPOSALS}/${obj.populated_proposal.url}?interaction_id=${obj._id}`}>
                                 <ArticlesButton
                                     small
@@ -36,11 +39,11 @@ export default function ProposalComments({
                                     View
                                 </ArticlesButton>
                             </Link>
-                        </div>
+                        </ArticlesCardFooter>
 
-                    </div>
+                    </ArticlesCard>
                 )
             })}
-        </div>
+        </Box>
     )
 }

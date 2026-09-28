@@ -1,6 +1,7 @@
-import { Form } from "react-bootstrap";
-
 import ArticlesButton from '#root/src/components/UI/Button';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import TextField from '@mui/material/TextField';
 
 export default function MultiplayerTab({
     useStore,
@@ -8,7 +9,7 @@ export default function MultiplayerTab({
 }) {
 
     return (
-        <div className="">
+        <Box>
 
             {useStore && 
                 <SocketSettings useStore={useStore} />
@@ -16,7 +17,7 @@ export default function MultiplayerTab({
 
             {config?.tabs?.Multiplayer?.children}
 
-        </div>
+        </Box>
     )
 }
 
@@ -30,24 +31,43 @@ function SocketSettings({ useStore }) {
     const disconnectSocket = useStore((state) => state.disconnectSocket);
 
     return (
-        <div className="mb-3">
+        <Box
+            sx={{
+                mb: 3,
+                '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
+                    color: '#fff',
+                    '& .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused, & .MuiInputBase-input': {
+                        color: '#fff',
+                    },
+                    '& .MuiFormHelperText-root': {
+                        color: 'rgba(255, 255, 255, 0.7)',
+                    },
+                    '& .MuiInputBase-input::placeholder': {
+                        color: '#fff',
+                        opacity: 0.7,
+                    },
+                    '& .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255, 255, 255, 0.7)',
+                    },
+                },
+            }}
+        >
 
-            <Form.Label className="mb-0">
-                <div>Status: <span className={`badge ${connected ? 'bg-success' : 'bg-danger'}`}>{connected ? 'Online' : 'Offline'}</span></div>
-                Socket Server Host
-            </Form.Label>
-            <Form.Control
+            <Box sx={{ mb: 1 }}>Status: <Chip size="small" color={connected ? 'success' : 'error'} label={connected ? 'Online' : 'Offline'} /></Box>
+            <TextField
+                label="Socket Server Host"
                 type="text"
                 value={serverUrl}
                 onChange={(e) => setServerUrl(e.target.value)}
+                fullWidth
+                size="small"
+                helperText="Edit this to connect to a different multiplayer host!"
             />
-            <Form.Label className="mb-0">Edit this to connect to a different multiplayer host!</Form.Label>
 
-            <div className="mt-3">
+            <Box sx={{ mt: 3 }}>
 
                 {connected ?
                     <ArticlesButton
-                        className=""
                         onClick={() => {
                             disconnectSocket()
                         }}
@@ -56,7 +76,6 @@ function SocketSettings({ useStore }) {
                     </ArticlesButton>
                     :
                     <ArticlesButton
-                        className=""
                         onClick={() => {
                             connectSocket()
                         }}
@@ -65,9 +84,9 @@ function SocketSettings({ useStore }) {
                     </ArticlesButton>
                 }
 
-            </div>
+            </Box>
 
-        </div>
+        </Box>
     )
 
 }

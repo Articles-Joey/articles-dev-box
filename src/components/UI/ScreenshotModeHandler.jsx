@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-
-import "#root/src/styles/components/ScreenshotModeHandler.scss";
+import GlobalStyles from '@mui/material/GlobalStyles';
 
 /**
  * Handles the screenshot mode functionality.
@@ -41,7 +40,10 @@ export default function ScreenshotModeHandler({ useStore }) {
     }, [screenshotMode, hasHydrated]);
 
     return (
-        <>
-        </>
+        <GlobalStyles styles={{
+            'body[data-articles-dev-box-screenshot-mode="enabled"] [data-hide-in-screenshot-mode="true"], body[data-articles-dev-box-screenshot-mode="enabled"] .articles-dev-status, body[data-articles-dev-box-screenshot-mode="enabled"] .dev-box-game-menu, body[data-articles-dev-box-screenshot-mode="enabled"] .hide-in-screenshot-mode, body[data-articles-dev-box-screenshot-mode="enabled"] #articles-dev-box-socket-debug-overlay, body[data-articles-dev-box-screenshot-mode="enabled"] #devtools-indicator': {
+                display: 'none !important',
+            },
+        }} />
     );
 }

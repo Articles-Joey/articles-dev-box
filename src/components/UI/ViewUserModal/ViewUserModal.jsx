@@ -1,56 +1,38 @@
 "use client"
-import { useState, useEffect, useMemo } from 'react';
 
-// import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react';
+import { differenceInMonths, format } from 'date-fns';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import CheckIcon from '@mui/icons-material/Check';
+import EditIcon from '@mui/icons-material/Edit';
+import EmailIcon from '@mui/icons-material/Email';
+import HomeIcon from '@mui/icons-material/Home';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import StarIcon from '@mui/icons-material/Star';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+
 import Link from '#root/src/components/UI/Link';
-
-// import dynamic from "next/dynamic";
-// import Image from 'next/image';
-
-// import axios from 'axios'
-
-import { differenceInMonths, format } from 'date-fns'
-
-// import { useSelector, useDispatch } from 'react-redux'
-
-import Modal from 'react-bootstrap/Modal';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
-// import ProgressBar from 'react-bootstrap/ProgressBar'
-
-// import ROUTES from 'components/constants/routes';
-
-// import convertRegion from 'util/convertRegion';
-
-import '#root/src/styles/components/view-user-modal-badge.scss';
-// import "#root/src/styles/components/Ad.scss";
-
-// TODO - ADD BACK IN
 import ArticlesDate from '#root/src/components/UI/ArticlesDate';
 import UserProfilePhoto from '#root/src/components/UI/UserProfilePhoto';
 import usePublicUserData from '#root/src/hooks/User/UserPublic/usePublicUserData';
-import IsDev from '#root/src/components/UI/IsDev';
 import ArticlesButton from '#root/src/components/UI/Button';
-
-// const Lightbox = dynamic(
-//     () => import('@/components/Articles/ArticlesLightbox'),
-//     {
-//         ssr: false,
-//     },
-// )
-
-// import { Textfit } from '#root/src/components/UI/Textfit';
-
-// import NewsPreviewImage from '../../News/NewsPreviewImage';
-
-// import BanPanel from './AdminPanels/Bans';
-// import VerificationPanel from './AdminPanels/Verification';
-// import ModerationPanel from './AdminPanels/Moderation';
-// import LayoutsPanel from './AdminPanels/Layouts';
-// import StripePanel from './AdminPanels/Stripe';
-// import UserDetailsPanel from './AdminPanels/UserDetails';
-// import ResetPasswordPanel from './AdminPanels/ResetPassword';
-// import SessionsPanel from './AdminPanels/Sessions';
+import {
+    ArticlesBadge,
+    ArticlesDialog,
+    ArticlesDialogActions,
+    ArticlesDialogContent,
+    ArticlesDialogTitle,
+    articlesShadow,
+} from '#root/src/components/UI/muiPrimitives';
 
 import ProposalsStance from '#root/src/components/UI/ViewUserModal/Panels/ProposalsStance';
 import ProposalComments from '#root/src/components/UI/ViewUserModal/Panels/ProposalComments';
@@ -66,11 +48,55 @@ import Achievements from './Panels/Achievements';
 import numberWithCommas from '#root/src/util/numberWithCommas';
 import usePoliticalParties from '#root/src/hooks/Politics/usePoliticalParties';
 
-// import Tabs from './Tabs';
-// import AdminTabs from '#root/src/components/UI/ViewUserModal/AdminTabs';
+const membershipImages = {
+    Supporter: 'supporter.jpg',
+    'Premium Supporter': 'premiumSupporter.jpg',
+    Advocate: 'advocate.jpg',
+};
 
-function ViewUserModal(props) {
+function PartyMark({ partyId, parties, size = 15 }) {
+    if (!partyId) return null;
+    if (partyId === '62a830440593acbd4061c48c') return <LinkOffIcon sx={{ fontSize: size }} />;
 
+    const party = parties?.find((item) => item._id === partyId);
+    return (
+        <Box
+            component="img"
+            width={size}
+            height={size}
+            loading="lazy"
+            src={`${process.env.NEXT_PUBLIC_CDN}${party?.logo || ''}`}
+            alt=""
+            sx={{ objectFit: 'contain' }}
+        />
+    );
+}
+
+function StatusBadge({ children, color = 'var(--articles-theme-primary, #f9edcd)', textColor = '#000', sx }) {
+    return (
+        <ArticlesBadge
+            sx={[
+                {
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    mr: 0.5,
+                    mb: 0.5,
+                    bgcolor: color,
+                    color: textColor,
+                    border: 1,
+                    borderColor: 'divider',
+                    textTransform: 'capitalize',
+                },
+                ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+            ]}
+        >
+            {children}
+        </ArticlesBadge>
+    );
+}
+
+export default function ViewUserModal(props) {
     const {
         populated_user,
         hidePhoto,
@@ -82,1276 +108,392 @@ function ViewUserModal(props) {
         buttonType,
         children,
         fakeMembership,
-        // name
+        sx,
     } = props;
 
     const [modalShow, setModalShow] = useState(false);
-
-    const [userData, setUserData] = useState({});
-
-    const [userLayoutsData, setUserLayoutsData] = useState([]);
-
-    const [userDonations, setUserDonations] = useState([]);
-
-    const [lifetimeContribution, setLifetimeContribution] = useState(null);
-
-    // const [ UserNewsComments, setUserNewsComments ] = useState()
-
-    const [userNewsSubmitted, setUserNewsSubmitted] = useState([]);
-
-
-    const [userProposalsSubmitted, setUserProposalsSubmitted] = useState([]);
-    const [viewAllProposalsSubmitted, setViewAllProposalsSubmitted] = useState(false);
-
-    // const userReduxState = useSelector((state) => state.auth.user_details)
-    const userReduxState = false
-
-    const { data: politicalParties, isLoading: politicalPartiesIsLoading, mutate: politicalPartiesMutate } = usePoliticalParties()
-
-    // const [userSubmittedCount, setUserSubmittedCount] = useState({});
-
-    // TODO - Set this as localstorage maybe?
+    const [userData, setUserData] = useState(populated_user || {});
     const [contentDisplayTab, setContentDisplayTab] = useState('Proposals Stance');
+    const [showFullStanceDetails, setShowFullStanceDetails] = useState(false);
+    const [usersProposalSentiments, setUsersProposalSentiments] = useState({});
+    const [adminMode, setAdminMode] = useState(false);
 
-    const handleClose = () => {
-        setModalShow(false);
-    }
+    // Authentication state is not currently wired into this package.
+    const userReduxState = false;
 
-    useEffect(() => {
-
-        // Store everything on userData by default
-        if (populated_user) {
-            setUserData({
-                ...populated_user
-            })
-        }
-
-        // if (dangerousPopulate) {
-        //     console.log("dangerousPopulate called in ViewUserModal")
-
-        //     // Only populated user details
-        //     axios.get('/api/user-public/getUserDetails', {
-        //         params: {
-        //             user_id: user_id || populated_user?._id
-        //         }
-        //     })
-        //         .then(function (response) {
-        //             console.log(response);
-        //             setUserData(response.data)
-        //         })
-
-        // }
-
-    }, []);
-
-    const [showFullStanceDetails, setShowFullStanceDetails] = useState(false)
-
-    const [activeLayoutProposalSentiments, setActiveLayoutProposalSentiments] = useState([])
-
-    const [usersProposalSentiments, setUsersProposalSentiments] = useState([])
-
-    const { data: publicUserData, isLoading: publicUserDataIsLoading, mutate: publicUserDataMutate } = usePublicUserData(
-        ((user_id || populated_user?._id) && (modalShow || dangerousPopulate)) ?
-            {
-                user_id: (user_id || populated_user?._id)
-            }
-            :
-            null
-    )
-
-    const { data: personalUserData, isLoading: personalUserDataIsLoading, mutate: personalUserDataMutate } = usePublicUserData(
-        (userReduxState?._id && (modalShow || dangerousPopulate)) ?
-            {
-                user_id: userReduxState?._id
-            }
-            :
-            null
-    )
+    const { data: politicalParties } = usePoliticalParties();
+    const { data: publicUserData, mutate: publicUserDataMutate } = usePublicUserData(
+        ((user_id || populated_user?._id) && (modalShow || dangerousPopulate))
+            ? { user_id: user_id || populated_user?._id }
+            : null
+    );
+    const { data: personalUserData, mutate: personalUserDataMutate } = usePublicUserData(
+        (userReduxState?._id && (modalShow || dangerousPopulate))
+            ? { user_id: userReduxState._id }
+            : null
+    );
 
     useEffect(() => {
-
-        if (publicUserData) {
-            console.log("publicUserData", publicUserData)
-            setUserData(publicUserData)
-            setUserLayoutsData(publicUserData?.populated_public_layouts)
-            setUserDonations(publicUserData?.populated_public_donations)
-            setLifetimeContribution(publicUserData?.populated_public_donations.total)
-            setUserProposalsSubmitted(publicUserData?.populated_public_proposals)
-            setActiveLayoutProposalSentiments(publicUserData?.populated_public_proposals_stance)
-            setUserNewsSubmitted(publicUserData?.populated_public_news_submissions || [])
-            // Used directly, no state
-            // setUserNewsComments(publicUserData?.populated_public_news_comments)
-        }
-
-    }, [publicUserData])
+        if (populated_user) setUserData(populated_user);
+    }, [populated_user]);
 
     useEffect(() => {
+        if (publicUserData) setUserData(publicUserData);
+    }, [publicUserData]);
 
+    useEffect(() => {
         if (personalUserData) {
-            console.log("personalUserData", personalUserData)
-            setUsersProposalSentiments(personalUserData?.populated_public_proposals_stance)
+            setUsersProposalSentiments(personalUserData?.populated_public_proposals_stance || {});
         }
+    }, [personalUserData]);
 
-    }, [personalUserData])
+    const displayUser = populated_user || userData;
+    const hasMembership = displayUser?.articles_membership?.status === 'Active';
+    const membershipName = fakeMembership || displayUser?.articles_membership?.plan;
+    const membershipImage = membershipImages[userData?.articles_membership?.plan];
+    const party = politicalParties?.find((item) => item._id === displayUser?.political?.party_id);
+    const activeLayoutProposalSentiments = publicUserData?.populated_public_proposals_stance || {};
+    const userLayoutsData = publicUserData?.populated_public_layouts || [];
+    const userProposalsSubmitted = publicUserData?.populated_public_proposals || [];
+    const userNewsSubmitted = publicUserData?.populated_public_news_submissions || [];
+    const userDonations = publicUserData?.populated_public_donations || { count: 0, list: [], total: 0 };
 
-    let membershipSafeName = (populated_user || userData)?.articles_membership?.plan.replace(' ', '-').toLowerCase()
+    const userLayoutLink = useMemo(
+        () => userLayoutsData.find((layout) => layout.user_layout)?.url,
+        [userLayoutsData]
+    );
 
-    let membershipFakeSafeName = (fakeMembership)?.replace(' ', '-').toLowerCase()
+    const handleClose = () => setModalShow(false);
 
-    const base = `https://articles.media/images/store/memberships/`
-
-    const UserBadge = () => {
-
-        let hasMembership = (populated_user || userData)?.articles_membership?.status == "Active"
-
-        return (
-            <div
-                style={
-                    ({ 
-                        position: 'relative',
-                        cursor: 'pointer'
-                    })
-                    &&
-                    (size == 'lg' ? { fontSize: "1.5rem" } : {})
-                }
-                className={`view-user-modal-badge-wrap ${size == 'lg' && 'large'} ${className && className}`}
-            >
-
-                <span
-                    onClick={() => {
-                        setModalShow(true)
-                    }}
-                    className="position-relative view-user-modal-badge d-flex justify-content-between align-items-center badge bg-articles badge-hover "
-                >
-
-                    {(hasMembership || fakeMembership) &&
-                        <i
-                            className={`fad membership-badge ${membershipFakeSafeName || membershipSafeName} fa-badge-check`}
-                            style={{
-                                position: 'absolute',
-                                // top: '50%',
-                                top: '-2px',
-                                left: '-2px',
-                                // transform: 'translateY(-50%)',
-                                fontSize: '0.9rem',
-                                zIndex: 1
-                                // marginRight: '-0.5rem'
-                                // color: `${obj.badge_color}!important`
-                            }}
-                        ></i>
-                    }
-
-                    <div className={`d-flex align-items-center ${hasMembership && ''}`}>
-
-                        {!hidePhoto &&
-                            <div className={size == 'lg' ? 'me-0' : 'me-1'}>
-                                <UserProfilePhoto
-                                    width={'15px'}
-                                    profile_photo={userData.profile_photo}
-                                />
-                            </div>
-                        }
-
-                        {userData.display_name || populated_user?.display_name}
-
-                    </div>
-
-                    <i className="fad fa-plus-square me-0 ms-2"></i>
-
-                </span>
-
-                {/* Show not verified badge */}
-                {visibleItems?.includes("Not Verified") &&
-                    populated_user?.verified?.status !== 'Verified' &&
-                    <OverlayTrigger
-                        placement="bottom"
-                        // delay={{ show: 250, hide: 400 }}
-                        overlay={
-
-                            <Tooltip style={{ pointerEvents: 'none' }} id="button-tooltip">
-                                <div className=''>
-                                    User is not verified
-                                </div>
-                            </Tooltip>
-
-                        }
-                    >
-
-                        <span
-                            className="verification-user-badge badge bg-danger d-flex align-items-center"
-                        >
-                            <i style={{ paddingBottom: '2px' }} className="fas fa-robot me-1"></i>
-                            <span className=''>Unverified</span>
-                        </span>
-
-                    </OverlayTrigger>
-                }
-
-                {/* Show Membership */}
-                {(
-                    // true
-                    // ||
-                    // visibleItems?.includes("Membership")
-                    false
-                ) &&
-                    <div className='d-flex'>
-                        {populated_user?.articles_membership?.status == "Active" &&
-                            <OverlayTrigger
-                                placement={'bottom'}
-                                overlay={
-                                    <Tooltip
-                                        id={`tooltip-${'bottom'}`}
-                                    >
-                                        <div className='d-flex'>
-                                            <img
-                                                width={'40px'}
-                                                height={'40px'}
-                                                style={{
-                                                    objectFit: 'contain',
-                                                    padding: '0px',
-                                                    zIndex: '10',
-                                                    position: 'relative'
-                                                }}
-                                                loading='lazy'
-                                                src={`${process.env.NEXT_PUBLIC_CDN}` + politicalParties?.find(party => party._id == (populated_user || userData)?.political?.party_id)?.logo}
-                                                alt=""
-                                            />
-                                            <span className='ms-2'>
-                                                <div>{(populated_user || userData)?.articles_membership?.plan}</div>
-                                                {/* <div className='text-muted'>Since <ArticlesDate format={'MM/dd/yy'} date={(populated_user || userData)?.articles_membership?.membership_started} /></div> */}
-                                            </span>
-                                        </div>
-                                    </Tooltip>
-                                }
-                            >
-                                <div
-                                    className={`badge badge-membership bg-light text-capitalize ms-0 h-100 d-flex justify-content-center align-items-center`}
-                                    style={{
-                                        padding: '0 0.25rem',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-
-                                    {/* <i
-                                        className="fad fa-trophy fa-lg me-1"
-                                        style={{ fontSize: '0.7rem' }}
-                                    ></i> */}
-
-                                    <i
-                                        className={`fad membership-badge supporter fa-badge-check me-0`}
-                                        style={{
-                                            // position: 'absolute',
-                                            // top: '50%',
-                                            // top: '-2px',
-                                            // left: '-2px',
-                                            // transform: 'translateY(-50%)',
-                                            fontSize: '0.9rem'
-                                            // marginRight: '-0.5rem'
-                                            // color: `${obj.badge_color}!important`
-                                        }}
-                                    ></i>
-
-                                    {/* <div className="months">
-                                        {differenceInMonths(
-                                            new Date(),
-                                            new Date((populated_user || userData)?.articles_membership?.membership_started),
-                                        ) || 0}
-                                    </div> */}
-
-                                </div>
-                            </OverlayTrigger>
-                        }
-                    </div>
-                }
-
-                {/* Show verification status no matter the status */}
-                {visibleItems?.includes("Verification Status") &&
-                    <OverlayTrigger
-                        placement="bottom"
-                        // delay={{ show: 250, hide: 400 }}
-                        overlay={
-
-                            <Tooltip
-                                id="button-tooltip"
-                                style={{ pointerEvents: 'none', transformX: '-20px' }}
-                            >
-
-                                {populated_user?.verified?.status == "Verified" ? "Verified" : " Not Verified"}
-
-                            </Tooltip>
-
-                        }
-                    >
-
-                        {populated_user?.verified?.status == "Verified" ?
-                            <span className="verification-user-badge badge bg-success cursor-pointer">
-                                <i className="fas fa-check me-0"></i>
-                            </span>
-                            :
-                            <span className="verification-user-badge badge bg-danger cursor-pointer">
-                                <i className="fas fa-robot me-1"></i>
-                                <span>?</span>
-                            </span>
-                        }
-
-                    </OverlayTrigger>
-                }
-
-                {/* Show political party */}
-                {visibleItems?.includes("Political Party") &&
-                    <div className='d-flex'>
-                        {(populated_user || userData)?.political?.party_id &&
-                            <OverlayTrigger
-                                placement={'bottom'}
-                                overlay={
-                                    <Tooltip
-                                        id={`tooltip-${'bottom'}`}
-                                        style={{ position: "fixed" }}
-                                    >
-                                        <img
-                                            width={'40px'}
-                                            height={'40px'}
-                                            style={{
-                                                objectFit: 'contain',
-                                                padding: '0px',
-                                                zIndex: '10',
-                                                position: 'relative'
-                                            }}
-                                            loading='lazy'
-                                            src={`${process.env.NEXT_PUBLIC_CDN}` + politicalParties?.find(party => party._id == (populated_user || userData)?.political?.party_id)?.logo}
-                                            alt=""
-                                        />
-                                        <span
-                                            className='ms-2'
-                                        >
-                                            {politicalParties?.find(party => party._id == (populated_user || userData)?.political?.party_id)?.name}
-                                        </span>
-                                    </Tooltip>
-                                }
-                            >
-                                <div
-                                    className={`badge bg-light text-capitalize ms-0 h-100 d-flex justify-content-center align-items-center`}
-                                    style={{
-                                        padding: '0 0.15rem',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    {/* {!politicalParties && 'Missing political_parties prop'} */}
-                                    {/* {political_parties?.find(party => party._id == comment.populated_user?.political?.party_id)?.name || 'None'} */}
-                                    {(populated_user || userData)?.political?.party_id &&
-
-                                        (
-                                            (populated_user || userData)?.political?.party_id == '62a830440593acbd4061c48c' ?
-                                                <i className="fad fa-unlink unaffiliated-icon fa-lg me-0"></i>
-                                                :
-                                                <img
-                                                    width={'15px'}
-                                                    height={'15px'}
-                                                    style={{
-                                                        objectFit: 'contain',
-                                                        padding: '0px'
-                                                    }}
-                                                    loading='lazy'
-                                                    src={`${process.env.NEXT_PUBLIC_CDN}` + politicalParties?.find(party => party._id == (populated_user || userData)?.political?.party_id)?.logo}
-                                                    alt=""
-                                                />)
-
-                                    }
-                                    {/* {comment.populated_user?.political?.party_id} */}
-                                </div>
-                            </OverlayTrigger>
-                        }
-                    </div>
-                }
-
-            </div>
-        )
-    }
-
-    function renderModalButton(buttonType) {
-
-        switch (buttonType) {
-            // case 'badge':
-            //     return (
-            //         <UserBadge />
-            //     );
-            case 'Link':
-                return (
-                    <span
-                        type='button'
-                        className={props.className}
-                        onClick={() => {
-                            setModalShow(true)
-                        }}
-                    >
-                        {children}
-                    </span>
-                );
-            default:
-                return (
-                    <UserBadge />
-                );
-        }
-
-    }
-
-    const [adminMode, setAdminMode] = useState(false)
-    const [adminUserData, setAdminUserData] = useState({});
-    const [adminUserReports, setAdminUserReports] = useState({});
-
-    useEffect(() => {
-
-        if (adminMode && Object.keys(adminUserData).length == 0) {
-            console.log("adminUserData", personalUserData)
-            // loadAdminUserData()
-        }
-
-    }, [adminMode])
-
-    const [lightboxData, setLightboxData] = useState(null);
-
-    function saveUser() {
-        alert("TODO")
-        return
-    }
-
-    const userLayoutLink = useMemo(() => {
-
-        return (
-            userLayoutsData?.filter(layout => {
-
-                return layout.user_layout
-
-            })?.[0]?.url
-        )
-
-    }, [userLayoutsData])
-
-    return <>
-
-        {renderModalButton(buttonType)}
-
-        <Modal
-            show={modalShow}
-            size={'lg'}
-            id="view-users-modal"
-            className="view-users-modal articles-modal"
-            // centered
-            scrollable
-            onHide={handleClose}
+    const userBadge = (
+        <Box
+            className={className}
+            sx={[
+                {
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    position: 'relative',
+                    cursor: 'pointer',
+                    ...(size === 'lg' && { fontSize: '1.5rem' }),
+                },
+                ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+            ]}
         >
+            <ArticlesBadge
+                onClick={() => setModalShow(true)}
+                sx={{
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    minHeight: size === 'lg' ? 30 : 22,
+                    bgcolor: 'var(--articles-theme-primary, #f9edcd)',
+                    color: '#000',
+                    cursor: 'pointer',
+                    '&:hover': { filter: 'brightness(0.95)' },
+                }}
+            >
+                {(hasMembership || fakeMembership) && (
+                    <WorkspacePremiumIcon sx={{ position: 'absolute', top: -5, left: -5, fontSize: '0.9rem', zIndex: 1 }} />
+                )}
 
-            <Modal.Header closeButton>
-                <div className="w-100 d-flex justify-content-between align-items-center">
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {!hidePhoto && (
+                        <Box sx={{ mr: size === 'lg' ? 0 : 0.5 }}>
+                            <UserProfilePhoto width={size === 'lg' ? '22px' : '15px'} profile_photo={userData.profile_photo} />
+                        </Box>
+                    )}
+                    {userData.display_name || populated_user?.display_name}
+                </Box>
 
-                    <h3 className="mb-0">User Info</h3>
+                <AddBoxIcon sx={{ ml: 1, fontSize: '1em' }} />
+            </ArticlesBadge>
 
-                    {/* {userData.employee?.bool
-                        ?
-                        <Link href={ROUTES.TRANSPARENCY_EMPLOYEES + `/${userData.employee?.friendly_url}`}>
-                            <a className="badge badge-hover badge-articles"><i className="fad fa-external-link me-1"></i>View Employee Page</a>
-                        </Link>
-                        :
-                        'False'
-                    } */}
+            {visibleItems?.includes('Not Verified') && populated_user?.verified?.status !== 'Verified' && (
+                <Tooltip title="User is not verified" placement="bottom">
+                    <span>
+                        <StatusBadge color="#d32f2f" textColor="#fff"><SmartToyIcon fontSize="inherit" />Unverified</StatusBadge>
+                    </span>
+                </Tooltip>
+            )}
 
-                </div>
+            {visibleItems?.includes('Verification Status') && (
+                <Tooltip title={populated_user?.verified?.status === 'Verified' ? 'Verified' : 'Not Verified'} placement="bottom">
+                    <span>
+                        {populated_user?.verified?.status === 'Verified'
+                            ? <StatusBadge color="#2e7d32" textColor="#fff"><CheckIcon fontSize="inherit" /></StatusBadge>
+                            : <StatusBadge color="#d32f2f" textColor="#fff"><SmartToyIcon fontSize="inherit" />?</StatusBadge>}
+                    </span>
+                </Tooltip>
+            )}
 
-            </Modal.Header>
+            {visibleItems?.includes('Political Party') && displayUser?.political?.party_id && (
+                <Tooltip
+                    placement="bottom"
+                    title={
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <PartyMark partyId={displayUser.political.party_id} parties={politicalParties} size={40} />
+                            <Box component="span">{party?.name}</Box>
+                        </Box>
+                    }
+                >
+                    <span>
+                        <StatusBadge color="#fff">
+                            <PartyMark partyId={displayUser.political.party_id} parties={politicalParties} />
+                        </StatusBadge>
+                    </span>
+                </Tooltip>
+            )}
+        </Box>
+    );
 
-            <Modal.Body>
+    const trigger = buttonType === 'Link'
+        ? (
+            <Box
+                component="span"
+                role="button"
+                tabIndex={0}
+                className={className}
+                onClick={() => setModalShow(true)}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') setModalShow(true);
+                }}
+                sx={[{ cursor: 'pointer' }, ...(Array.isArray(sx) ? sx : sx ? [sx] : [])]}
+            >
+                {children}
+            </Box>
+        )
+        : userBadge;
 
-                {/* {userData.banner_photo_key && <img className="img-fluid mb-3" src={`${process.env.NEXT_PUBLIC_CDN}banner_photos/${userData.banner_photo_key}`} alt="" />} */}
+    const fundamentalAnswered = usersProposalSentiments?.fundamental?.filter((proposal) =>
+        usersProposalSentiments?.user_sentiments?.some((sentiment) => sentiment.proposal_id === proposal._id)
+    ).length || 0;
+    const fundamentalTotal = usersProposalSentiments?.fundamental?.length || 0;
 
-                {/* <div className=""> */}
+    const tabs = [
+        { name: 'Proposals Stance', count: `${fundamentalAnswered}/${fundamentalTotal}` },
+        { name: 'Proposal Sentiments', count: userData?.populated_public_proposals_stance?.user_sentiments_count || 0 },
+        { name: 'Proposal Comments', count: userData?.populated_public_proposals_stance?.user_comments_count || 0 },
+        { name: 'Proposal Submissions', count: userProposalsSubmitted.length },
+        { name: 'News Comments', count: userData?.populated_news_comments_count || 0 },
+        { name: 'News Submissions', count: userNewsSubmitted.length },
+        { name: 'Verifications', count: userData.verified?.verified_methods?.length || 0 },
+        { name: 'Layouts', count: userLayoutsData.length },
+        { name: 'Donations', count: `${userDonations.count || 0} · $${numberWithCommas(((userDonations.total || 0) / 100).toFixed(2))}` },
+        { name: 'Orders', count: 0 },
+        ...(process.env.NODE_ENV === 'development' ? [{ name: 'Achievements', count: 0 }] : []),
+    ];
 
-                <div className='main-panel'>
+    return (
+        <>
+            {trigger}
 
-                    <div className='d-flex'>
+            <ArticlesDialog
+                open={modalShow}
+                onClose={handleClose}
+                id="view-users-modal"
+                className="view-users-modal"
+                paperSx={{ maxWidth: 900 }}
+            >
+                <ArticlesDialogTitle onClose={handleClose}>User Info</ArticlesDialogTitle>
 
-                        <div
-                            className='d-flex flex-column align-items-center'
-                            style={{
-                                width: '100px'
-                            }}
-                        >
+                <ArticlesDialogContent>
+                    <Box className="main-panel">
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                            <Box sx={{ width: 100, flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <Box role="button" tabIndex={0} sx={{ cursor: 'pointer' }}>
+                                    <UserProfilePhoto width="100px" profile_photo={userData?.profile_photo} />
+                                </Box>
 
-                            {/* {lightboxData && (
-                                <Lightbox
-                                    mainSrc={lightboxData}
-                                    onCloseRequest={() => setLightboxData(null)}
-                                    reactModalStyle={{
-                                        overlay: {
-                                            zIndex: '2000'
-                                        }
-                                    }}
-                                />
-                            )} */}
+                                <Tooltip title="Joined Articles Media" placement="bottom">
+                                    <span>
+                                        <ArticlesBadge sx={{ mt: 0.5, bgcolor: '#000', color: '#fff', borderRadius: 0, boxShadow: 1 }}>
+                                            Joined {userData?.sign_up_date && format(new Date(userData.sign_up_date), 'M/dd/yy')}
+                                        </ArticlesBadge>
+                                    </span>
+                                </Tooltip>
 
-                            <div
-                                type='button'
-                                onClick={() => {
-                                    setLightboxData(`${process.env.NEXT_PUBLIC_CDN}${userData?.profile_photo?.key}`)
-                                }}
-                            >
-                                <UserProfilePhoto
-                                    width={'100px'}
-                                    profile_photo={userData?.profile_photo}
-                                />
-                            </div>
-
-                            <OverlayTrigger
-                                placement={'bottom'}
-                                overlay={
-                                    <Tooltip
-                                        id={`tooltip-${'bottom'}`}
-                                    >
-                                        Joined Articles Media
-                                    </Tooltip>
-                                }
-                            >
-                                <div className='badge bg-black border border-white shadow-sm rounded-0'>Joined {userData?.sign_up_date && format(new Date(userData?.sign_up_date), 'M/dd/yy')}</div>
-                            </OverlayTrigger>
-
-                            {userLayoutLink &&
-                                <Link
-                                    href={
-                                        // `${ROUTES.LAYOUTS}/${userLayoutLink}`
-                                        `https://articles.media/layouts/${userLayoutLink}`
-                                    }
-                                    className="mt-2 w-100"
-                                >
-                                    <ArticlesButton
-                                        // small
-                                        className="w-100"
-                                        style={{
-                                            // fontSize: '0.75rem'
-                                        }}
-                                    >
-                                        <i className="fad fa-home"></i>
-                                        <span>Layout</span>
-                                    </ArticlesButton>
-                                </Link>
-                            }
-
-                            {/* <div>Test {userLayoutLink}</div> */}
-
-                            {/* TODO - Make conditional to user pref */}
-                            <IsDev className={'w-100'}>
-                                <Link
-                                    href={{
-                                        // pathname: ROUTES.MESSAGES,
-                                        pathname: "https://articles.media/messages",
-                                        query: {
-                                            startMsg: userData?._id
-                                        }
-                                    }}
-                                    className="mt-2 w-100"
-                                >
-                                    <ArticlesButton
-                                        // small
-                                        className="w-100"
-                                        style={{
-                                            fontSize: '0.88rem'
-                                        }}
-                                    >
-                                        <i className="fad fa-envelope"></i>
-                                        <span>Message</span>
-                                    </ArticlesButton>
-                                </Link>
-                            </IsDev>
-
-                            {adminMode &&
-                                <div
-                                    className='d-flex flex-column w-100 mt-2'
-                                    style={{
-                                        maxWidth: '100px'
-                                    }}
-                                >
-                                    <ArticlesButton variant='warning' small className="">
-                                        <Textfit max={14} mode='single'>Remove Photo</Textfit>
-                                    </ArticlesButton>
-                                    {adminUserData?.user?.profile_photo?.banned_uploads ?
-                                        <ArticlesButton
-                                            variant='warning'
-                                            small
-                                            className=""
-                                            onClick={() => {
-                                                toggleBanCustomPhotoUpload()
-                                            }}
-                                        >
-                                            <Textfit max={14} mode='single'>Unban Uploads</Textfit>
+                                {userLayoutLink && (
+                                    <Link href={`https://articles.media/layouts/${userLayoutLink}`} sx={{ mt: 2, width: 1 }}>
+                                        <ArticlesButton sx={{ width: 1 }}>
+                                            <HomeIcon fontSize="inherit" sx={{ mr: 0.5 }} />Layout
                                         </ArticlesButton>
-                                        :
-                                        <ArticlesButton
-                                            variant='danger'
-                                            small
-                                            className=""
-                                            onClick={() => {
-                                                toggleBanCustomPhotoUpload()
-                                            }}
-                                        >
-                                            <Textfit max={14} mode='single'>Ban Uploads</Textfit>
-                                        </ArticlesButton>
-                                    }
-                                </div>
-                            }
-
-                        </div>
-
-                        <div className="mx-2">
-
-                            <div className="d-flex  align-items-center mb-1">
-
-                                <h5 className="mb-0">{populated_user?.display_name || userData.display_name}</h5>
-
-                                <span className='ms-2'> @{userData?.username}</span>
-
-                            </div>
-
-                            {userData?.articles_membership?.status == "Active" &&
-                                <OverlayTrigger
-                                    placement={'bottom'}
-                                    overlay={
-                                        <Tooltip
-                                            id={`tooltip-${'bottom'}`}
-                                        >
-                                            <div className='d-flex flex-column py-1'>
-
-                                                <div className='position-relative'>
-
-                                                    {userData?.articles_membership?.plan == 'Supporter' && <img src={`${base}supporter.jpg`} width={50} height={50} alt={"Membership plan level"} />}
-                                                    {userData?.articles_membership?.plan == 'Premium Supporter' && <img src={`${base}premiumSupporter.jpg`} width={50} height={50} alt={"Membership plan level"} />}
-                                                    {userData?.articles_membership?.plan == 'Advocate' && <img src={`${base}advocate.jpg`} width={50} height={50} alt={"Membership plan level"} />}
-
-                                                    <i
-                                                        className={`fad membership-badge ${membershipSafeName} fa-badge-check me-1`}
-                                                        style={{
-                                                            position: 'absolute',
-                                                            top: '50%',
-                                                            // top: '-2px',
-                                                            left: '50%',
-                                                            transform: 'translateX(-50%) translateY(-50%)',
-                                                            fontSize: '1.5rem'
-                                                            // marginRight: '-0.5rem'
-                                                            // color: `${obj.badge_color}!important`
-                                                        }}
-                                                    ></i>
-
-                                                </div>
-
-                                                {/* <img
-                                                    width={'40px'}
-                                                    height={'40px'}
-                                                    style={{
-                                                        objectFit: 'contain',
-                                                        padding: '0px',
-                                                        zIndex: '10',
-                                                        position: 'relative'
-                                                    }}
-                                                    loading='lazy'
-                                                    src={`${process.env.NEXT_PUBLIC_CDN}` + political_parties?.find(party => party._id == userData?.political?.party_id)?.logo}
-                                                    alt=""
-                                                /> */}
-
-                                                <span className='lh-sm'>
-                                                    <div>{userData?.articles_membership?.plan}</div>
-                                                    <div className='small'>Since <ArticlesDate format={'MM/dd/yy'} date={userData?.articles_membership?.membership_started} /></div>
-                                                </span>
-                                            </div>
-                                        </Tooltip>
-                                    }
-                                >
-                                    <div
-                                        className={`badge bg-articles border me-1 mb-1`}
-                                        style={{
-                                            // padding: '0 0.25rem',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-
-                                        {/* <i
-                                        className="fad fa-trophy fa-lg me-1"
-                                        style={{ fontSize: '0.7rem' }}
-                                    ></i> */}
-
-                                        <i
-                                            className={`fad membership-badge ${membershipSafeName} fa-badge-check me-1`}
-                                            style={{
-                                                // position: 'absolute',
-                                                // top: '50%',
-                                                // top: '-2px',
-                                                // left: '-2px',
-                                                // transform: 'translateY(-50%)',
-                                                // fontSize: '0.9rem'
-                                                // marginRight: '-0.5rem'
-                                                // color: `${obj.badge_color}!important`
-                                            }}
-                                        ></i>
-
-                                        <span>
-                                            {userData?.articles_membership?.plan}
-                                        </span>
-
-                                        <span className='px-1'>
-                                            |
-                                        </span>
-
-                                        <span className="months fw-bold">
-                                            {differenceInMonths(
-                                                new Date(),
-                                                new Date(userData?.articles_membership?.membership_started),
-                                            ) || 0}
-                                        </span>
-
-                                    </div>
-                                </OverlayTrigger>
-                            }
-
-                            {userData?.address?.state && <OverlayTrigger
-                                placement={'bottom'}
-                                overlay={
-                                    userData.address?.state?.length == 2 ?
-                                        <Tooltip id={`tooltip-${'bottom'}`}>
-                                            From the state of {convertRegion(userData.address?.state, 'name') ? convertRegion(userData.address?.state, 'name')[0] : ''}
-                                        </Tooltip>
-                                        :
-                                        <Tooltip id={`tooltip-${'bottom'}`}>
-                                            From the state of {userData.address?.state}
-                                        </Tooltip>
-
-                                }
-                            >
-                                <div className='badge bg-articles border me-1 mb-1'>
-                                    <i className="fad fa-map-pin me-1"></i>
-                                    {userData.address?.state}
-                                </div>
-                            </OverlayTrigger>}
-
-                            {userData.verified?.status !== 'Verified' && <OverlayTrigger
-                                placement={'bottom'}
-                                overlay={
-                                    <Tooltip id={`tooltip-${'bottom'}`}>
-                                        User is not verified
-                                    </Tooltip>
-                                }
-                            >
-                                <div className='badge bg-danger me-1 mb-1'>
-                                    <i className="fad fa-robot me-1"></i>
-                                    Unverified
-                                </div>
-                            </OverlayTrigger>}
-
-                            {userData.verified?.status == 'Verified' && <OverlayTrigger
-                                placement={'bottom'}
-                                overlay={
-                                    <Tooltip
-                                        id={`tooltip-${'bottom'}`}
-                                        className=''
-                                    >
-                                        <div>Verified by {userData.verified?.verified_methods?.length} method{userData.verified?.verified_methods?.length > 1 && 's'}</div>
-                                        <hr />
-                                        <div className='pb-2'>
-                                            {userData.verified?.verified_methods?.map((item, item_i) => {
-
-                                                if (Object.keys(item)?.length > 0) {
-                                                    return (
-                                                        <div
-                                                            key={item_i}
-                                                            className='object'
-                                                        >
-                                                            {item?.method_name}
-                                                        </div>
-                                                    )
-                                                } else {
-                                                    return (
-                                                        <div
-                                                            key={item_i}
-                                                            className='single'
-                                                        >
-                                                            {item}
-                                                        </div>
-                                                    )
-                                                }
-
-                                            })}
-                                        </div>
-                                    </Tooltip>
-                                }
-                            >
-                                <div className='badge bg-articles border me-1 mb-1'>
-                                    <i className="fad fa-star me-1"></i>
-                                    {userData.verified?.status}
-                                </div>
-                            </OverlayTrigger>}
-
-                            {userData.political?.party_id &&
-                                <>
-                                    <OverlayTrigger
-                                        placement={'bottom'}
-                                        overlay={
-                                            <Tooltip id={`tooltip-${'bottom'}`}>
-                                                <div>Users political party</div>
-                                            </Tooltip>
-                                        }
-                                    >
-
-                                        <Link 
-                                            href={
-                                                // `${ROUTES.RESOURCES_POLITICAL_PARTIES}/${(populated_user || userData)?.political?.party_id}`
-                                                `https://articles.media/politics/parties/${(populated_user || userData)?.political?.party_id}`
-                                        }
-                                        >
-                                            <div className='badge bg-articles border text-capitalize me-1'>
-
-                                                <div className=''>
-                                                    {(
-                                                        (populated_user || userData)?.political?.party_id == '62a830440593acbd4061c48c' ?
-                                                            <i className="fad fa-unlink unaffiliated-icon fa-lg me-0"></i>
-                                                            :
-                                                            <img
-                                                                width={'14px'}
-                                                                height={'14px'}
-                                                                style={{
-                                                                    objectFit: 'contain',
-                                                                    padding: '0px'
-                                                                }}
-                                                                loading='lazy'
-                                                                src={`${process.env.NEXT_PUBLIC_CDN}` + politicalParties?.find(party => party._id == userData?.political?.party_id)?.logo}
-                                                                alt=""
-                                                            />
-                                                    )}
-
-                                                    <span className='ms-1'>{politicalParties?.find(obj => obj._id == userData.political?.party_id)?.name}</span>
-                                                </div>
-
-                                            </div>
-                                        </Link>
-
-                                    </OverlayTrigger>
-
-                                    {/* <Link
-                                        href={ROUTES.RESOURCES_POLITICAL_PARTIES + '/' + political_parties.find(obj => obj._id == userData.political?.party_id)?._id}
-                                        >
-                                        <span className='badge badge-hover bg-articles-secondary border text-capitalize me-0'>
-                                            <i className="fad fa-link me-0"></i>
-                                        </span>
-                                    </Link> */}
-                                </>
-                            }
-
-                            <hr />
-
-                            <div className='small'>
-                                {userData?._id == '5e90cc96579a17440c5d7d52' &&
-                                    <span>Founder of Articles Media, thank you for using the site, feel free to message me with any questions, concerns or anything else.</span>
-                                }
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <hr />
-
-                    {adminMode &&
-                        <div>
-
-                            <div className='d-flex align-items-center justify-content-between'>
-                                <div className='small'>Admin Mode Toolbar</div>
-                            </div>
-
-                            <div>
-
-                                <div className='d-flex mb-2'>
-                                    <ArticlesButton
-                                        small
-                                        variant='warning'
-                                        className=""
-                                        onClick={() => {
-                                            loadAdminUserData()
-                                        }}
-                                    >
-                                        <i className="fad fa-redo me-0"></i>
-                                    </ArticlesButton>
-                                    <ArticlesButton
-                                        active={adminMode?.edit}
-                                        small
-                                        className=""
-                                        onClick={() => {
-                                            setAdminMode({
-                                                ...adminMode,
-                                                edit: !adminMode?.edit
-                                            })
-                                        }}
-                                    >
-                                        Edit Mode
-                                    </ArticlesButton>
-                                    {adminMode?.edit &&
-                                        <ArticlesButton
-                                            small
-                                            variant='success'
-                                            className="me-0"
-                                            onClick={() => {
-                                                saveUser()
-                                            }}
-                                        >
-                                            <i className="fad fa-save me-0"></i>
-                                        </ArticlesButton>
-                                    }
-                                </div>
-
-                                {[
-                                    'User Details',
-                                    'Verification',
-                                    'Moderation',
-                                    'Bans',
-                                    'Stripe',
-                                    'Layouts',
-                                    'Reset Password',
-                                    'Sessions',
-                                ].map(tab =>
-                                    <ArticlesButton
-                                        key={tab}
-                                        active={tab == adminMode?.tab}
-                                        small
-                                        onClick={() => {
-                                            setAdminMode({
-                                                ...adminMode,
-                                                tab: tab
-                                            })
-                                        }}
-                                    >
-                                        {tab}
-                                    </ArticlesButton>
+                                    </Link>
                                 )}
 
-                            </div>
-
-                            {/* <Tabs
-                                {...{
-                                    adminMode,
-                                    setAdminMode,
-                                    userData,
-                                    setUserData,
-                                    adminUserData,
-                                    adminUserReports,
-                                    loadAdminUserData,
-                                    userLastSocketLogin,
-                                    setUserLastSocketLogin,
-                                }}
-                            /> */}
-
-                            <hr />
-
-                        </div>
-                    }
-
-                    <div className='pe-3 pb-3'>
-
-                        <div className='mb-2 me-2'>
-
-                            {[
-                                {
-                                    name: 'Proposals Stance',
-                                    badge: <span className='badge bg-black ms-1'>
-
-                                        <div className='small'>
-
-                                            <span>
-                                                {usersProposalSentiments?.fundamental?.filter(obj => {
-
-                                                    if (usersProposalSentiments?.user_sentiments?.find(sen => sen.proposal_id == obj._id)) {
-                                                        return obj
-                                                    } else {
-                                                        return null
-                                                    }
-
-                                                }).length}
-                                            </span>
-
-                                            <span className='px-1'>/</span>
-
-                                            <span>{usersProposalSentiments?.fundamental?.length}</span>
-
-                                        </div>
-
-                                    </span>
-                                },
-                                {
-                                    name: 'Proposal Sentiments',
-                                    badge: <span className='badge bg-black ms-1'>{userData?.populated_public_proposals_stance?.user_sentiments_count || 0}</span>
-                                },
-                                {
-                                    name: 'Proposal Comments',
-                                    badge: <span className='badge bg-black ms-1'>{userData?.populated_public_proposals_stance?.user_comments_count || 0}</span>
-                                },
-                                {
-                                    name: 'Proposal Submissions',
-                                    badge: <span className='badge bg-black ms-1'>
-                                        {userProposalsSubmitted?.length || 0}
-                                    </span>
-                                    // TODO - Make conditional
-                                },
-                                {
-                                    name: 'News Comments',
-                                    badge: <span className='badge bg-black ms-1'>{userData?.populated_news_comments_count || 0}</span>
-                                },
-                                {
-                                    name: 'News Submissions',
-                                    badge: <span className='badge bg-black ms-1'>
-                                        {userNewsSubmitted?.length || 0}
-                                    </span>
-                                    // TODO - Make conditional
-                                },
-                                {
-                                    name: 'Verifications',
-                                    // dev: true,
-                                    badge: <span className='badge bg-black ms-1'>{userData.verified?.verified_methods?.length || 0}</span>
-                                    // TODO - Make conditional
-                                },
-                                {
-                                    name: 'Layouts',
-                                    badge: <span className='badge bg-black ms-1'>
-                                        {userLayoutsData?.length || 0}
-                                    </span>
-                                },
-                                {
-                                    name: 'Donations',
-                                    badge: <span>
-                                        <span className='badge bg-primary ms-1'>
-                                            {publicUserData?.populated_public_donations?.count || 0}
-                                        </span>
-                                        <span className='badge bg-black'>
-                                            {/* {userData?.populated_news_comments_count || 0} */}
-                                            ${numberWithCommas((publicUserData?.populated_public_donations.total / 100).toFixed(2))}
-                                        </span>
-                                    </span>
-                                },
-                                {
-                                    name: 'Orders',
-                                    badge: <span>
-                                        <span className='badge bg-primary ms-1'>
-                                            0
-                                        </span>
-                                        <span className='badge bg-black'>
-                                            0
-                                        </span>
-                                    </span>
-                                },
-                                {
-                                    name: 'Achievements',
-                                    dev: true,
-                                    badge: <span className='badge bg-black ms-1'>0</span>
-                                    // TODO - Make conditional
-                                },
-                            ].map(obj => {
-
-                                const button = (
-                                    <ArticlesButton
-                                        key={obj.name}
-                                        onClick={() => setContentDisplayTab(obj.name)}
-                                        active={obj.name == contentDisplayTab}
-                                        small
-                                    >
-                                        {obj.name}
-                                        {obj.badge}
-                                    </ArticlesButton>
-                                )
-
-                                if (obj.dev) {
-
-                                    return (
-                                        <IsDev
-                                            key={obj.name}
-                                            inline
-                                        >
-                                            <ArticlesButton
-                                                key={obj.name}
-                                                onClick={() => setContentDisplayTab(obj.name)}
-                                                active={obj.name == contentDisplayTab}
-                                                small
-                                            >
-                                                {obj.name}
-                                                {obj.badge}
-                                            </ArticlesButton>
-                                        </IsDev>
-                                    )
-                                } else {
-                                    return (
-                                        <ArticlesButton
-                                            key={obj.name}
-                                            onClick={() => setContentDisplayTab(obj.name)}
-                                            active={obj.name == contentDisplayTab}
-                                            small
-                                        >
-                                            {obj.name}
-                                            {obj.badge}
+                                {process.env.NODE_ENV === 'development' && (
+                                    <Link href={`https://articles.media/messages?startMsg=${userData?._id}`} sx={{ mt: 2, width: 1 }}>
+                                        <ArticlesButton sx={{ width: 1, fontSize: '0.88rem' }}>
+                                            <EmailIcon fontSize="inherit" sx={{ mr: 0.5 }} />Message
                                         </ArticlesButton>
-                                    )
-                                }
+                                    </Link>
+                                )}
+                            </Box>
 
-                            })}
+                            <Box sx={{ minWidth: 0, flexGrow: 1 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', mb: 1 }}>
+                                    <Typography variant="h5" sx={{ mb: 0 }}>{displayUser?.display_name}</Typography>
+                                    <Typography component="span" sx={{ ml: 1, color: 'text.secondary' }}>@{userData?.username}</Typography>
+                                </Box>
 
-                            {/* <ArticlesButton small disabled className="">News Interactions</ArticlesButton>
-                                <ArticlesButton small disabled className="">Politics Interactions</ArticlesButton> */}
+                                {hasMembership && (
+                                    <Tooltip
+                                        placement="bottom"
+                                        title={
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 1 }}>
+                                                {membershipImage && (
+                                                    <Box component="img" src={`https://articles.media/images/store/memberships/${membershipImage}`} width={50} height={50} alt="Membership plan level" />
+                                                )}
+                                                <Box>{userData.articles_membership.plan}</Box>
+                                                <Typography variant="caption">Since <ArticlesDate format="MM/dd/yy" date={userData.articles_membership.membership_started} /></Typography>
+                                            </Box>
+                                        }
+                                    >
+                                        <span>
+                                            <StatusBadge>
+                                                <WorkspacePremiumIcon fontSize="inherit" />
+                                                {membershipName}
+                                                <Box component="span" sx={{ px: 0.5 }}>|</Box>
+                                                <Box component="span" sx={{ fontWeight: 700 }}>
+                                                    {differenceInMonths(new Date(), new Date(userData.articles_membership.membership_started)) || 0}
+                                                </Box>
+                                            </StatusBadge>
+                                        </span>
+                                    </Tooltip>
+                                )}
 
-                        </div>
+                                {userData?.address?.state && (
+                                    <Tooltip title={`From the state of ${userData.address.state}`} placement="bottom">
+                                        <span><StatusBadge><LocationOnIcon fontSize="inherit" />{userData.address.state}</StatusBadge></span>
+                                    </Tooltip>
+                                )}
 
-                        {contentDisplayTab == 'Proposals Stance' &&
+                                {userData.verified?.status !== 'Verified' && (
+                                    <Tooltip title="User is not verified" placement="bottom">
+                                        <span><StatusBadge color="#d32f2f" textColor="#fff"><SmartToyIcon fontSize="inherit" />Unverified</StatusBadge></span>
+                                    </Tooltip>
+                                )}
+
+                                {userData.verified?.status === 'Verified' && (
+                                    <Tooltip
+                                        placement="bottom"
+                                        title={
+                                            <Box>
+                                                <Box>Verified by {userData.verified?.verified_methods?.length || 0} method{userData.verified?.verified_methods?.length === 1 ? '' : 's'}</Box>
+                                                <Divider sx={{ my: 1, borderColor: 'rgba(255,255,255,.35)' }} />
+                                                {userData.verified?.verified_methods?.map((item, index) => <Box key={index}>{item?.method_name || item}</Box>)}
+                                            </Box>
+                                        }
+                                    >
+                                        <span><StatusBadge><StarIcon fontSize="inherit" />Verified</StatusBadge></span>
+                                    </Tooltip>
+                                )}
+
+                                {userData.political?.party_id && (
+                                    <Tooltip title="User's political party" placement="bottom">
+                                        <span>
+                                            <Link href={`https://articles.media/politics/parties/${userData.political.party_id}`} sx={{ textDecoration: 'none' }}>
+                                                <StatusBadge>
+                                                    <PartyMark partyId={userData.political.party_id} parties={politicalParties} size={14} />
+                                                    {party?.name}
+                                                </StatusBadge>
+                                            </Link>
+                                        </span>
+                                    </Tooltip>
+                                )}
+
+                                <Divider sx={{ my: 2 }} />
+
+                                {userData?._id === '5e90cc96579a17440c5d7d52' && (
+                                    <Typography variant="body2">
+                                        Founder of Articles Media, thank you for using the site, feel free to message me with any questions, concerns or anything else.
+                                    </Typography>
+                                )}
+                            </Box>
+                        </Box>
+
+                        <Divider sx={{ my: 2 }} />
+
+                        {adminMode && (
+                            <Box sx={{ mb: 2 }}>
+                                <Typography variant="body2">Admin Mode Toolbar</Typography>
+                            </Box>
+                        )}
+
+                        <Tabs
+                            value={contentDisplayTab}
+                            onChange={(_event, value) => setContentDisplayTab(value)}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            aria-label="User information sections"
+                            sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
+                        >
+                            {tabs.map((item) => (
+                                <Tab
+                                    key={item.name}
+                                    value={item.name}
+                                    label={
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                            {item.name}
+                                            <ArticlesBadge sx={{ bgcolor: item.name === 'Donations' ? 'primary.main' : '#000', color: '#fff' }}>{item.count}</ArticlesBadge>
+                                        </Box>
+                                    }
+                                />
+                            ))}
+                        </Tabs>
+
+                        {contentDisplayTab === 'Proposals Stance' && (
                             <ProposalsStance
-                                {...{
-                                    activeLayoutProposalSentiments,
-                                    populated_user,
-                                    usersProposalSentiments,
-                                    setShowFullStanceDetails,
-                                    showFullStanceDetails,
-                                    userData
-                                }}
-                            />
-                        }
-
-                        {contentDisplayTab == 'Proposal Comments' &&
-                            <ProposalComments
                                 activeLayoutProposalSentiments={activeLayoutProposalSentiments}
-                            />
-                        }
-
-                        {contentDisplayTab == 'Proposal Sentiments' &&
-                            <ProposalSentiments
-                                activeLayoutProposalSentiments={activeLayoutProposalSentiments}
-                            />
-                        }
-
-                        {contentDisplayTab == 'Proposal Submissions' &&
-                            <ProposalSubmissions
-                                userProposalsSubmitted={publicUserData?.populated_public_proposals}
-                            />
-                        }
-
-                        {contentDisplayTab == 'News Comments' &&
-                            <NewsComments
-                                publicUserData={publicUserData}
-                            />
-                        }
-
-                        {contentDisplayTab == 'News Submissions' &&
-                            <NewsSubmissions
-                                publicUserData={publicUserData}
-                                userNewsSubmitted={publicUserData?.populated_public_news_submissions}
-                            />
-                        }
-
-                        {contentDisplayTab == 'Donations' &&
-                            <Donations
-                                publicUserData={publicUserData}
-                                userDonations={publicUserData?.populated_public_donations}
-                                lifetimeContribution={lifetimeContribution}
-                            />
-                        }
-
-                        {contentDisplayTab == 'Layouts' &&
-                            <Layouts
-                                publicUserData={publicUserData}
-                                userLayoutsData={publicUserData?.populated_public_layouts}
-                            // handleClose={handleClose}
-                            />
-                        }
-
-                        {contentDisplayTab == 'Verifications' &&
-                            <Verifications
-                                publicUserData={publicUserData}
+                                populated_user={populated_user}
+                                usersProposalSentiments={usersProposalSentiments}
+                                setShowFullStanceDetails={setShowFullStanceDetails}
+                                showFullStanceDetails={showFullStanceDetails}
                                 userData={userData}
                             />
-                        }
+                        )}
+                        {contentDisplayTab === 'Proposal Comments' && <ProposalComments activeLayoutProposalSentiments={activeLayoutProposalSentiments} />}
+                        {contentDisplayTab === 'Proposal Sentiments' && <ProposalSentiments activeLayoutProposalSentiments={activeLayoutProposalSentiments} />}
+                        {contentDisplayTab === 'Proposal Submissions' && <ProposalSubmissions userProposalsSubmitted={userProposalsSubmitted} />}
+                        {contentDisplayTab === 'News Comments' && <NewsComments publicUserData={publicUserData} />}
+                        {contentDisplayTab === 'News Submissions' && <NewsSubmissions publicUserData={publicUserData} userNewsSubmitted={userNewsSubmitted} />}
+                        {contentDisplayTab === 'Donations' && (
+                            <Donations userDonations={userDonations} lifetimeContribution={userDonations.total || 0} />
+                        )}
+                        {contentDisplayTab === 'Layouts' && <Layouts userLayoutsData={userLayoutsData} />}
+                        {contentDisplayTab === 'Verifications' && <Verifications userData={userData} />}
+                        {contentDisplayTab === 'Achievements' && <Achievements />}
+                        {contentDisplayTab === 'Orders' && <Typography variant="body2">User has no public orders.</Typography>}
+                    </Box>
+                </ArticlesDialogContent>
 
-                        {contentDisplayTab == 'Achievements' &&
-                            <Achievements
-                                publicUserData={publicUserData}
-                            />
-                        }
-
-                    </div>
-
-                </div>
-
-                {/* <div className="side-panel">
-
-                </div> */}
-
-                {/* </div> */}
-
-            </Modal.Body>
-
-            <Modal.Footer className="justify-content-between">
-
-                {
-                    userReduxState?._id == '5e90cc96579a17440c5d7d52'
-                        ?
-                        <span>
-                            <IsDev
-                                inline
-                                className={'me-2'}
+                <ArticlesDialogActions>
+                    {userReduxState?._id === '5e90cc96579a17440c5d7d52' ? (
+                        <Box component="span" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <ArticlesButton
+                                onClick={() => setAdminMode(adminMode ? false : { tab: '' })}
+                                small
+                                active={Boolean(adminMode)}
                             >
+                                <EditIcon fontSize="inherit" sx={{ mr: 0.5 }} />Admin Mode
+                            </ArticlesButton>
+                            <ArticlesButton
+                                onClick={() => {
+                                    publicUserDataMutate();
+                                    personalUserDataMutate();
+                                }}
+                                small
+                                variant="warning"
+                            >
+                                <RefreshIcon fontSize="inherit" />
+                            </ArticlesButton>
+                            <Typography variant="caption">{userData?._id}</Typography>
+                        </Box>
+                    ) : <Box />}
 
-                                <ArticlesButton
-                                    onClick={() => {
-
-                                        if (adminMode) {
-                                            setAdminMode(false)
-                                        } else {
-                                            setAdminMode({
-                                                tab: ''
-                                            })
-                                        }
-
-                                    }}
-                                    small
-                                    active={adminMode}
-                                    variant=''
-                                    className='me-1'
-                                >
-                                    <i className="fad fa-pen"></i>
-                                    <span>Admin Mode</span>
-                                </ArticlesButton>
-
-                                <ArticlesButton
-                                    onClick={() => {
-                                        publicUserDataMutate()
-                                        personalUserDataMutate()
-                                    }}
-                                    small
-                                    variant='warning'
-                                    className=''
-                                >
-                                    <i className="fad fa-redo me-0"></i>
-                                </ArticlesButton>
-
-                            </IsDev>
-                            <span style={{ fontSize: "0.8rem" }}>{userData?._id}</span>
-                        </span>
-                        :
-                        <span></span>
-                }
-
-                <div className="justify-content-">
-
-                    {/* <ArticlesButton variant="articles me-2" onClick={handleClose}>
-                        Message
-                    </ArticlesButton> */}
-
-                    <ArticlesButton variant="articles" onClick={handleClose}>
-                        Close
-                    </ArticlesButton>
-
-                </div>
-
-            </Modal.Footer>
-
-        </Modal>
-
-    </>;
-
+                    <ArticlesButton variant="articles" onClick={handleClose}>Close</ArticlesButton>
+                </ArticlesDialogActions>
+            </ArticlesDialog>
+        </>
+    );
 }
-
-export default ViewUserModal;

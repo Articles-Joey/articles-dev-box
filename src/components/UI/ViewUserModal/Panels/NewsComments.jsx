@@ -13,48 +13,52 @@ import NewsPreviewImage from "#root/src/components/News/NewsPreviewImage"
 // import Link from "next/link"
 
 import renderNewsRoute from '#root/src/util/renderNewsRoute';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesCard, ArticlesCardBody, ArticlesCardFooter, ArticlesCardHeader } from '#root/src/components/UI/muiPrimitives';
 
 export default function NewsComments({
     publicUserData
 }) {
     return (
-        <div>
+        <Box>
             {publicUserData?.populated_news_comments?.filter(obj => !obj.parent_id).map(obj => {
                 return (
-                    <div key={obj._id} className="card card-articles card-sm border mb-2">
+                    <ArticlesCard key={obj._id} sx={{ mb: 2 }}>
 
-                        <div className="card-header small">
+                        <ArticlesCardHeader sx={{ typography: 'body2' }}>
                             Commented on <b>{obj.populated_news?.news_title}</b>
-                        </div>
+                        </ArticlesCardHeader>
 
-                        <div className="card-body small p-2 d-flex">
+                        <ArticlesCardBody sx={{ typography: 'body2', p: 2, display: 'flex' }}>
 
-                            <div
-                                style={{
+                            <Box
+                                sx={{
                                     width: '100px',
-                                    height: '100px'
+                                    height: '100px',
+                                    mr: 2,
+                                    flexShrink: 0,
                                 }}
-                                className='me-2 flex-shrink-0'
                             >
                                 <NewsPreviewImage
                                     featured_image={obj?.populated_news?.featured_image}
                                     thumbnail_size={100}
                                 />
-                            </div>
+                            </Box>
 
-                            <div>
+                            <Box>
 
-                                <span className="small">
+                                <Typography component="span" variant="body2">
                                     {format(new Date(obj.date), 'M/dd/yy')}
-                                </span>
+                                </Typography>
 
-                                <div>{obj.comment}</div>
+                                <Box>{obj.comment}</Box>
 
-                            </div>
+                            </Box>
 
-                        </div>
+                        </ArticlesCardBody>
 
-                        <div className="card-footer">
+                        <ArticlesCardFooter>
                             <Link prefetch={false} href={`${renderNewsRoute(obj.populated_news?.news_type)}/${obj.populated_news?.url}?interaction_id=${obj._id}`}>
                                 <ArticlesButton
                                     small
@@ -62,11 +66,11 @@ export default function NewsComments({
                                     View
                                 </ArticlesButton>
                             </Link>
-                        </div>
+                        </ArticlesCardFooter>
 
-                    </div>
+                    </ArticlesCard>
                 )
             })}
-        </div>
+        </Box>
     )
 }

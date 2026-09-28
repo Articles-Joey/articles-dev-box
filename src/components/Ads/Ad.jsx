@@ -1,900 +1,395 @@
-import { useState, useEffect, memo, lazy } from 'react';
-
-// import { useSelector, useDispatch } from 'react-redux'
+import { lazy, memo, useEffect, useState } from 'react';
+import { differenceInMinutes } from 'date-fns';
+import { useInView } from 'react-intersection-observer';
+import classNames from 'classnames';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import BroadcastOnPersonalIcon from '@mui/icons-material/BroadcastOnPersonal';
+import ChatIcon from '@mui/icons-material/Chat';
+import CircleIcon from '@mui/icons-material/Circle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ShareIcon from '@mui/icons-material/Share';
 
 import Link from '#root/src/components/UI/Link';
-// import dynamic from 'next/dynamic'
-
-// import Popover from 'react-bootstrap/Popover';
-// import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-
-import { useInView } from 'react-intersection-observer';
-
-// import ROUTES from 'components/constants/routes';
+import ArticlesButton from '#root/src/components/UI/Button';
+import ArticlesDate from '#root/src/components/UI/ArticlesDate';
+import { articlesShadow } from '#root/src/components/UI/muiPrimitives';
 import useAd from '#root/src/hooks/Ads/useAd';
 import useAds from '#root/src/hooks/Ads/useAds';
+import numberWithCommas from '#root/src/util/numberWithCommas';
 
-// import SavePromoModal from 'components/Ads/SavePromoModal';
-// const SavePromoModal = dynamic(
-//     () => import('@/components/Ads/SavePromoModal'),
-//     { ssr: false }
-// )
-
-// const AdDetailsModal = dynamic(
-//     () => import('@/components/Ads/AdDetailsModal'),
-//     { ssr: false }
-// )
 const AdDetailsModal = lazy(() => import('#root/src/components/Ads/AdDetailsModal'));
 const AdConfirmExitModal = lazy(() => import('#root/src/components/Ads/AdConfirmExitModal'));
-
-// import generateRandomInteger from 'util/generateRandomInteger'
-// import { setViewedAds } from '@/redux/actions/adsActions';
-import {
-    differenceInMinutes,
-    parse,
-    parseISO
-} from 'date-fns';
-import ArticlesButton from '#root/src/components/UI/Button';
-// import useAds from 'hooks/Ads/useAds';
-
-// import "../../styles/components/Ads/Ad.scss";
-
-import "#root/src/styles/components/Ad.scss";
-
-import ArticlesDate from '../UI/ArticlesDate';
-import classNames from 'classnames';
-import numberWithCommas from '../../util/numberWithCommas';
 
 function generateRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function Ad(props) {
+const panelSx = {
+    bgcolor: 'var(--articles-ad-background-color, #f9edcd)',
+    color: 'var(--articles-ad-font-color, #000)',
+    height: 400,
+    display: 'flex',
+    flexDirection: 'column',
+};
 
-    let {
+const actionSx = {
+    p: 0.5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexGrow: 1,
+    flexShrink: 0,
+    border: '1px solid var(--articles-ad-border-color, #f9edcd)',
+    color: 'var(--articles-ad-font-color, #000)',
+    borderRadius: '10px',
+    mx: 'auto',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    transition: 'background-color 200ms, color 200ms',
+    '&:hover': { bgcolor: '#fff', color: '#000' },
+    '&:active': { bgcolor: 'grey.500' },
+};
+
+function Ad(props) {
+    const {
         previewMode,
-        darkMode,
         user_ad_token,
         userDetails,
         userDetailsLoading,
         prepend,
-        append
+        append,
+        sx: adWrapSx = {},
     } = props;
 
-    // const dispatch = useDispatch()
+    const viewedAds = [];
+    const userReduxState = false;
+    const previewData = props.previewData || {};
 
-    const userReduxState = false
-    const viewedAds = []
-
-    // const userReduxState = useSelector((state) => state.auth.user_details)
-    // const viewedAds = useSelector((state) => state.ads.viewed_ads)
-
-    // const reduxAds = useSelector((state) => state.ads.ads)
-    // const dev_force_ad = useSelector((state) => state.site.dev_force_ad)
-
-    // const ads = []
-
-    const [adId, setAdId] = useState(null)
-
-    const {
-        data: ads,
-        isLoading: adsIsLoading,
-        mutate: adsMutate
-    } = useAds(
-        {
-            loading: userDetailsLoading,
-            disabled: userDetails?.articles_membership?.status == 'Active'
-        }
-    )
-
-    const { data: ad, isLoading: adIsLoading } = useAd(adId, user_ad_token)
-
-    // props.setLocation(props.tabLocation);
-
-    let previewData = props.previewData || {}
-
-    const [randomAdId, setRandomAdId] = useState(null);
-    const [promoId, setPromoId] = useState(null);
-
-    // const [ad, setAd] = useState({});
-
+    const [adId, setAdId] = useState(null);
     const [promo, setPromo] = useState(null);
     const [promoIndex, setPromoIndex] = useState(0);
-
-    const [modalShow, setModalShow] = useState(false);
-    // const [modalLoading, setModalLoading] = useState(false);
-
     const [adDetailsExpanded, setAdDetailsExpanded] = useState(false);
-
     const [confirmAdExitModal, setConfirmAdExitModal] = useState(false);
-
-    const [selectedDate, handleDateChange] = useState(new Date());
-
     const [loggedEvents, setLoggedEvents] = useState([]);
-
-    useEffect(() => {
-
-        if (!ads) return
-
-        if (ads?.length > 0 && !adId) {
-            console.log("Ad Mounted or reduxAds changed")
-            setAdId(props.ad_id || ads[generateRandomInteger(0, ads?.length - 1)]?._id)
-        }
-
-        return
-
-        let randomId = props.ad_id || reduxAds[generateRandomInteger(0, reduxAds.length - 1)]?._id
-
-        setRandomAdId(randomId)
-
-        getAdData()
-
-    }, [ads]);
-
-    // useEffect(() => {
-
-    //     if (randomAdId) {
-
-
-
-    //     }
-
-    // }, [randomAdId]);
-
-    useEffect(() => {
-
-        // if (randomAdId) {
-
-        //     axios.get(`/api/ads/${randomAdId}`, {
-        //         params: {
-        //             ad_id: props.ad_id,
-        //             ...(dev_force_ad && { force_ad: dev_force_ad })
-        //         }
-        //     })
-        //         .then(function (response) {
-        //             setAd(response.data.result)
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-
-        // }
-
-    }, [ad]);
-
-    useEffect(() => {
-
-        if (ad?.populated_promos && promoIndex >= 0) {
-            setPromo(ad?.populated_promos[promoIndex])
-        }
-
-    }, [promoIndex, ad]);
-
-    // const popover = (
-    //     <Popover className="hours-popover " id="popover-basic">
-    //         <Popover.Header as="h3">Store Hours</Popover.Header>
-    //         <Popover.Body>
-    //             <div className="day-wrap">
-    //                 <div className="day">Sunday:</div>
-    //                 <div className="hours">6:30AM–8PM</div>
-    //             </div>
-    //             <div className="day-wrap active">
-    //                 <div className="day"><b>Monday:</b></div>
-    //                 <div className="hours">6:30AM–8PM</div>
-    //             </div>
-    //             <div className="day-wrap">
-    //                 <div className="day">Tuesday:</div>
-    //                 <div className="hours">6:30AM–8PM</div>
-    //             </div>
-    //             <div className="day-wrap">
-    //                 <div className="day">Wednesday:</div>
-    //                 <div className="hours">6:30AM–8PM</div>
-    //             </div>
-    //             <div className="day-wrap">
-    //                 <div className="day">Thursday:</div>
-    //                 <div className="hours">6:30AM–8PM</div>
-    //             </div>
-    //             <div className="day-wrap">
-    //                 <div className="day">Friday:</div>
-    //                 <div className="hours">6:30AM–8PM</div>ad?.
-    //             </div>
-    //             <div className="day-wrap">
-    //                 <div className="day">Saturday:</div>
-    //                 <div className="hours">6:30AM–8PM</div>
-    //             </div>
-    //         </Popover.Body>
-    //     </Popover>
-    // );
-
-    function adDetailsExpandedToggle() {
-        setAdDetailsExpanded(!adDetailsExpanded);
-    }
-
-    const { ref, inView, entry } = useInView({
-        /* Optional options */
-        threshold: 0,
-        triggerOnce: true
-    });
-
-    function logEvent(event) {
-
-        if (previewMode) {
-            console.log("Preventing this event from being logged as this ad is being shown in preview mode.")
-        }
-
-        if (loggedEvents.find(obj => obj == event)) {
-            console.log("Already logged this event");
-            return
-        }
-
-        const params = new URLSearchParams({
-            ad_id: ad?._id,
-            event: event
-        }).toString();
-
-        fetch(`/api/ads/event?${params}`)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                setLoggedEvents([...loggedEvents, event])
-                console.log(data);
-                // setAd(response.data.result)
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-    }
-
-    useEffect(() => {
-
-        if (!previewMode) {
-
-            console.log("inView", inView)
-
-            if (inView && adId) {
-
-                // Records previously viewed ads from the last 5 minutes
-
-                // Attempts to prevent duplicate viewed ads for more then 5 minutes
-
-                let unexpiredRecentViews = [
-
-                    {
-                        ad_id: adId,
-                        date: new Date().toString()
-                    },
-
-                    ...viewedAds.filter(obj => {
-
-                        console.log(
-                            differenceInMinutes(new Date(), new Date(obj.date))
-                        )
-
-                        if (
-                            differenceInMinutes(new Date(), new Date(obj.date)) > 5
-                        ) {
-                            console.log("adsViewed - Remove Old Ad View Object")
-                            return
-                        } else {
-                            console.log("adsViewed - Keep Ad View Object")
-                            return (obj)
-                        }
-
-                    })
-
-                ]
-
-                console.log("unexpiredRecentViews", unexpiredRecentViews)
-
-                // TODO - Record viewed ad locally to prevent repeat
-                // dispatch(
-                //     setViewedAds(
-                //         unexpiredRecentViews
-                //         // []
-                //         // [
-                //         //     {
-                //         //         ad_id: adId,
-                //         //         date: new Date().toString()
-                //         //     },
-                //         //     unexpiredRecentViews,
-                //         // ]
-                //     )
-                // )
-
-                // axios.post(`/api/ads/viewed`, {
-                //     ad_id: adId,
-                //     section: props.section,
-                //     section_id: props.section_id
-                // })
-                //     .then(function (response) {
-                //         // console.log(response);
-                //         // setAd(response.data.result)
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
-
-            }
-
-        }
-
-    }, [inView, adId]);
-
     const [adsAvoided, setAdsAvoided] = useState(null);
-
-    // const {
-    //     data: adAvoidedData,
-    //     isLoading: adsAvoidedLoading,
-    //     mutate: adAvoidedMutate
-    // } = useAdAvoided();
-
     const [adsAvoidedLoading, setAdsAvoidedLoading] = useState(false);
 
-    function logAdAvoided() {
+    const { data: ads } = useAds({
+        loading: userDetailsLoading,
+        disabled: userDetails?.articles_membership?.status === 'Active',
+    });
+    const { data: ad } = useAd(adId, user_ad_token);
 
-        setAdsAvoidedLoading(true);
-
-        if (process.env.NODE_ENV === "development") {
-            console.log(
-                "logAdAvoided called",
-                user_ad_token
-            );
+    useEffect(() => {
+        if (ads?.length > 0 && !adId) {
+            setAdId(props.ad_id || ads[generateRandomInteger(0, ads.length - 1)]?._id);
         }
+    }, [ads, adId, props.ad_id]);
 
-        const url = process.env.NODE_ENV === "development" ?
-            "http://localhost:3001/api/user/advertising/avoided"
-            :
-            `https://articles.media/api/user/advertising/avoided`;
+    useEffect(() => {
+        if (ad?.populated_promos && promoIndex >= 0) {
+            setPromo(ad.populated_promos[promoIndex]);
+        }
+    }, [promoIndex, ad]);
 
-        const params = new URLSearchParams({
-            user_id: userDetails?._id
-        }).toString();
+    const { ref, inView } = useInView({ threshold: 0, triggerOnce: true });
 
-        fetch(`${url}?${params}`, {
-            headers: {
-                "x-articles-api-key": user_ad_token
-            }
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                setAdsAvoidedLoading(false);
-                setAdsAvoided(data.avoided_count)
-                // setLoggedEvents([...loggedEvents, event])
-                console.log(data);
-                // setAd(response.data.result)
-            })
-            .catch(function (error) {
-                console.log(error);
-                setAdsAvoidedLoading(false);
-            });
+    function logEvent(event) {
+        if (previewMode || loggedEvents.includes(event)) return;
 
-        // Post not working with CORS?
-        // axios.post(
-        //     process.env.NODE_ENV === "development" ?
-        //         "http://localhost:3001/api/user/advertising/avoided"
-        //         :
-        //         `https://articles.media/api/user/advertising/avoided`,
-        //     {
-        //         user_id: userDetails?._id
-        //     })
-        //     .then(function (response) {
-        //         setLoggedEvents([...loggedEvents, event])
-        //         console.log(response.data);
-        //         // setAd(response.data.result)
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-
+        const params = new URLSearchParams({ ad_id: ad?._id, event }).toString();
+        fetch(`/api/ads/event?${params}`)
+            .then((response) => response.json())
+            .then(() => setLoggedEvents((current) => [...current, event]))
+            .catch((error) => console.error(error));
     }
 
     useEffect(() => {
+        if (previewMode || !inView || !adId) return;
 
-        if (!previewMode) {
+        const unexpiredRecentViews = [
+            { ad_id: adId, date: new Date().toString() },
+            ...viewedAds.filter((item) => differenceInMinutes(new Date(), new Date(item.date)) <= 5),
+        ];
 
-            console.log("inView", inView)
-
-            if (userDetails?.articles_membership?.status == 'Active' && inView) {
-                logAdAvoided('Ad Avoided')
-            }
-
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Recent ad views', unexpiredRecentViews);
         }
+    }, [inView, adId, previewMode]);
 
-    }, [inView, userDetails]);
+    function logAdAvoided() {
+        setAdsAvoidedLoading(true);
+        const url = process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3001/api/user/advertising/avoided'
+            : 'https://articles.media/api/user/advertising/avoided';
+        const params = new URLSearchParams({ user_id: userDetails?._id }).toString();
 
-    // TODO - Log when a ad free member would have viewed an ad to later show them how many ads they avoided
-    // TODO - Make component to show to user in membership settings page how many ads they avoided
-
-    if (userDetailsLoading) {
-        return null
+        fetch(`${url}?${params}`, { headers: { 'x-articles-api-key': user_ad_token } })
+            .then((response) => response.json())
+            .then((data) => setAdsAvoided(data.avoided_count))
+            .catch((error) => console.error(error))
+            .finally(() => setAdsAvoidedLoading(false));
     }
 
+    useEffect(() => {
+        if (!previewMode && userDetails?.articles_membership?.status === 'Active' && inView) {
+            logAdAvoided();
+        }
+    }, [inView, previewMode, userDetails?.articles_membership?.status]);
+
+    if (userDetailsLoading) return null;
+
+    const isActiveMember = userDetails?.articles_membership?.status === 'Active';
+    const promos = ad?.populated_promos || [];
+
     return (
-        <div
+        <Box
             ref={ref}
-            className={
-                classNames(
-                    "ad-wrap",
-                    {
-                        "active-member": userDetails?.articles_membership?.status == 'Active'
-                    }
-                )
-            }
-            style={
+            className={classNames('ad-wrap', { 'active-member': isActiveMember })}
+            sx={[
                 {
-                    "--articles-ad-background-color": previewData.background_color || ad?.background_color,
-                    "--articles-ad-font-color": previewData.font_color || ad?.font_color,
-                    "--articles-ad-border-color": previewData.border_color || ad?.border_color,
-                }
-            }
+                    zIndex: 1,
+                    mx: 'auto',
+                    mb: 2,
+                    maxWidth: 312,
+                    width: 1,
+                    '--articles-ad-background-color': previewData.background_color || ad?.background_color || '#f9edcd',
+                    '--articles-ad-font-color': previewData.font_color || ad?.font_color || '#000',
+                    '--articles-ad-border-color': previewData.border_color || ad?.border_color || '#f9edcd',
+                },
+                ...(Array.isArray(adWrapSx) ? adWrapSx : [adWrapSx]),
+            ]}
         >
+            {adDetailsExpanded && (
+                <AdDetailsModal setModalShow={setAdDetailsExpanded} ad={ad} previewData={previewData} />
+            )}
+            {confirmAdExitModal && (
+                <AdConfirmExitModal setModalShow={setConfirmAdExitModal} ad={ad} previewData={previewData} />
+            )}
 
-            {/* TODO */}
-            {/* {modalShow &&
-                <SavePromoModal
-                    setModalShow={setModalShow}
-                    promo={promo}
-                    ad={ad}
-                />
-            } */}
+            {prepend && <Box className="prepend-container">{prepend}</Box>}
 
-            {adDetailsExpanded &&
-                <AdDetailsModal
-                    setModalShow={setAdDetailsExpanded}
-                    ad={ad}
-                    previewData={previewData}
-                />
-            }
-
-            {confirmAdExitModal &&
-                <AdConfirmExitModal
-                    setModalShow={setConfirmAdExitModal}
-                    ad={ad}
-                    previewData={previewData}
-                />
-            }
-
-            {prepend && <div className="prepend-container">
-                {prepend}
-            </div>}
-
-            <div
-                className='ad'
+            <Box
+                className="ad"
+                sx={(theme) => ({
+                    position: 'relative',
+                    alignSelf: 'flex-start',
+                    width: 1,
+                    zIndex: 2,
+                    fontFamily: 'brandon-grotesque, sans-serif',
+                    boxShadow: articlesShadow,
+                    fontSize: 16,
+                    [theme.breakpoints.up(769)]: { fontSize: 14 },
+                })}
             >
+                {!isActiveMember && (
+                    <Box className="main-panel" sx={panelSx}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                px: 1.5,
+                                py: '0.1rem',
+                                fontWeight: 900,
+                                fontSize: '1rem',
+                                borderBottom: '1px solid var(--articles-ad-border-color, #f9edcd)',
+                            }}
+                        >
+                            <Box>{ad?.city && 'Local'} Advertisement</Box>
+                        </Box>
 
-                {userDetails?.articles_membership?.status !== 'Active' &&
-                    <div
-                        className="main-panel"
-                    >
-
-                        <div className="ad-warning flex-header">
-
-                            <div className=''>{ad?.city && 'Local'} Advertisement</div>
-
-                            {/* TODO - Quick link to manage for devs */}
-                            {/* {userReduxState?.roles?.isDev &&
-                            <div className=''>
-                                <Link
-                                    href={`${ROUTES.ADVERTISING}/${ad?._id}`}
-                                >
-                                    <i
-                                        className="fad fa-code action me-0"
-                                        style={{
-                                            fontSize: '0.7rem',
-                                            width: '20px',
-                                            height: '20px'
-                                        }}
-                                    >
-
-                                    </i>
-                                </Link>
-                            </div>
-                        } */}
-
-                        </div>
-
-                        <div className="content-wrap">
-
-                            <div className="photo-banner">
-
-                                <div className="logo">
-                                    {(previewData.logo?.location || ad?.logo?.location) &&
-                                        <img
-                                            src={previewData?.logo?.key ?
-                                                `${process.env.NEXT_PUBLIC_CDN}${previewData?.logo?.key}`
-                                                :
-                                                `${process.env.NEXT_PUBLIC_CDN}${ad?.logo?.key}`
-                                            }
-                                            alt=""
-                                        />
-                                    }
-                                </div>
-
-                                <div className="icon d-none">
-                                    <i className="fas fa-mug-hot"></i>
-                                </div>
-
-                                {(
-                                    ad?.background?.key
-                                    ||
-                                    previewData?.background?.key
-                                ) &&
-                                    <img
-                                        className="photo"
-                                        src={
-                                            previewData?.background?.key ?
-                                                `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
-                                                :
-                                                `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
-                                        }
-                                        alt=""
-                                    />
-                                }
-
-                            </div>
-
-                            <div className="details-wrap">
-
-                                <div className="detail-title">
-
-                                    <div className="detail">
-                                        {/* <span className="icon"><i className="fas fa-store-alt"></i></span> */}
-                                        <span className='h4'>{previewData?.business || ad?.business}</span>
-                                    </div>
-
-                                    <div className='flex flex-column d-none'>
-                                        <div className="detail">
-                                            <span className="icon"><i className="fas fa-search-location"></i></span>
-                                            <span>{ad?.city}, {ad?.state}</span>
-                                        </div>
-
-                                        <div className="detail">
-
-                                            <span className="icon"><i className="fas fa-clock me-2"></i></span>
-
-                                            <span>
-                                                6:30AM–8PM
-                                                {/* <i className="fas fa-caret-square-down me-0 ms-1"></i> */}
-                                                {/* <OverlayTrigger rootClose trigger="click" placement="bottom" overlay={popover}>
-                                                <i style={{ cursor: 'pointer' }} className="fas fa-caret-square-down me-0 ms-1"></i>
-                                            </OverlayTrigger> */}
-                                            </span>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                {ad?.city && <div className="details mb-3 d-none">
-                                    {/* 
-                                <div className="detail">
-                                    <span className="icon"><i className="fas fa-search-location"></i></span>
-                                    <span>{ad?.city}, {ad?.state}</span>
-                                </div> */}
-
-                                    {/* <div className="detail">
-                                    <span className="icon"><i className="fas fa-user-friends"></i></span>
-                                    <span>5-10 Employees</span>
-                                </div> */}
-
-                                    {/* <div className="detail">
-                                    <span className="icon"><i className="fas fa-user-friends"></i></span>
-                                    <span>Outdoor Seating</span>
-                                </div>                           */}
-
-                                </div>}
-
-                                <div className="short-description">{previewData?.description || ad?.description}</div>
-
-                                {/* <p>{JSON.stringify(previewData)}</p> */}
-
-                            </div>
-
-                        </div>
-
-                        {/* Make dynamic */}
-                        {(userReduxState?.roles?.isDev && ad?.populated_promos?.length > 0) &&
-                            <div>
-
-                                {/* {ad?.populated_promos && <pre>
-                                {
-                                    JSON.stringify(ad?.populated_promos[Math.floor(Math.random() * ad?.populated_promos?.length)])
-                                }
-                            </pre>} */}
-
-                                {/* Active Promo */}
-                                {promo && <div className="promos-wrap">
-                                    {
-                                        promo &&
-                                        <div
-                                            key={promo._id}
-                                            className="promo-wrap d-flex justify-content-between align-items-center mx-2 p-1 px-2 border border-2 border-light mb-0"
-                                        >
-
-                                            <div className=''>
-                                                <div>
-                                                    {promo.title}
-                                                </div>
-                                                <div className="small">
-                                                    <div className="small">
-                                                        {promo.details}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <ArticlesButton
-                                                className="px-3"
-                                                small
-                                                onClick={() => {
-                                                    console.log("Load Save Modal")
-                                                    setModalShow(true)
-                                                }}
-                                            >
-                                                Save
-                                            </ArticlesButton>
-
-                                        </div>
-
-                                    }
-                                </div>}
-
-                                {/* Controls */}
-                                <div className='d-flex justify-content-between'>
-                                    <div className='px-2'>{ad?.populated_promos?.length} Promos Active</div>
-                                    <div className='controls'>
-                                        <i
-                                            className="fad fa-arrow-circle-left"
-                                            type="button"
-                                            onClick={() => {
-
-                                                if (promoIndex == 0) {
-                                                    setPromoIndex(ad?.populated_promos?.length - 1)
-                                                } else {
-                                                    setPromoIndex(prev => prev - 1)
-                                                }
-
-                                            }}
-                                        ></i>
-                                        {ad?.populated_promos?.map((obj, obj_i) =>
-                                            <i
-                                                key={obj._id}
-                                                className={`fa-square ${obj_i == promoIndex ? 'fad' : 'fas'}`}
-                                            >
-
-                                            </i>
-                                        )}
-                                        <i
-                                            className="fad fa-arrow-circle-right"
-                                            type="button"
-                                            onClick={() => {
-
-                                                if (promoIndex == ad?.populated_promos?.length - 1) {
-                                                    setPromoIndex(0)
-                                                } else {
-                                                    setPromoIndex(prev => prev + 1)
-                                                }
-
-                                            }}
-                                        ></i>
-                                    </div>
-                                </div>
-
-                            </div>
-                        }
-
-                        <hr style={{ borderColor: 'white' }} className="mt-auto mb-0" />
-
-                        <div className="action-wrap d-flex justify-content-lg-between px-3 py-2">
-
-                            <div
-                                onClick={() => {
-                                    adDetailsExpandedToggle()
-                                    logEvent('Details')
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Box
+                                sx={{
+                                    position: 'relative',
+                                    height: 125,
+                                    width: 1,
+                                    flexShrink: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    pl: 2,
+                                    borderBottom: '1px solid #000',
                                 }}
-                                className="action flex-grow-1 flex-shrink-0"
+                            >
+                                {(previewData.logo?.location || ad?.logo?.location) && (
+                                    <Box
+                                        component="img"
+                                        src={previewData?.logo?.key
+                                            ? `${process.env.NEXT_PUBLIC_CDN}${previewData.logo.key}`
+                                            : `${process.env.NEXT_PUBLIC_CDN}${ad?.logo?.key}`}
+                                        alt=""
+                                        sx={{ width: 75, height: 75, objectFit: 'contain', zIndex: 1 }}
+                                    />
+                                )}
+
+                                {(ad?.background?.key || previewData?.background?.key) && (
+                                    <Box
+                                        component="img"
+                                        src={previewData?.background?.key
+                                            ? `${process.env.NEXT_PUBLIC_CDN}${previewData.background.key}`
+                                            : `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`}
+                                        alt=""
+                                        sx={{ position: 'absolute', inset: 0, width: 1, height: 1, objectFit: 'cover' }}
+                                    />
+                                )}
+                            </Box>
+
+                            <Box sx={{ width: 1 }}>
+                                <Box sx={{ p: 1.5, pb: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography variant="h4" sx={{ fontFamily: 'inherit', fontSize: '1.5rem' }}>
+                                        {previewData?.business || ad?.business}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ px: 1.5, pt: 0.5, pb: 0, minHeight: 50, maxHeight: 125, overflowY: 'auto' }}>
+                                    {previewData?.description || ad?.description}
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        {userReduxState?.roles?.isDev && promos.length > 0 && (
+                            <Box>
+                                {promo && (
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mx: 2, p: 1, px: 2, border: 2, borderColor: 'common.white' }}>
+                                        <Box>
+                                            <Box>{promo.title}</Box>
+                                            <Typography variant="body2">{promo.details}</Typography>
+                                        </Box>
+                                        <ArticlesButton sx={{ px: 3 }} small>Save</ArticlesButton>
+                                    </Box>
+                                )}
+
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Box sx={{ px: 2 }}>{promos.length} Promos Active</Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => setPromoIndex((current) => current === 0 ? promos.length - 1 : current - 1)}
+                                        >
+                                            <ArrowCircleLeftIcon />
+                                        </IconButton>
+                                        {promos.map((item, index) => (
+                                            <CircleIcon key={item._id} sx={{ fontSize: 8, opacity: index === promoIndex ? 1 : 0.35 }} />
+                                        ))}
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => setPromoIndex((current) => current === promos.length - 1 ? 0 : current + 1)}
+                                        >
+                                            <ArrowCircleRightIcon />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
+                            </Box>
+                        )}
+
+                        <Divider sx={{ mt: 'auto', mb: 0, borderColor: 'var(--articles-ad-border-color, #f9edcd)' }} />
+
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', px: 3, py: 2 }}>
+                            <Box
+                                role="button"
+                                tabIndex={0}
+                                onClick={() => {
+                                    setAdDetailsExpanded(true);
+                                    logEvent('Details');
+                                }}
+                                sx={actionSx}
                             >
                                 Details
-                            </div>
+                            </Box>
 
-                            {/* <a style={
-                            {
-                                color: ad?.font_color,
-                                borderColor: `${ad?.border_color}!important`
-                            }
-                        } className="action flex-grow-1 flex-shrink-0" href={ad?.website} target="_blank" rel="noreferrer">
-                            <div>
-                                Hours
-                            </div>
-                        </a> */}
+                            <Box sx={{ px: 4 }} />
 
-                            <span className='px-4'></span>
-
-                            <a
-                                className="action flex-grow-1 flex-shrink-0"
+                            <Box
+                                component="a"
                                 href={ad?.website}
                                 target="_blank"
                                 rel="noreferrer"
-                                onClick={(e) => {
-                                    e.preventDefault();
+                                onClick={(event) => {
+                                    event.preventDefault();
                                     setConfirmAdExitModal(true);
-                                    logEvent('Confirm Exit Modal Opened')
-                                    // logEvent('Website')
+                                    logEvent('Confirm Exit Modal Opened');
                                 }}
+                                sx={actionSx}
                             >
-                                <div>
-                                    Website
-                                </div>
-                            </a>
+                                Website
+                            </Box>
+                        </Box>
+                    </Box>
+                )}
 
-                        </div>
+                {isActiveMember && (
+                    <Box className="main-panel" sx={{ ...panelSx, height: 310 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Box sx={{ position: 'relative', height: 125, width: 1, borderBottom: '1px solid #000' }}>
+                                <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000' }}>
+                                    <BroadcastOnPersonalIcon sx={{ fontSize: '3rem', mr: 2 }} />
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', lineHeight: 1, alignItems: 'flex-start' }}>
+                                        <Typography sx={{ fontWeight: 700, fontSize: '2rem', lineHeight: 1 }}>
+                                            {adsAvoidedLoading ? <CircularProgress size={24} color="inherit" /> : numberWithCommas(adsAvoided || 0)}
+                                        </Typography>
+                                        <Typography sx={{ fontSize: '1.5rem', lineHeight: 1 }}>ads avoided.</Typography>
+                                    </Box>
+                                </Box>
+                                <Box sx={{ position: 'absolute', bottom: 0, left: 0, py: 0.5, px: 1, bgcolor: 'rgba(0,0,0,.5)', color: '#fff', fontSize: '0.75rem', borderTopRightRadius: 1 }}>
+                                    Member since: <ArticlesDate format="PP" date={userDetails?.articles_membership?.membership_started} />
+                                </Box>
+                            </Box>
 
-                    </div>
-                }
-
-                {userDetails?.articles_membership?.status == 'Active' &&
-                    <div
-                        className="main-panel"
-                    >
-
-                        <div className="content-wrap">
-
-                            <div className="photo-banner">
-
-                                <div className="logo">
-
-                                </div>
-
-                                <div className="splash">
-                                    <i className="fas fa-broadcast-tower"></i>
-                                    <div className='text'>
-                                        <div
-                                            className='count'
-                                        // onClick={() => {
-                                        //     setAdsAvoidedLoading(!adsAvoidedLoading)
-                                        // }}
-                                        >
-                                            {adsAvoidedLoading ?
-                                                <i className="fas fa-spinner fa-spin me-0"></i>
-                                                :
-                                                adsAvoided ?
-                                                    numberWithCommas(adsAvoided)
-                                                    :
-                                                    0
-                                            }
-
-                                        </div>
-                                        <div className='label'>ads avoided.</div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className='member-since'
-                                >
-                                    Member since: <ArticlesDate format={"PP"} date={userDetails?.articles_membership?.membership_started} />
-                                </div>
-
-                                {/* <img
-                                    className="photo"
-                                    // src={
-                                    //     previewData?.background?.key ?
-                                    //         `${process.env.NEXT_PUBLIC_CDN}${previewData.background?.key}`
-                                    //         :
-                                    //         `${process.env.NEXT_PUBLIC_CDN}${ad?.background?.key}`
-                                    // }
-                                    alt=""
-                                /> */}
-
-                            </div>
-
-                            <div className="details-wrap">
-
-                                <div className="detail-title">
-
-                                    <div className="detail">
-                                        {/* <span className="icon"><i className="fas fa-store-alt"></i></span> */}
-                                        <span className='h4'>Thanks for the support!</span>
-                                    </div>
-
-                                </div>
-
-                                <div className="short-description">
-
-                                    <div className='mb-2'>Without support from users like you, we wouldn't be here.</div>
-
-                                    <div className='links-list'>
-
-                                        <Link
-                                            newPage
-                                            className="link-item"
-                                            href='https://articles.media/messages'
-                                        >
-                                            <i className='fas fa-comments-alt'></i>
-                                            0 unread messages.
+                            <Box sx={{ width: 1 }}>
+                                <Box sx={{ p: 1.5, pb: 0 }}>
+                                    <Typography variant="h4" sx={{ fontFamily: 'inherit', fontSize: '1.5rem' }}>Thanks for the support!</Typography>
+                                </Box>
+                                <Box sx={{ px: 1.5, pt: 0.5, pb: 0 }}>
+                                    <Box sx={{ mb: 2 }}>Without support from users like you, we wouldn&apos;t be here.</Box>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Link newPage href="https://articles.media/messages" sx={{ color: '#000', '&:hover': { textDecorationColor: 'red' } }}>
+                                            <ChatIcon fontSize="inherit" sx={{ mr: 0.5 }} />0 unread messages.
                                         </Link>
-
-                                        <Link
-                                            newPage
-                                            className="link-item"
-                                            href='https://articles.media/settings/notifications'
-                                            onClick={() => {
-                                                logAdAvoided()
-                                            }}
-                                        >
-                                            <i className='fas fa-bell'></i>
-                                            0 notifications.
+                                        <Link newPage href="https://articles.media/settings/notifications" onClick={logAdAvoided} sx={{ color: '#000', '&:hover': { textDecorationColor: 'red' } }}>
+                                            <NotificationsIcon fontSize="inherit" sx={{ mr: 0.5 }} />0 notifications.
                                         </Link>
-
-                                        <Link
-                                            newPage
-                                            className="link-item"
-                                            href='https://articles.media/settings/account'
-                                        >
-                                            <i className='fas fa-cog'></i>
-                                            Manage account settings.
+                                        <Link newPage href="https://articles.media/settings/account" sx={{ color: '#000', '&:hover': { textDecorationColor: 'red' } }}>
+                                            <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />Manage account settings.
                                         </Link>
-                                    </div>
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                )}
+            </Box>
 
-                                </div>
+            {append && <Box className="append-container">{append}</Box>}
 
-                                {/* <ArticlesButton
-                                    className="mt-3"
-                                    onClick={() => {
-                                        window.location.href = '/account/membership'
-                                    }}
-                                >
-                                    Manage Membership
-                                </ArticlesButton> */}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                }
-
-            </div>
-
-            {append && <div className="append-container">
-                {append}
-            </div>}
-
-            {/* {previewMode &&
-                <div className='small'>
-                    <pre>
-                        {JSON.stringify(previewData, null, 2)}
-                    </pre>
-                </div>
-            } */}
-
-            {!previewMode &&
-                <div
-                    className='advertise-with-us p-1'
-                    style={
-                        {
-                            // ...(props.previewData ? props.previewData.background_color : ad?.background_color),
-                            backgroundColor: previewData.background_color || ad?.background_color,
-                            color: previewData.font_color || ad?.font_color,
-                            borderColor: previewData.border_color || ad?.border_color
-                        }
-                    }
+            {!previewMode && (
+                <Box
+                    sx={{
+                        p: 1,
+                        bgcolor: previewData.background_color || ad?.background_color || '#f9edcd',
+                        color: previewData.font_color || ad?.font_color || '#000',
+                        borderTop: 2,
+                        borderColor: previewData.border_color || ad?.border_color || '#f9edcd',
+                    }}
                 >
                     <Link
-                        className='small d-block w-100 text-center'
-                        href={"https://articles.media/advertising"}
+                        href="https://articles.media/advertising"
                         newPage
+                        sx={{ display: 'block', width: 1, textAlign: 'center', color: 'inherit', typography: 'body2', '&:hover': { textDecorationColor: 'red' } }}
                     >
-                        <i className="fas fa-share me-1"></i>
+                        <ShareIcon fontSize="inherit" sx={{ mr: 0.5 }} />
                         Advertise with Articles Media!
                     </Link>
-                </div>
-            }
-
-        </div>
+                </Box>
+            )}
+        </Box>
     );
 }
 
-export default memo(Ad)
+export default memo(Ad);

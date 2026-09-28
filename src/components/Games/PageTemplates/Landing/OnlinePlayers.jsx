@@ -1,5 +1,8 @@
 "use client"
 import { lazy, use } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { ArticlesBadge } from '#root/src/components/UI/muiPrimitives';
 
 /**
  * Online players summary component.
@@ -22,38 +25,38 @@ export default function OnlinePlayers({
 
         case "2.0":
             return (
-                <div>
+                <Box>
 
-                    <div className="fw-bold mb-0 small text-center">
+                    <Typography variant="body2" sx={{ fontWeight: 700, mb: 0, textAlign: 'center' }}>
                         {(
                             online_player_count || 0
                         )} player{(online_player_count !== 1) && 's'} {online_player_count === 1 ? 'is' : 'are'} online.
-                    </div>
+                    </Typography>
 
-                    <div className='d-flex justify-content-center mb-2'>
-                        <div className="badge bg-black text-white me-1">
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5, mb: 2 }}>
+                        <ArticlesBadge sx={{ bgcolor: '#000', color: '#fff' }}>
                             {(
                                 landing_player_count || 0
                             )} in lobby
-                        </div>
-                        <div className="badge bg-black text-white">
+                        </ArticlesBadge>
+                        <ArticlesBadge sx={{ bgcolor: '#000', color: '#fff' }}>
                             {(
                                 (online_player_count - landing_player_count) || 0
                             )} in game
-                        </div>
-                    </div>
+                        </ArticlesBadge>
+                    </Box>
 
-                </div>
+                </Box>
             )
         default:
             return (
-                <div className="fw-bold mb-1 small text-center">
+                <Typography variant="body2" sx={{ fontWeight: 700, mb: 1, textAlign: 'center' }}>
                     {(
                         lobbyDetails?.online_player_count
                         ||
                         lobbyDetails?.players?.length || 0
                     )} player{(lobbyDetails?.online_player_count || lobbyDetails?.players?.length !== 1) && 's'} in the lobby.
-                </div>
+                </Typography>
             )
     }
 

@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
-
-import Modal from 'react-bootstrap/Modal';
+import { format } from 'date-fns';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import ViewUserModal from '#root/src/components/UI/ViewUserModal/ViewUserModal';
 import ArticlesSwitch from '#root/src/components/UI/ArticlesSwitch';
@@ -8,7 +13,17 @@ import ArticlesButton from '#root/src/components/UI/Button';
 
 import useGameScoreboard from '#root/src/hooks/Games/useGameScoreboard';
 
-import "#root/src/styles/components/GameScoreboard.scss";
+import {
+    ArticlesBadge,
+    ArticlesCard,
+    ArticlesCardBody,
+    ArticlesCardFooter,
+    ArticlesCardHeader,
+    ArticlesDialog,
+    ArticlesDialogActions,
+    ArticlesDialogContent,
+    ArticlesDialogTitle,
+} from '#root/src/components/UI/muiPrimitives';
 
 function GameScoreboard({
     game,
@@ -48,37 +63,50 @@ function GameScoreboard({
     }, [reloadScoreboard])
 
     return (
-        <div className="scoreboard">
+        <Box
+            className="scoreboard"
+            sx={(theme) => ({
+                mt: 2,
+                maxWidth: 300,
+                width: 1,
+                mb: 2,
+                [theme.breakpoints.up(992)]: {
+                    mt: 0,
+                    mb: 0,
+                    display: 'block',
+                    position: 'absolute',
+                    left: 16,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                },
+            })}
+        >
 
-            <Modal show={showSettings} size={'md'} className="articles-modal" centered onHide={() => setShowSettings(false)}>
+            <ArticlesDialog open={showSettings} onClose={() => setShowSettings(false)}>
 
-                <Modal.Header>
-                    <Modal.Title>
-                        Scoreboard Settings
-                    </Modal.Title>
-                </Modal.Header>
+                <ArticlesDialogTitle>Scoreboard Settings</ArticlesDialogTitle>
 
-                <Modal.Body>
+                <ArticlesDialogContent>
 
-                    <div
-                        className="d-flex justify-content-between align-items-center"
+                    <Box
+                        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
                         onClick={() => setVisible(!visible)}
                     >
 
-                        <div>
-                            <i className="fas fa-trophy-alt"></i>
-                            <span>Join Scoreboard?</span>
-                        </div>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                            <EmojiEventsIcon fontSize="small" />
+                            <Box component="span">Join Scoreboard?</Box>
+                        </Box>
 
                         <ArticlesSwitch
                             checked={visible}
                         />
 
-                    </div>
+                    </Box>
 
-                </Modal.Body>
+                </ArticlesDialogContent>
 
-                <Modal.Footer className="justify-content-between">
+                <ArticlesDialogActions>
 
                     <ArticlesButton
                         variant="articles"
@@ -89,19 +117,19 @@ function GameScoreboard({
                         Close
                     </ArticlesButton>
 
-                </Modal.Footer>
+                </ArticlesDialogActions>
 
-            </Modal>
+            </ArticlesDialog>
 
             {prepend &&
-                <div className="prepend-container">
+                <Box className="prepend-container">
                     {prepend}
-                </div>
+                </Box>
             }
 
-            <div className="card card-articles card-sm mb-3 mb-lg-0">
+            <ArticlesCard sx={(theme) => ({ mb: 3, [theme.breakpoints.up(992)]: { mb: 0 } })}>
 
-                <div className="card-header d-flex justify-content-between align-items-center">
+                <ArticlesCardHeader sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
                     <span>{game} Scoreboard</span>
 
@@ -111,36 +139,38 @@ function GameScoreboard({
                         }}
                         small
                     >
-                        <i className="fad fa-redo me-0"></i>
+                        <RefreshIcon fontSize="small" />
                     </ArticlesButton>
 
-                </div>
+                </ArticlesCardHeader>
 
-                <div className="card-body p-0">
+                <ArticlesCardBody sx={{ p: 0 }}>
 
                     {metrics?.length > 1 &&
-                        <div className="metrics d-flex border-bottom p-2">
+                        <Box sx={{ display: 'flex', borderBottom: 1, borderColor: 'divider', p: 2 }}>
                             {metrics.map((m, i) =>
-                                <div
+                                <ArticlesBadge
                                     key={i}
-                                    className="metric badge bg-black text-white me-2"
                                     onClick={() => setActiveMetric(m?.label)}
-                                    style={{
+                                    sx={{
+                                        bgcolor: '#000',
+                                        color: '#fff',
+                                        mr: 2,
                                         opacity: activeMetric == m?.label ? 1 : 0.5,
                                         cursor: 'pointer'
                                     }}
                                 >
                                     {m?.label}
-                                </div>
+                                </ArticlesBadge>
                             )}
-                        </div>
+                        </Box>
                     }
 
                     {scoreboardIsLoading &&
-                        <div className="d-flex align-items-center p-2">
-                            <i className="fad fa-spinner-third fa-spin fa-2x me-2"></i>
-                            <div>Loading...</div>
-                        </div>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2 }}>
+                            <CircularProgress size={28} />
+                            <Box>Loading...</Box>
+                        </Box>
                     }
 
                     {(
@@ -148,45 +178,45 @@ function GameScoreboard({
                         &&
                         !scoreboardIsLoading
                     ) &&
-                        <div className="small p-2">No scores yet</div>
+                        <Typography variant="body2" sx={{ p: 2 }}>No scores yet</Typography>
                     }
 
                     {scoreboard?.length > 0 && scoreboard?.map((doc, i) =>
-                        <div key={doc._id} className="result d-flex flex-column justify-content-between border-bottom p-2">
+                        <Box key={doc._id} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider', p: 2 }}>
 
-                            <div className='d-flex justify-content-between lh-sm'>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', lineHeight: 1.25 }}>
 
-                                <div className='d-flex'>
+                                <Box sx={{ display: 'flex' }}>
 
-                                    <h5 className='mb-0 me-3'>{i + 1}</h5>
+                                    <Typography variant="h5" sx={{ mb: 0, mr: 3 }}>{i + 1}</Typography>
 
-                                    <div className='lh-sm'>
+                                    <Box sx={{ lineHeight: 1.25 }}>
 
                                         <ViewUserModal
                                             populated_user={doc.populated_user}
                                             user_id={doc.user_id}
                                         />
 
-                                    </div>
+                                    </Box>
 
-                                </div>
+                                </Box>
 
-                                <div><h5 className="mb-0">
+                                <Typography variant="h5" sx={{ mb: 0 }}>
                                     {doc.score || doc.total}{append_score_text}
-                                </h5></div>
+                                </Typography>
 
-                            </div>
+                            </Box>
 
-                            {(doc.last_play && doc.public_last_play) && <small className='mt-1' style={{ fontSize: '0.75rem' }}>Played: {format(new Date(doc.last_play), 'MM/d/yy hh:mmaa')}</small>}
+                            {(doc.last_play && doc.public_last_play) && <Typography variant="caption" sx={{ mt: 1, fontSize: '0.75rem' }}>Played: {format(new Date(doc.last_play), 'MM/d/yy hh:mmaa')}</Typography>}
 
-                        </div>
+                        </Box>
                     )}
 
-                </div>
+                </ArticlesCardBody>
 
-                <div className="card-footer d-flex justify-content-between align-items-center">
+                <ArticlesCardFooter sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                    <div className='small'>Play to get on the board!</div>
+                    <Typography variant="body2">Play to get on the board!</Typography>
 
                     <ArticlesButton
                         small
@@ -194,18 +224,18 @@ function GameScoreboard({
                             setShowSettings(true)
                         }}
                     >
-                        <i className="fad fa-cog me-0"></i>
+                        <SettingsIcon fontSize="small" />
                     </ArticlesButton>
 
-                </div>
+                </ArticlesCardFooter>
 
-            </div>
+            </ArticlesCard>
 
-            <div className="append-container">
+            <Box className="append-container">
                 {append}
-            </div>
+            </Box>
 
-        </div>
+        </Box>
     )
 }
 
