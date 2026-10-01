@@ -74,9 +74,27 @@ npm run dev
 | useAssetSource | Like getAssetSource but gets an assets source location based on the useStore state of modelSource. Main difference is this can be changed in game. | School Run |
 | defaultGameNextConfig | Not usable, for reference | None |
 | defaultGameThemeConfig | Not usable, for reference | None |
+| bootstrapCompatibilityTheme | Temporary `MuiCssBaseline` theme overrides for Bootstrap-style utility and legacy card class names while consuming projects migrate to MUI. Requires `CssBaseline`. | School Run |
 | useModalNavigation | Handles navigating a modal with controller | None |
 | gameLandingPageTemplate | All in one component that sets up the default landing page as much as possible | USA Tycoon |
 | gamePageTemplate | All in one component that sets up the default game page as much as possible | USA Tycoon |
+
+## Temporary Bootstrap class compatibility
+
+Projects that are still removing Bootstrap class names can import the compatibility component overrides into their MUI theme:
+
+```js
+import { createTheme } from '@mui/material/styles';
+import bootstrapCompatibilityTheme from '@articles-media/articles-dev-box/bootstrapCompatibilityTheme';
+
+const theme = createTheme({
+  components: {
+    ...bootstrapCompatibilityTheme,
+  },
+});
+```
+
+The application must render MUI's `CssBaseline` beneath its `ThemeProvider`. This bridge includes Bootstrap-style spacing, responsive display and flex utilities, sizing, text, borders, badges, containers, and legacy card sections. Responsive class names use the consuming MUI theme's breakpoint values. Prefer `sx` on new or migrated components and remove this compatibility import after the final legacy class is gone.
 
 # Usage Examples
 For newly developed components I sometimes find myself trying to remember what repos used it. Here is a short list of recent components developed and what project is using it. Doing this until AMPM can search by imports or enough projects adopted the component.

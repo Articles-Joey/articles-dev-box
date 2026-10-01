@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -54,6 +54,7 @@
     "./useSocketStoreSlice": "./dist/useSocketStoreSlice.js",
     "./defaultGameNextConfig": "./dist/defaultGameNextConfig.js",
     "./defaultGameThemeConfig": "./dist/defaultGameThemeConfig.js",
+    "./bootstrapCompatibilityTheme": "./dist/bootstrapCompatibilityTheme.js",
     "./getSignOutRedirectUrl": "./dist/getSignOutRedirectUrl.js",
     "./generateRandomNickname": "./dist/generateRandomNickname.js",
     "./getAssetSource": "./dist/getAssetSource.js",
@@ -64,7 +65,9 @@
     "dev": "nodemon --watch src --ext js,ts,jsx,json --ignore dist --exec \"npm run build\"",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint",
+    "format": "prettier . --write"
   },
   "keywords": [],
   "author": "Articles Media",
@@ -73,18 +76,20 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.3.1",
-    "@mui/material": "^9.3.1",
+    "@mui/icons-material": "^9.4.0",
+    "@mui/material": "^9.4.0",
     "date-fns": "^4.4.0",
-    "react": ">=19.2.3",
-    "react-dom": ">=19.2.3",
+    "react": ">=19.3.0",
+    "react-dom": ">=19.3.0",
     "react-intersection-observer": "^10.0.0",
     "swr": "^2.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.3",
     "classnames": "^2.5.1",
+    "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.11",
+    "prettier": "^3.9.6",
     "vite": "^8.1.4"
   }
 }

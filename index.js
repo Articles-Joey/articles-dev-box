@@ -36,6 +36,10 @@ import typicalZustandStoreStateSlice from '#root/src/constants/typicalZustandSto
 import zustandSocketStoreSlice from '#root/src/constants/zustandSocketStoreSlice';
 import defaultGameNextConfig from '#root/src/constants/defaultGameNextConfig';
 import defaultGameThemeConfig from '#root/src/constants/defaultGameThemeConfig';
+import bootstrapCompatibilityTheme, {
+  bootstrapCompatibilityStyles,
+  createBootstrapCompatibilityStyles,
+} from '#root/src/constants/bootstrapCompatibilityTheme';
 
 import getSignOutRedirectUrl from '#root/src/util/getSignOutRedirectUrl';
 import generateRandomNickname from '#root/src/util/generateRandomNickname';
@@ -84,6 +88,9 @@ export {
   zustandSocketStoreSlice,
   defaultGameNextConfig,
   defaultGameThemeConfig,
+  bootstrapCompatibilityTheme,
+  bootstrapCompatibilityStyles,
+  createBootstrapCompatibilityStyles,
 
   getSignOutRedirectUrl,
   generateRandomNickname,

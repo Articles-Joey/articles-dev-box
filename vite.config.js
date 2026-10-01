@@ -58,6 +58,7 @@ export default defineConfig({
         zustandSocketStoreSlice: resolve(__dirname, 'src/constants/zustandSocketStoreSlice.js'),
         defaultGameNextConfig: resolve(__dirname, 'src/constants/defaultGameNextConfig.js'),
         defaultGameThemeConfig: resolve(__dirname, 'src/constants/defaultGameThemeConfig.js'),
+        bootstrapCompatibilityTheme: resolve(__dirname, 'src/constants/bootstrapCompatibilityTheme.js'),
 
         getSignOutRedirectUrl: resolve(__dirname, 'src/util/getSignOutRedirectUrl.js'),
         generateRandomNickname: resolve(__dirname, 'src/util/generateRandomNickname.js'),
