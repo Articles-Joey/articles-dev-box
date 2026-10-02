@@ -85,13 +85,27 @@ export default function AudioTab({
                                         [slider_obj.key]: value
                                     });
                                 }}
-                                sx={{
-                                    color: 'var(--articles-secondary-color, #1976d2)',
-                                    '& .MuiSlider-rail, & .MuiSlider-track': { height: 8 },
-                                    '& .MuiSlider-thumb': { width: 16, height: 16, border: '1px solid #000' },
-                                    '[data-bs-theme="dark"] & .MuiSlider-thumb, [data-mui-color-scheme="dark"] & .MuiSlider-thumb': {
-                                        borderColor: '#fff',
-                                    },
+                                sx={(theme) => {
+                                    const primaryColor = theme.palette?.primary?.main ?? '#f9edcd';
+                                    const primaryContrastColor = theme.palette.getContrastText(primaryColor);
+                                    const primaryCssColor = `var(--mui-palette-primary-main, ${primaryColor})`;
+                                    const primaryFocusColor = `color-mix(in srgb, ${primaryCssColor} 50%, transparent)`;
+
+                                    return ({
+                                        color: primaryCssColor,
+                                        '& .MuiSlider-rail, & .MuiSlider-track': { height: 8 },
+                                        '& .MuiSlider-thumb': {
+                                            width: 16,
+                                            height: 16,
+                                            border: `1px solid #888888`,
+                                        },
+                                        '& .MuiSlider-thumb:hover, & .MuiSlider-thumb.Mui-focusVisible': {
+                                            boxShadow: `0 0 0 8px ${primaryFocusColor}`,
+                                        },
+                                        '& .MuiSlider-thumb.Mui-active': {
+                                            boxShadow: `0 0 0 14px ${primaryFocusColor}`,
+                                        },
+                                    });
                                 }}
                             />
     

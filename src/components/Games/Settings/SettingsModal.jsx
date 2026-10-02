@@ -95,6 +95,7 @@ function ModalContent({
                     sx={{
                         '--articles-settings-tabs-border-color': 'rgba(0, 0, 0, 0.45)',
                         '--articles-settings-tab-color': '#212529',
+                        '--articles-settings-tab-indicator-color': '#000',
                         display: 'flex',
                         alignItems: 'stretch',
                         minWidth: 0,
@@ -102,6 +103,7 @@ function ModalContent({
                         '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
                             '--articles-settings-tabs-border-color': 'rgba(0, 0, 0, 0.8)',
                             '--articles-settings-tab-color': '#fff',
+                            '--articles-settings-tab-indicator-color': '#fff',
                         },
                     }}
                 >
@@ -136,6 +138,9 @@ function ModalContent({
                             flex: 1,
                             minWidth: 0,
                             color: 'var(--articles-settings-tab-color)',
+                            '& .MuiTabs-indicator': {
+                                backgroundColor: 'var(--articles-settings-tab-indicator-color)',
+                            },
                             '& .MuiTab-root, & .MuiTab-root.Mui-selected, & .MuiTabs-scrollButtons': {
                                 color: 'var(--articles-settings-tab-color)',
                             },

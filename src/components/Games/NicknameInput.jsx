@@ -47,6 +47,25 @@ export default function NicknameInput({
                             size="small"
                             fullWidth
                             sx={{
+                                '& .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused': {
+                                    color: '#000 !important',
+                                },
+                                '& .MuiOutlinedInput-root': {
+                                    color: '#000 !important',
+                                },
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                    borderColor: '#000 !important',
+                                },
+                                '& .MuiInputBase-input': {
+                                    color: '#000 !important',
+                                    caretColor: '#000',
+                                    WebkitTextFillColor: '#000 !important',
+                                    '&::placeholder': {
+                                        color: '#000 !important',
+                                        opacity: 1,
+                                        WebkitTextFillColor: '#000 !important',
+                                    },
+                                },
                                 '[data-bs-theme="dark"] &, [data-mui-color-scheme="dark"] &': {
                                     '& .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused': {
                                         color: '#fff !important',

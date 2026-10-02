@@ -74,7 +74,12 @@ const ArticlesButton = forwardRef((props, ref) => {
             }
             onClick={onClick}
             sx={[
-                {
+                (theme) => {
+                    const primaryColor = theme.palette?.primary?.main ?? '#f9edcd';
+                    const primaryCssColor = `var(--mui-palette-primary-main, ${primaryColor})`;
+                    const activeBorderColor = `color-mix(in srgb, ${primaryCssColor} 50%, #000)`;
+
+                    return ({
                     minWidth: 0,
                     borderRadius: 0,
                     textTransform: 'none',
@@ -89,20 +94,23 @@ const ArticlesButton = forwardRef((props, ref) => {
                         bgcolor: 'var(--articles-button-background-color, var(--articles-button-default-background-color))',
                         color: 'var(--articles-button-color, var(--articles-button-default-color))',
                         border: '1px solid var(--articles-button-border-color, var(--articles-button-default-border-color))',
-                        borderBottom: '3px solid var(--articles-button-accent-color, var(--articles-secondary-color, #f9edcd))',
+                        // borderBottom: '3px solid var(--articles-button-accent-color, var(--articles-secondary-color, #f9edcd))',
+                        borderBottom: `3px solid ${primaryCssColor}`,
                         boxShadow: 'none',
                         '&:hover:not(.active)': {
                             bgcolor: 'var(--articles-button-hover-background-color, var(--articles-button-default-hover-background-color))',
                             color: 'var(--articles-button-hover-color, var(--articles-button-default-hover-color))',
                             borderColor: 'var(--articles-button-hover-border-color, #dae0e5)',
-                            borderBottomColor: 'var(--articles-button-hover-accent-color, #f5f5dc)',
+                            borderBottomColor: `var(--articles-button-hover-accent-color, ${activeBorderColor})`,
                             boxShadow: 'none',
                         },
                         '&.active': {
                             bgcolor: 'var(--articles-button-active-background-color, var(--articles-secondary-color, #f9edcd))',
                             color: 'var(--articles-button-active-color, #000)',
-                            borderBottomColor: 'var(--articles-button-active-accent-color, #000)',
+                            borderBottomColor: `var(--articles-button-active-accent-color, ${primaryCssColor})`,
                             boxShadow: 'none',
+                            bgcolor: primaryCssColor,
+                            borderColor: activeBorderColor,
                         },
                         '&.Mui-disabled': {
                             bgcolor: '#fff',
@@ -121,6 +129,7 @@ const ArticlesButton = forwardRef((props, ref) => {
                         },
                     }),
                     ...style,
+                    });
                 },
                 ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
             ]}
