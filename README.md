@@ -99,5 +99,8 @@ The application must render MUI's `CssBaseline` beneath its `ThemeProvider`. Thi
 # Usage Examples
 For newly developed components I sometimes find myself trying to remember what repos used it. Here is a short list of recent components developed and what project is using it. Doing this until AMPM can search by imports or enough projects adopted the component.
 
+# Old Version Note
+Last version of first version of this package is 1.6.3. Here is a link https://github.com/Articles-Joey/articles-dev-box/tree/6fc99733f3088f7ba03c3330f14e6a2b07e4fe84. Version 2 drops all support and usage of bootstrap, react-bootstrap, scss, and font awesome in favor of using a MUI 9 only approach.
+
 # TODO
 - Nothing major right now, search "TODO" in repo for minor stuff.
