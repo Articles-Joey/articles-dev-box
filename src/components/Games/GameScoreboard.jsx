@@ -32,6 +32,10 @@ function GameScoreboard({
     reloadScoreboard,
     setReloadScoreboard,
     prepend,
+    CardBodyOverride,
+    disableRefreshButton = false,
+    disableJoinScoreboardSetting = false,
+    ScoreboardSettingsContent,
     append,
     append_score_text = '',
 }) {
@@ -86,23 +90,47 @@ function GameScoreboard({
 
                 <ArticlesDialogTitle>Scoreboard Settings</ArticlesDialogTitle>
 
-                <ArticlesDialogContent>
+                <ArticlesDialogContent
+                    sx={{
+                        p: 0
+                    }}
+                >
 
-                    <Box
-                        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                    {!disableJoinScoreboardSetting && <Box
+                        sx={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center', 
+                            cursor: 'pointer' ,
+                            borderBottom: 1,
+                            borderColor: 'divider',
+                        }}
                         onClick={() => setVisible(!visible)}
                     >
 
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                            <EmojiEventsIcon fontSize="small" />
-                            <Box component="span">Join Scoreboard?</Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between', 
+                                alignItems: 'center',
+                                gap: 1,
+                                p: 2,
+                                width: 1,
+                            }}
+                        >
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                                <EmojiEventsIcon fontSize="small" />
+                                <Box component="span">Join Scoreboard?</Box>
+                            </Box>
+    
+                            <ArticlesSwitch
+                                checked={visible}
+                            />
                         </Box>
 
-                        <ArticlesSwitch
-                            checked={visible}
-                        />
+                    </Box>}
 
-                    </Box>
+                    {ScoreboardSettingsContent && <ScoreboardSettingsContent />}
 
                 </ArticlesDialogContent>
 
@@ -138,6 +166,9 @@ function GameScoreboard({
                             scoreboardMutate()
                         }}
                         small
+                        sx={{ 
+                            display: disableRefreshButton ? 'none' : 'flex',
+                         }}
                     >
                         <RefreshIcon fontSize="small" />
                     </ArticlesButton>
@@ -146,71 +177,77 @@ function GameScoreboard({
 
                 <ArticlesCardBody sx={{ p: 0 }}>
 
-                    {metrics?.length > 1 &&
-                        <Box sx={{ display: 'flex', borderBottom: 1, borderColor: 'divider', p: 2 }}>
-                            {metrics.map((m, i) =>
-                                <ArticlesBadge
-                                    key={i}
-                                    onClick={() => setActiveMetric(m?.label)}
-                                    sx={{
-                                        bgcolor: '#000',
-                                        color: '#fff',
-                                        mr: 2,
-                                        opacity: activeMetric == m?.label ? 1 : 0.5,
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    {m?.label}
-                                </ArticlesBadge>
-                            )}
-                        </Box>
-                    }
+                    {CardBodyOverride ?
+                        CardBodyOverride
+                        :
+                        <>
+                            {metrics?.length > 1 &&
+                                <Box sx={{ display: 'flex', borderBottom: 1, borderColor: 'divider', p: 2 }}>
+                                    {metrics.map((m, i) =>
+                                        <ArticlesBadge
+                                            key={i}
+                                            onClick={() => setActiveMetric(m?.label)}
+                                            sx={{
+                                                bgcolor: '#000',
+                                                color: '#fff',
+                                                mr: 2,
+                                                opacity: activeMetric == m?.label ? 1 : 0.5,
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            {m?.label}
+                                        </ArticlesBadge>
+                                    )}
+                                </Box>
+                            }
 
-                    {scoreboardIsLoading &&
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2 }}>
-                            <CircularProgress size={28} />
-                            <Box>Loading...</Box>
-                        </Box>
-                    }
+                            {scoreboardIsLoading &&
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2 }}>
+                                    <CircularProgress size={28} />
+                                    <Box>Loading...</Box>
+                                </Box>
+                            }
 
-                    {(
-                        (scoreboard?.length || 0) == 0
-                        &&
-                        !scoreboardIsLoading
-                    ) &&
-                        <Typography variant="body2" sx={{ p: 2 }}>No scores yet</Typography>
-                    }
+                            {(
+                                (scoreboard?.length || 0) == 0
+                                &&
+                                !scoreboardIsLoading
+                            ) &&
+                                <Typography variant="body2" sx={{ p: 2 }}>No scores yet</Typography>
+                            }
 
-                    {scoreboard?.length > 0 && scoreboard?.map((doc, i) =>
-                        <Box key={doc._id} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider', p: 2 }}>
+                            {scoreboard?.length > 0 && scoreboard?.map((doc, i) =>
+                                <Box key={doc._id} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderBottom: 1, borderColor: 'divider', p: 2 }}>
 
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', lineHeight: 1.25 }}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', lineHeight: 1.25 }}>
 
-                                <Box sx={{ display: 'flex' }}>
+                                        <Box sx={{ display: 'flex' }}>
 
-                                    <Typography variant="h5" sx={{ mb: 0, mr: 3 }}>{i + 1}</Typography>
+                                            <Typography variant="h5" sx={{ mb: 0, mr: 3 }}>{i + 1}</Typography>
 
-                                    <Box sx={{ lineHeight: 1.25 }}>
+                                            <Box sx={{ lineHeight: 1.25 }}>
 
-                                        <ViewUserModal
-                                            populated_user={doc.populated_user}
-                                            user_id={doc.user_id}
-                                        />
+                                                <ViewUserModal
+                                                    populated_user={doc.populated_user}
+                                                    user_id={doc.user_id}
+                                                />
+
+                                            </Box>
+
+                                        </Box>
+
+                                        <Typography variant="h5" sx={{ mb: 0 }}>
+                                            {doc.score || doc.total}{append_score_text}
+                                        </Typography>
 
                                     </Box>
 
+                                    {(doc.last_play && doc.public_last_play) && <Typography variant="caption" sx={{ mt: 1, fontSize: '0.75rem' }}>Played: {format(new Date(doc.last_play), 'MM/d/yy hh:mmaa')}</Typography>}
+
                                 </Box>
-
-                                <Typography variant="h5" sx={{ mb: 0 }}>
-                                    {doc.score || doc.total}{append_score_text}
-                                </Typography>
-
-                            </Box>
-
-                            {(doc.last_play && doc.public_last_play) && <Typography variant="caption" sx={{ mt: 1, fontSize: '0.75rem' }}>Played: {format(new Date(doc.last_play), 'MM/d/yy hh:mmaa')}</Typography>}
-
-                        </Box>
-                    )}
+                            )}
+                        </>
+                    }
 
                 </ArticlesCardBody>
 
