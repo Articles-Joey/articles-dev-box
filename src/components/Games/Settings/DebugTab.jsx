@@ -20,6 +20,7 @@ export default function DebugTab({
     // const setToontownMode = useStore((state) => state?.setToontownMode);
 
     const showStats = useStore((state) => state?.debugConfig?.showStats);
+    const showPhysicsDebug = useStore((state) => state?.debugConfig?.showPhysicsDebug);
     const setDebugConfigKey = useStore((state) => state?.setDebugConfigKey);
 
     const modelSource = useStore((state) => state?.modelSource);
@@ -60,7 +61,7 @@ export default function DebugTab({
                         {[false, true].map((option, i) => (
                             <ArticlesButton
                                 key={i}
-                                active={showStats === option}
+                                active={showPhysicsDebug === option}
                                 onClick={() => {
                                     setDebugConfigKey("showPhysicsDebug", option);
 
