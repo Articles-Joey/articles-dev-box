@@ -53,6 +53,25 @@ export default function DebugTab({
                     </Box>
                 </Box>
             }
+            {config?.tabs?.Debug?.showPhysicsDebug !== false &&
+                <Box sx={{ mb: 3 }}>
+                    <Typography>Show Physics Debug</Typography>
+                    <Box>
+                        {[false, true].map((option, i) => (
+                            <ArticlesButton
+                                key={i}
+                                active={showStats === option}
+                                onClick={() => {
+                                    setDebugConfigKey("showPhysicsDebug", option);
+
+                                }}
+                            >
+                                {option ? "Enabled" : "Disabled"}
+                            </ArticlesButton>
+                        ))}
+                    </Box>
+                </Box>
+            }
 
             {/* Not seeing any value of adding this in production, will only end up in snoopy users adding cost */}
             {process.env.NODE_ENV === "development" &&

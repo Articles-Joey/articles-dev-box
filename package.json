@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -76,8 +76,8 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.4.0",
-    "@mui/material": "^9.4.0",
+    "@mui/icons-material": "^9.5.0",
+    "@mui/material": "^9.5.0",
     "date-fns": "^4.4.0",
     "react": ">=19.3.0",
     "react-dom": ">=19.3.0",

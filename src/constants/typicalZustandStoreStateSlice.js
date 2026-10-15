@@ -49,6 +49,7 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname = () => 
 
     debugConfig: {
         showStats: false,
+        showPhysicsDebug: false,
     },
     setDebugConfig: (newValue) => {
         set((prev) => ({
