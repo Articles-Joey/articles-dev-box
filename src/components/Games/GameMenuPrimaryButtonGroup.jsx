@@ -9,6 +9,8 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
 /**
  * @param {Object} props
@@ -31,6 +33,8 @@ export default function PrimaryButtonGroup({
     GithubOverride,
     FullscreenOverride,
     useRouter = null,
+    useAudioStore,
+    disableAudioControls
 }) {
 
     if (!useStore) {
@@ -48,8 +52,49 @@ export default function PrimaryButtonGroup({
     const sidebar = useStore((state) => state.sidebar);
     const setSidebar = useStore((state) => state.setSidebar);
 
+    const audioSettings = useAudioStore ? useAudioStore((state) => state?.audioSettings) : false;
+    const toggleAudio = useAudioStore ? useAudioStore((state) => state?.toggleAudio) : false;
+
     if (!router && type === "GameMenu") {
         console.warn("GameMenuPrimaryButtonGroup: useRouter is needed for GameMenu type to avoid full reload navigation. Please provide a router instance from your framework (e.g. Next.js useRouter) as a prop.")
+    }
+
+    const SettingsComponent = () => {
+        return (
+            <>
+                <ArticlesButton
+                    // ref={el => elementsRef.current[2] = el}
+                    sx={{ width: 1 }}
+                    small
+                    onClick={() => {
+                        setShowSettingsModal(true)
+                    }}
+                >
+                    <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
+                    Settings
+                </ArticlesButton>
+                <ArticlesButton
+                    // ref={el => elementsRef.current[2] = el}
+                    small
+                    onClick={() => {
+                        toggleDarkMode()
+                    }}
+                >
+                    {darkMode ? <LightModeIcon fontSize="inherit" /> : <DarkModeIcon fontSize="inherit" />}
+                </ArticlesButton>
+                {(audioSettings && !disableAudioControls) &&
+                    <ArticlesButton
+                        // ref={el => elementsRef.current[2] = el}
+                        small
+                        onClick={() => {
+                            toggleAudio()
+                        }}
+                    >
+                        {audioSettings.enabled ? <VolumeUpIcon /> : <VolumeOffIcon />}
+                    </ArticlesButton>
+                }
+            </>
+        )
     }
 
     switch (type) {
@@ -61,26 +106,7 @@ export default function PrimaryButtonGroup({
                         SettingsOverride
                         :
                         <Box sx={{ width: 0.5, display: 'flex' }}>
-                            <ArticlesButton
-                                // ref={el => elementsRef.current[2] = el}
-                                sx={{ width: 1 }}
-                                small
-                                onClick={() => {
-                                    setShowSettingsModal(true)
-                                }}
-                            >
-                                <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
-                                Settings
-                            </ArticlesButton>
-                            <ArticlesButton
-                                // ref={el => elementsRef.current[2] = el}
-                                small
-                                onClick={() => {
-                                    toggleDarkMode()
-                                }}
-                            >
-                                {darkMode ? <LightModeIcon fontSize="inherit" /> : <DarkModeIcon fontSize="inherit" />}
-                            </ArticlesButton>
+                            <SettingsComponent />
                         </Box>
                     }
 
@@ -193,26 +219,7 @@ export default function PrimaryButtonGroup({
                         SettingsOverride
                         :
                         <Box sx={{ width: 0.5, display: 'flex' }}>
-                            <ArticlesButton
-                                // ref={el => elementsRef.current[2] = el}
-                                sx={{ width: 1 }}
-                                small
-                                onClick={() => {
-                                    setShowSettingsModal(true)
-                                }}
-                            >
-                                <SettingsIcon fontSize="inherit" sx={{ mr: 0.5 }} />
-                                Settings
-                            </ArticlesButton>
-                            <ArticlesButton
-                                // ref={el => elementsRef.current[2] = el}
-                                small
-                                onClick={() => {
-                                    toggleDarkMode()
-                                }}
-                            >
-                                {darkMode ? <LightModeIcon fontSize="inherit" /> : <DarkModeIcon fontSize="inherit" />}
-                            </ArticlesButton>
+                            <SettingsComponent />
                         </Box>
                     }
 

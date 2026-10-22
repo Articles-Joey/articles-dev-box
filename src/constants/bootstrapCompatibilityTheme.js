@@ -104,6 +104,10 @@ const baseCompatibilityStyles = {
         '--articles-compat-link-color': '#6ea8fe',
         '--articles-compat-link-hover-color': '#9ec5fe',
     },
+    '[data-articles-dev-box-screenshot-mode="enabled"] .stats-overlay, [data-articles-dev-box-screenshot-mode="enabled"] .hidden-in-screenshot-mode':
+    {
+        display: "none !important",
+    },
     a: {
         color: 'var(--articles-compat-link-color)',
         textDecoration: 'underline',

@@ -192,6 +192,10 @@ const typicalZustandStoreStateSlice = (set, get, generateRandomNickname = () => 
     setScreenshotMode: (value) => set({ screenshotMode: value }),
     toggleScreenshotMode: () => set({ screenshotMode: !get().screenshotMode }),
 
+    achievementsModal: false,
+    setAchievementsModal: (value) => set({ achievementsModal: value }),
+    toggleAchievementsModal: () => set({ achievementsModal: !get().achievementsModal }),
+
 })
 
 export default typicalZustandStoreStateSlice
