@@ -1,7 +1,7 @@
 {
   "name": "@articles-media/articles-dev-box",
   "description": "Shared code, functions, and components for different Articles Media projects.",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "type": "module",
   "sideEffects": false,
   "imports": {
@@ -85,11 +85,11 @@
     "swr": "^2.5.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.0.3",
+    "@vitejs/plugin-react": "^6.1.2",
     "classnames": "^2.5.1",
     "eslint-config-prettier": "^10.1.8",
     "nodemon": "^3.1.14",
-    "prettier": "3.9.9",
+    "prettier": "3.9.10",
     "vite": "8.3.5"
   }
 }

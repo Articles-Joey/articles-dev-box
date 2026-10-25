@@ -83,6 +83,7 @@ export default function PageTemplateLandingPage({
     CardOverride = null,
     LandingBackgroundAnimation = null,
     useRouter = null,
+    useAudioStore = null,
 }) {
 
     // const {
@@ -276,6 +277,7 @@ export default function PageTemplateLandingPage({
                                     useStore={useStore}
                                     type="Landing"
                                     useRouter={useRouter}
+                                    useAudioStore={useAudioStore}
                                 />
 
                                 {CardFooterAppendContent && CardFooterAppendContent}
