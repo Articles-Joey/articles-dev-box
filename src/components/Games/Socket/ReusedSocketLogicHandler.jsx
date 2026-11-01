@@ -64,16 +64,19 @@ export default function ReusedSocketLogicHandler({
 
         // if (!socket.connected) return
 
-        socket.on('connect', () => {
+        const onConnect = () => {
             debugLog("Connected to server!");
             setConnected(true);
-        });
+        };
 
-        socket.on('disconnect', () => {
+        const onDisconnect = () => {
             debugLog("Disconnected from server!");
             setConnected(false);
             setAuthenticated(false);
-        });
+        };
+
+        socket.on('connect', onConnect);
+        socket.on('disconnect', onDisconnect);
 
         socket.on('force-page', (data) => {
             debugLog("You are being forced to a new page!", data)
@@ -118,8 +121,8 @@ export default function ReusedSocketLogicHandler({
         });
 
         return () => {
-            socket.off('connect');
-            socket.off('disconnect');
+            socket.off('connect', onConnect);
+            socket.off('disconnect', onDisconnect);
             socket.off('force-page');
             socket.off('authenticated');
             socket.off(`landing-details`);

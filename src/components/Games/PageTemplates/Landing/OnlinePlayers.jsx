@@ -14,16 +14,37 @@ import { ArticlesBadge } from '#root/src/components/UI/muiPrimitives';
  */
 export default function OnlinePlayers({
     useStore,
-    multiplayerConfig
+    multiplayerConfig,
+    useSocketStore
 }) {
 
     const lobbyDetails = useStore(state => state.lobbyDetails)
     const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
     const online_player_count = useStore(state => state.lobbyDetails.online_player_count)
+    const connected = useSocketStore((state) => state.connected)
+    const connecting = useSocketStore((state) => state.connecting)
+    const failedConnection = useSocketStore((state) => state.failedConnection)
 
     switch (multiplayerConfig.onlinePlayersTemplate) {
 
         case "2.0":
+
+            if (connecting) {
+                return (
+                    <Typography variant="body2" sx={{ fontWeight: 700, mb: 1, textAlign: 'center' }}>
+                        Connecting to server...
+                    </Typography>
+                )
+            }
+
+            if (failedConnection) {
+                return (
+                    <Typography variant="body2" sx={{ fontWeight: 700, mb: 1, textAlign: 'center' }}>
+                        Failed to connect to server.
+                    </Typography>
+                )
+            }
+
             return (
                 <Box>
 
@@ -49,6 +70,9 @@ export default function OnlinePlayers({
                 </Box>
             )
         default:
+
+            console.warn("multiplayerConfig.onlinePlayersTemplate is not set to a valid value. Defaulting to legacy template. Consider updating.")
+
             return (
                 <Typography variant="body2" sx={{ fontWeight: 700, mb: 1, textAlign: 'center' }}>
                     {(

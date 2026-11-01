@@ -18,11 +18,13 @@ export default function Servers({
     useStore,
     multiplayerConfig,
     Link,
+    useSocketStore,
 }) {
 
     const lobbyDetails = useStore(state => state.lobbyDetails)
     const online_player_count = useStore(state => state.lobbyDetails.online_player_count)
     const landing_player_count = useStore(state => state.lobbyDetails.landing_player_count)
+    const connected = useSocketStore((state) => state.connected)
 
     return (
         <Box className="servers" sx={{ display: 'grid', gap: 1 }}>
@@ -84,10 +86,17 @@ export default function Servers({
                         >
                             <ArticlesButton
                                 small
-                                sx={{ px: 3 }}
-                                disabled={multiplayerConfig?.comingSoon}
+                                sx={{ 
+                                    px: 3,
+                                    fontSize: !connected ? '0.55rem' : '0.75rem',
+                                }}
+                                disabled={!connected || multiplayerConfig?.comingSoon}
                             >
-                                {multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"}
+                                {!connected ?
+                                    "Not Connected"
+                                    :
+                                    multiplayerConfig?.comingSoon ? "Coming Soon" : "Join Game"
+                                }
                             </ArticlesButton>
                         </Link>
 

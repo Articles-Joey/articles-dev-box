@@ -249,17 +249,19 @@ export default function PageTemplateLandingPage({
                                         </Link>
                                     }
 
-                                    {multiplayerConfig &&
+                                    {multiplayerConfig && useSocketStore &&
                                         <>
                                             <OnlinePlayers
                                                 useStore={useStore}
                                                 multiplayerConfig={multiplayerConfig}
+                                                useSocketStore={useSocketStore}
                                             />
 
                                             <Servers
                                                 useStore={useStore}
                                                 multiplayerConfig={multiplayerConfig}
                                                 Link={Link}
+                                                useSocketStore={useSocketStore}
                                             />
                                         </>
                                     }
