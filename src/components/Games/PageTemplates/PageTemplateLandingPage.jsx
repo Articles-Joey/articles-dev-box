@@ -164,6 +164,7 @@ export default function PageTemplateLandingPage({
 
             <Box
                 data-hide-in-screenshot-mode="true"
+                id="landing-page-container"
                 sx={(theme) => ({
                     width: 1,
                     mx: 'auto',
